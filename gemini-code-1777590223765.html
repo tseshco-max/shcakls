@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Код Аренды</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-md w-full bg-gray-800 rounded-xl shadow-2xl p-8 border border-gray-700">
+        <h1 class="text-2xl font-bold mb-6 text-center text-blue-400">Rental API Interface</h1>
+        
+        <div class="space-y-4">
+            <!-- Поле для ID (по умолчанию 49) -->
+            <div>
+                <label class="block text-sm font-medium text-gray-400 mb-1">ID Аренды</label>
+                <input type="text" id="rentalId" value="49" 
+                    class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+            </div>
+
+            <!-- Кнопка запроса -->
+            <button onclick="fetchRentalCode()" id="btn"
+                class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition duration-200 transform active:scale-95">
+                Получить код
+            </button>
+
+            <!-- Блок вывода результата -->
+            <div id="resultContainer" class="hidden mt-6">
+                <label class="block text-sm font-medium text-gray-400 mb-1">Ответ сервера:</label>
+                <div id="result" class="bg-black rounded-lg p-4 font-mono text-sm overflow-x-auto border border-gray-600 text-green-400">
+                    <!-- Сюда придет ответ -->
+                </div>
+            </div>
+
+            <!-- Индикатор загрузки -->
+            <div id="loader" class="hidden flex justify-center py-4">
+                <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
+            </div>
+        </div>
+        
+        <p class="text-center text-xs text-gray-500 mt-6 uppercase tracking-widest">Powered by Gemini & Fetch API</p>
+    </div>
+
+    <script>
+        async function fetchRentalCode() {
+            const rentalId = document.getElementById('rentalId').value;
+            const resultDiv = document.getElementById('result');
+            const resultContainer = document.getElementById('resultContainer');
+            const loader = document.getElementById('loader');
+            const btn = document.getElementById('btn');
+
+            const apiKey = "kosell_ebc7d724c829084fc7d5717cdb130d33e668cb97ba06daed1eb25458";
+            const url = `https://kosell.store/api/v1/rental/${rentalId}/code`;
+
+            // Сброс состояния
+            resultContainer.classList.add('hidden');
+            loader.classList.remove('hidden');
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': apiKey,
+                        'Accept': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                
+                // Отображаем результат красиво
+                resultDiv.textContent = JSON.stringify(data, null, 2);
+                resultContainer.classList.remove('hidden');
+            } catch (error) {
+                resultDiv.textContent = "Ошибка запроса: " + error.message;
+                resultDiv.classList.replace('text-green-400', 'text-red-400');
+                resultContainer.classList.remove('hidden');
+            } finally {
+                loader.classList.add('hidden');
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
