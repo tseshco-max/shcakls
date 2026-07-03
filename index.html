@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сушка 100кг | Дневник и Тренировки</title>
-    <!-- Tailwind CSS -->
+    <title>ЦЕШКА ХУДЕЕТ</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
@@ -16,13 +15,14 @@
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
 
-    <!-- HEADER -->
     <header class="mb-4 text-center">
         <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase">Протокол Сушки</h1>
-        <p class="text-xs text-slate-400 mt-1">Текущий вес: <span id="header-weight" class="text-white font-bold">100</span> кг | Таргет дня: <span id="header-calories" class="text-amber-400 font-bold">1660</span> ккал</p>
+        <p class="text-xs text-slate-400 mt-1">
+            Вес: <span id="header-weight" class="text-white font-bold">100</span> кг | 
+            Ккал (План/Факт): <span id="header-calories" class="text-amber-400 font-bold">1660 / 0</span>
+        </p>
     </header>
 
-    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ (28 ДНЕЙ) -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-2">
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Календарь сушки</h3>
@@ -32,53 +32,55 @@
         <p id="week-desc" class="text-xs text-slate-400 mt-3 italic bg-slate-800/50 p-2 rounded-lg border border-slate-700/30"></p>
     </div>
 
-    <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
     <div class="card rounded-2xl p-4 mb-4">
         <h3 id="health-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">🩺 Маркеры и Активность (День 1)</h3>
         
-        <!-- Первая строка: Вес, Калории, Шаги -->
         <div class="grid grid-cols-3 gap-2 mb-3">
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1 text-center">Вес тела (кг)</label>
+                <label class="block text-[10px] text-slate-400 mb-1 text-center">Вес тела (кг)</label>
                 <input type="number" step="0.1" id="input-weight" placeholder="100.0" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center font-bold">
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1 text-center">Калории (ккал)</label>
-                <input type="number" id="input-calories" placeholder="1660" class="w-full bg-slate-800 border border-amber-500/40 rounded-lg p-2 text-amber-400 text-xs text-center font-bold">
+                <label class="block text-[10px] text-slate-400 mb-1 text-center">Ккал (План)</label>
+                <input type="number" id="input-calories-target" placeholder="1660" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-300 text-xs text-center font-semibold">
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1 text-center">Шаги за день</label>
-                <input type="number" id="input-steps" placeholder="15000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-emerald-400 text-xs text-center font-bold">
+                <label class="block text-[10px] text-slate-400 mb-1 text-center">Ккал (Факт)</label>
+                <input type="number" id="input-calories-fact" placeholder="0" class="w-full bg-slate-800 border border-amber-500/40 rounded-lg p-2 text-amber-400 text-xs text-center font-bold">
             </div>
         </div>
 
-        <!-- Вторая строка: Пульс, Желчный -->
         <div class="grid grid-cols-2 gap-3 mb-3">
+            <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Шаги за день</label>
+                <input type="number" id="input-steps" placeholder="15000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-emerald-400 text-xs text-center font-bold">
+            </div>
             <div>
                 <label class="block text-[11px] text-slate-400 mb-1">Пульс в покое</label>
                 <input type="number" id="input-pulse" placeholder="уд/мин" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center">
             </div>
-            <div>
-                <label class="block text-[11px] text-slate-400 mb-1">Желчный / ЖКТ</label>
-                <select id="input-bile" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
-                    <option value="ok">Всё Ок</option>
-                    <option value="heavy">Тяжесть</option>
-                    <option value="bitter">Горечь</option>
-                </select>
-            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="block text-xs text-slate-400 mb-1">Состояние ЖКТ / Желчный</label>
+            <input type="text" id="input-gastro" placeholder="Тяжесть, горечь, вздутие, или всё ок..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
         </div>
         
-        <div class="mb-3">
-            <label class="block text-xs text-slate-400 mb-1">Общее состояние / Заметки</label>
-            <textarea id="input-notes" rows="2" placeholder="Как настрой? Сила, тупняк, мерзнут ли руки..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none"></textarea>
+        <div class="mb-1">
+            <label class="block text-xs text-slate-400 mb-1">Общее состояние / Заметки по дню</label>
+            <textarea id="input-notes" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none"></textarea>
         </div>
     </div>
 
-    <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
             <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wider">🏋️‍♂️ Дневник Тренировки</h3>
             <span id="exercise-count" class="text-xs text-slate-500">0/30</span>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-[11px] text-slate-400 mb-1">Состояние на тренировке (силы, памп, выносливость)</label>
+            <input type="text" id="input-workout-state" placeholder="Пример: Силы упали на 10%, дикий тупняк, но памп хороший" class="w-full bg-slate-800 border border-sky-500/30 rounded-lg p-2 text-white text-xs italic">
         </div>
         
         <div class="grid grid-cols-12 gap-1 mb-1 px-1 text-[10px] text-slate-400 uppercase font-semibold text-center">
@@ -95,34 +97,32 @@
         </button>
     </div>
 
-    <!-- КНОПКА СОХРАНЕНИЯ ВСЕХ ДАННЫХ ЗА ДЕНЬ -->
-    <button onclick="saveAllDayData()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/10 mb-4">
-        💾 Сохранить весь день и проверить
+    <div class="card rounded-2xl p-4 mb-4">
+        <div class="flex justify-between items-center mb-3">
+            <h3 id="checklist-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">📋 Чек-лист диеты и БАДов</h3>
+            <span id="day-progress" class="text-xs text-slate-400">0%</span>
+        </div>
+        
+        <div id="checklist-container" class="space-y-2.5 mb-4"></div>
+
+        <div class="flex gap-1.5 mb-4 pt-2 border-t border-slate-700/50">
+            <input type="text" id="new-task-text" placeholder="Добавить свой пункт в чек-лист..." class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
+            <button onclick="addNewCustomTask()" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-3 rounded-lg text-xs transition">+</button>
+        </div>
+
+        <div>
+            <label class="block text-[11px] text-slate-400 mb-1">Доп. информация по диете / БАДам за сегодня</label>
+            <textarea id="input-diet-notes" rows="2" placeholder="Записать тайминги приёма, бренды добавок или погрешности в еде..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none"></textarea>
+        </div>
+    </div>
+
+    <button onclick="saveAllDayData()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/10 mb-4">
+        💾 Сохранить весь день и проверить маркеры
     </button>
     <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4"></div>
 
-    <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
-    <div class="card rounded-2xl p-4 mb-4">
-        <div class="flex justify-between items-center mb-3">
-            <h3 id="checklist-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">📋 Чек-лист по диете и бадам</h3>
-            <span id="day-progress" class="text-xs text-slate-400">0%</span>
-        </div>
-        <div id="checklist-container" class="space-y-2.5"></div>
-    </div>
-
-    <!-- СПРАВОЧНИК ПО БЖУ -->
-    <div class="card rounded-2xl p-4 mb-4">
-        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-wider mb-2">📊 Твой таргет БЖУ (При урезанном жире)</h3>
-        <div class="grid grid-cols-3 gap-2 text-center text-xs">
-            <div class="p-2 bg-slate-800 rounded-lg"><span class="block text-emerald-400 font-bold">220-250 г</span><span class="text-slate-400">Белки</span></div>
-            <div class="p-2 bg-slate-800 rounded-lg"><span class="block text-amber-400 font-bold">40-50 г</span><span class="text-slate-400">Жиры (Мин)</span></div>
-            <div class="p-2 bg-slate-800 rounded-lg"><span class="block text-sky-400 font-bold">60-80 г</span><span class="text-slate-400">Углеводы</span></div>
-        </div>
-    </div>
-
-    <!-- БЛОК РЕЗЕРВНОГО КОПИРОВАНИЯ И ВЫГРУЗКИ ОТЧЕТОВ -->
     <div class="card rounded-2xl p-4">
-        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">💾 Управление данными и Экспорт</h3>
+        <h3 class="text-sm font-bold text-slate-400 tracking-wider mb-3 uppercase">💾 Управление базой и Экспорт</h3>
         <div class="space-y-2">
             <button onclick="exportTextReport()" class="w-full bg-sky-700 hover:bg-sky-600 text-white text-xs py-2.5 px-3 rounded-xl font-bold transition">
                 📋 Скачать читаемый текстовый отчет (.txt)
@@ -140,8 +140,7 @@
     <script>
         const weekProtocols = {
             1: {
-                label: "Неделя 1 — Мягкий старт",
-                desc: "Вход в дефицит. Слив воды травами. Контроль жиров 40-50г.",
+                desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Слив воды травами. Контроль жиров 40-50г.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220–250 г" },
@@ -157,8 +156,7 @@
                 ]
             },
             2: {
-                label: "Неделя 2 — Торасемид",
-                desc: "Фарма-диуретики (Вт, Чт, Пт). Жесткий контроль электролитов.",
+                desc: "Неделя 2 — Торасемид. Фарма-диуретики (Вт, Чт, Пт). Жесткий контроль электролитов.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220–250 г" },
@@ -174,8 +172,7 @@
                 ]
             },
             3: {
-                label: "Неделя 3 — Хардкор Фуросемид",
-                desc: "Пик сушки. Фуросемид (Пн, Ср) натощак. Максимальный контроль судорог!",
+                desc: "Неделя 3 — Хардкор Фуросемид. Пик сушки. Фуросемид (Пн, Ср) натощак. Максимальный контроль судорог!",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: держать максимум" },
@@ -191,8 +188,7 @@
                 ]
             },
             4: {
-                label: "Неделя 4 — Выход",
-                desc: "Восстановление баланса жидкости. Индапамид (Вт, Пт). Плавное завершение.",
+                desc: "Неделя 4 — Выход. Восстановление баланса жидкости. Индапамид (Вт, Пт). Плавное завершение.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220 г" },
@@ -209,14 +205,13 @@
         };
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
-        let db = JSON.parse(localStorage.getItem('sushka_db_v5')) || {};
+        let db = JSON.parse(localStorage.getItem('sushka_db_v6')) || {};
 
         const calendarGrid = document.getElementById('calendar-grid');
         const currentWeekLabel = document.getElementById('current-week-label');
         const weekDesc = document.getElementById('week-desc');
         const checklistContainer = document.getElementById('checklist-container');
         const healthTitle = document.getElementById('health-title');
-        const checklistTitle = document.getElementById('checklist-title');
         const dayProgressLabel = document.getElementById('day-progress');
         const headerWeight = document.getElementById('header-weight');
         const headerCalories = document.getElementById('header-calories');
@@ -233,9 +228,7 @@
                 btn.id = `btn-day-${i}`;
                 btn.className = `day-btn p-2 rounded-lg font-medium text-slate-200 focus:outline-none`;
                 btn.innerText = i;
-                
                 if (isDayFullyCompleted(i)) btn.classList.add('completed');
-
                 btn.onclick = () => {
                     selectedDay = i;
                     localStorage.setItem('sushka_selected_day', selectedDay);
@@ -250,35 +243,35 @@
         function isDayFullyCompleted(day) {
             const dayKey = `day${day}`;
             const week = getWeekFromDay(day);
-            const totalTasks = weekProtocols[week].tasks.length;
+            const totalBaseTasks = weekProtocols[week].tasks.length;
             if (!db[dayKey] || !db[dayKey].tasks) return false;
-            const checkedCount = Object.values(db[dayKey].tasks).filter(Boolean).length;
-            return checkedCount === totalTasks;
+            
+            const customTasksCount = db[dayKey].customTasks ? db[dayKey].customTasks.length : 0;
+            const totalRequired = totalBaseTasks + customTasksCount;
+            
+            const checkedBaseCount = Object.values(db[dayKey].tasks).filter(Boolean).length;
+            const checkedCustomCount = db[dayKey].customTasks ? db[dayKey].customTasks.filter(t => t.checked).length : 0;
+            
+            return (checkedBaseCount + checkedCustomCount) === totalRequired;
         }
 
         function updateHeaderData() {
             const dayKey = `day${selectedDay}`;
+            const h = db[dayKey]?.health || {};
             
-            // Вес
-            if (db[dayKey] && db[dayKey].health && db[dayKey].health.weight) {
-                headerWeight.innerText = db[dayKey].health.weight;
-            } else {
+            // Расчет веса
+            if (h.weight) { headerWeight.innerText = h.weight; } else {
                 let lastWeight = 100;
                 for (let i = selectedDay; i >= 1; i--) {
-                    if (db[`day${i}`] && db[`day${i}`].health && db[`day${i}`].health.weight) {
-                        lastWeight = db[`day${i}`].health.weight;
-                        break;
-                    }
+                    if (db[`day${i}`]?.health?.weight) { lastWeight = db[`day${i}`].health.weight; break; }
                 }
                 headerWeight.innerText = lastWeight;
             }
 
-            // Калории
-            if (db[dayKey] && db[dayKey].health && db[dayKey].health.calories) {
-                headerCalories.innerText = db[dayKey].health.calories;
-            } else {
-                headerCalories.innerText = '1660';
-            }
+            // Расчет калорий в шапке
+            const target = h.caloriesTarget || '1660';
+            const fact = h.caloriesFact || '0';
+            headerCalories.innerText = `${target} / ${fact}`;
         }
 
         function loadDay(day) {
@@ -293,36 +286,113 @@
             currentWeekLabel.innerText = `Неделя ${week}`;
             weekDesc.innerText = proto.desc;
             healthTitle.innerText = `🩺 Маркеры и Активность (День ${day})`;
-            checklistTitle.innerText = `📋 Чек-лист (День ${day})`;
 
-            if (!db[dayKey]) db[dayKey] = { tasks: {}, health: {}, exercises: [] };
-            if (!db[dayKey].health) db[dayKey].health = { weight: '', calories: '1660', steps: '', pulse: '', bile: 'ok', notes: '' };
+            // Инициализация структуры
+            if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
+            if (!db[dayKey].health) db[dayKey].health = { weight: '', caloriesTarget: '1660', caloriesFact: '', steps: '', pulse: '', gastro: '', notes: '', workoutState: '', dietNotes: '' };
+            if (!db[dayKey].customTasks) db[dayKey].customTasks = [];
             if (!db[dayKey].exercises) db[dayKey].exercises = [];
 
+            const h = db[dayKey].health;
+
+            // Заполнение инпутов здоровья
+            document.getElementById('input-weight').value = h.weight || '';
+            document.getElementById('input-calories-target').value = h.caloriesTarget || '1660';
+            document.getElementById('input-calories-fact').value = h.caloriesFact || '';
+            document.getElementById('input-steps').value = h.steps || '';
+            document.getElementById('input-pulse').value = h.pulse || '';
+            document.getElementById('input-gastro').value = h.gastro || '';
+            document.getElementById('input-notes').value = h.notes || '';
+            document.getElementById('input-workout-state').value = h.workoutState || '';
+            document.getElementById('input-diet-notes').value = h.dietNotes || '';
+            document.getElementById('health-alert').classList.add('hidden');
+
+            // Рендер чек-листа (Базовые + Кастомные)
+            renderChecklist(proto.tasks, db[dayKey].tasks, db[dayKey].customTasks);
+            renderWorkoutFields(db[dayKey].exercises);
+            updateHeaderData();
+            updateProgress();
+        }
+
+        function renderChecklist(baseTasks, checkedBase, customTasks) {
             checklistContainer.innerHTML = '';
-            proto.tasks.forEach(task => {
-                const isChecked = db[dayKey].tasks[task.id] ? 'checked' : '';
+            
+            // 1. Базовые пункты недели
+            baseTasks.forEach(task => {
+                const isChecked = checkedBase[task.id] ? 'checked' : '';
                 const div = document.createElement('div');
                 div.className = "flex items-start p-2.5 bg-slate-800 rounded-xl border border-slate-700/50";
                 div.innerHTML = `
-                    <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}')" 
+                    <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}', false)" 
                         class="w-5 h-5 rounded text-amber-500 bg-slate-900 border-slate-700 mt-0.5 accent-amber-500">
                     <label for="${task.id}" class="ml-3 text-sm text-slate-200 select-none cursor-pointer leading-tight">${task.txt}</label>
                 `;
                 checklistContainer.appendChild(div);
             });
 
-            document.getElementById('input-weight').value = db[dayKey].health.weight || '';
-            document.getElementById('input-calories').value = db[dayKey].health.calories || '1660';
-            document.getElementById('input-steps').value = db[dayKey].health.steps || '';
-            document.getElementById('input-pulse').value = db[dayKey].health.pulse || '';
-            document.getElementById('input-bile').value = db[dayKey].health.bile || 'ok';
-            document.getElementById('input-notes').value = db[dayKey].health.notes || '';
-            document.getElementById('health-alert').classList.add('hidden');
+            // 2. Кастомные добавленные пункты
+            customTasks.forEach((task, index) => {
+                const isChecked = task.checked ? 'checked' : '';
+                const div = document.createElement('div');
+                div.className = "flex items-start p-2.5 bg-slate-800 rounded-xl border border-amber-500/20";
+                div.innerHTML = `
+                    <input type="checkbox" id="custom-${index}" ${isChecked} onchange="toggleTask(${index}, true)" 
+                        class="w-5 h-5 rounded text-amber-500 bg-slate-900 border-slate-700 mt-0.5 accent-amber-500">
+                    <label for="custom-${index}" class="ml-3 text-sm text-amber-100/90 select-none cursor-pointer leading-tight flex-1">${task.txt}</label>
+                    <button onclick="deleteCustomTask(${index})" class="text-xs text-red-400 hover:text-red-300 ml-2 px-1">✕</button>
+                `;
+                checklistContainer.appendChild(div);
+            });
+        }
 
-            renderWorkoutFields(db[dayKey].exercises);
-            updateHeaderData();
+        window.addNewCustomTask = function() {
+            const input = document.getElementById('new-task-text');
+            const txt = input.value.trim();
+            if (!txt) return;
+            
+            const dayKey = `day${selectedDay}`;
+            db[dayKey].customTasks.push({ txt, checked: false });
+            saveDB();
+            input.value = '';
+            loadDay(selectedDay);
+        }
+
+        window.deleteCustomTask = function(index) {
+            const dayKey = `day${selectedDay}`;
+            db[dayKey].customTasks.splice(index, 1);
+            saveDB();
+            loadDay(selectedDay);
+        }
+
+        window.toggleTask = function(id, isCustom) {
+            const dayKey = `day${selectedDay}`;
+            if (isCustom) {
+                db[dayKey].customTasks[id].checked = document.getElementById(`custom-${id}`).checked;
+            } else {
+                db[dayKey].tasks[id] = document.getElementById(id).checked;
+            }
+            saveDB();
             updateProgress();
+            
+            const btn = document.getElementById(`btn-day-${selectedDay}`);
+            if (isDayFullyCompleted(selectedDay)) btn.classList.add('completed');
+            else btn.classList.remove('completed');
+        }
+
+        function updateProgress() {
+            const week = getWeekFromDay(selectedDay);
+            const baseTasksCount = weekProtocols[week].tasks.length;
+            const dayKey = `day${selectedDay}`;
+            
+            const customTasksCount = db[dayKey]?.customTasks ? db[dayKey].customTasks.length : 0;
+            const total = baseTasksCount + customTasksCount;
+            
+            const checkedBase = Object.values(db[dayKey]?.tasks || {}).filter(Boolean).length;
+            const checkedCustom = db[dayKey]?.customTasks ? db[dayKey].customTasks.filter(t => t.checked).length : 0;
+            const totalChecked = checkedBase + checkedCustom;
+
+            const percent = total > 0 ? Math.round((totalChecked / total) * 100) : 0;
+            dayProgressLabel.innerText = `${percent}%`;
         }
 
         function renderWorkoutFields(exercisesArr) {
@@ -339,7 +409,7 @@
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-1 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Жим лежа" value="${ex.name}" class="col-span-5 ex-name bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" class="col-span-5 ex-name bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
                 <input type="number" placeholder="4" value="${ex.sets}" class="col-span-2 ex-sets bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
                 <input type="text" placeholder="12" value="${ex.reps}" class="col-span-3 ex-reps bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
                 <input type="text" placeholder="80" value="${ex.weight}" class="col-span-2 ex-weight bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
@@ -359,37 +429,23 @@
             exerciseCountLabel.innerText = `${currentRows}/30`;
         }
 
-        window.toggleTask = function(taskId) {
-            const dayKey = `day${selectedDay}`;
-            db[dayKey].tasks[taskId] = document.getElementById(taskId).checked;
-            saveDB();
-            updateProgress();
-            
-            const btn = document.getElementById(`btn-day-${selectedDay}`);
-            if (isDayFullyCompleted(selectedDay)) btn.classList.add('completed');
-            else btn.classList.remove('completed');
-        }
-
-        function updateProgress() {
-            const week = getWeekFromDay(selectedDay);
-            const total = weekProtocols[week].tasks.length;
-            const dayKey = `day${selectedDay}`;
-            const checkedCount = Object.values(db[dayKey].tasks).filter(Boolean).length;
-            const percent = total > 0 ? Math.round((checkedCount / total) * 100) : 0;
-            dayProgressLabel.innerText = `${percent}%`;
-        }
-
         window.saveAllDayData = function() {
             const dayKey = `day${selectedDay}`;
             
-            const weight = document.getElementById('input-weight').value;
-            const calories = document.getElementById('input-calories').value || '1660';
-            const steps = document.getElementById('input-steps').value;
-            const pulse = document.getElementById('input-pulse').value;
-            const bile = document.getElementById('input-bile').value;
-            const notes = document.getElementById('input-notes').value;
-            db[dayKey].health = { weight, calories, steps, pulse, bile, notes };
+            // Сбор здоровья и текстовых заметок
+            db[dayKey].health = {
+                weight: document.getElementById('input-weight').value,
+                caloriesTarget: document.getElementById('input-calories-target').value || '1660',
+                caloriesFact: document.getElementById('input-calories-fact').value || '0',
+                steps: document.getElementById('input-steps').value,
+                pulse: document.getElementById('input-pulse').value,
+                gastro: document.getElementById('input-gastro').value,
+                notes: document.getElementById('input-notes').value,
+                workoutState: document.getElementById('input-workout-state').value,
+                dietNotes: document.getElementById('input-diet-notes').value
+            };
 
+            // Сбор тренировки
             const rows = workoutContainer.getElementsByClassName('exercise-row');
             const savedExercises = [];
             for (let row of rows) {
@@ -404,15 +460,16 @@
             saveDB();
             updateHeaderData();
 
+            // Проверка алертов здоровья
             const alertDiv = document.getElementById('health-alert');
             let alerts = [];
-            const pulseNum = parseInt(pulse);
+            const pulseNum = parseInt(db[dayKey].health.pulse);
 
-            if (pulseNum > 75) {
-                alerts.push("⚠️ <b>Высокий пульс (" + pulseNum + " уд/мин):</b> Стоп снюс и кофеин! Сердце перегружено.");
-            }
-            if (bile === 'heavy' || bile === 'bitter') {
-                alerts.push("⚠️ <b>Застой желчи:</b> Срочно выпей Таурин + Артишок/Аллохол.");
+            if (pulseNum > 75) alerts.push("⚠️ <b>Высокий пульс:</b> Ограничь снюс/кофеин.");
+            
+            const gastroText = db[dayKey].health.gastro.toLowerCase();
+            if (gastroText.includes('горечь') || gastroText.includes('тяжест') || gastroText.includes('болит')) {
+                alerts.push("⚠️ <b>Сигнал ЖКТ:</b> Застой желчи при низком жире! Прими таурин/артишок.");
             }
 
             alertDiv.classList.remove('hidden');
@@ -420,17 +477,17 @@
                 alertDiv.innerHTML = alerts.join('<br class="my-2">');
                 alertDiv.className = "p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4";
             } else {
-                alertDiv.innerHTML = "✅ Все данные за день успешно сохранены!";
+                alertDiv.innerHTML = "✅ Данные успешно зафиксированы в базе!";
                 alertDiv.className = "p-3 rounded-xl text-xs bg-emerald-900/40 border border-emerald-700 text-emerald-200 mb-4";
             }
         }
 
-        function saveDB() { localStorage.setItem('sushka_db_v5', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('sushka_db_v6', JSON.stringify(db)); }
 
         window.resetChecklist = function() {
             if(confirm("Полностью стереть данные за этот день?")) {
                 const dayKey = `day${selectedDay}`;
-                db[dayKey] = { tasks: {}, health: { weight: '', calories: '1660', steps: '', pulse: '', bile: 'ok', notes: '' }, exercises: [] };
+                db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
                 saveDB();
                 buildCalendar();
                 loadDay(selectedDay);
@@ -439,31 +496,37 @@
 
         window.exportTextReport = function() {
             let txt = `=========================================\n`;
-            txt += `    ОТЧЕТ ПО ПРОТОКОЛУ СУШКИ (28 ДНЕЙ)   \n`;
+            txt += `    РАСШИРЕННЫЙ ОТЧЕТ ПО СУШКЕ (28 ДНЕЙ) \n`;
             txt += `=========================================\n\n`;
 
             for (let i = 1; i <= 28; i++) {
                 const dayKey = `day${i}`;
-                const week = getWeekFromDay(i);
-                
                 if (db[dayKey]) {
                     const h = db[dayKey].health || {};
                     const exs = db[dayKey].exercises || [];
+                    const customs = db[dayKey].customTasks || [];
                     
-                    if (h.weight || h.steps || h.pulse || h.notes || h.calories || exs.length > 0) {
-                        txt += `ДЕНЬ ${i} [Неделя ${week}]\n`;
+                    if (h.weight || h.steps || h.pulse || h.notes || h.caloriesFact || exs.length > 0 || customs.length > 0) {
+                        txt += `ДЕНЬ ${i} [Неделя ${getWeekFromDay(i)}]\n`;
                         txt += `-----------------------------------------\n`;
-                        txt += `• Калорийность: ${h.calories || '1660'} ккал\n`;
+                        txt += `• Калории (План/Факт): ${h.caloriesTarget || '1660'} / ${h.caloriesFact || '0'} ккал\n`;
                         txt += `• Вес тела: ${h.weight || '—'} кг\n`;
                         txt += `• Шаги: ${h.steps || '—'}\n`;
                         txt += `• Пульс в покое: ${h.pulse || '—'} уд/мин\n`;
-                        txt += `• Состояние желчного: ${h.bile === 'ok' ? 'Ок' : h.bile === 'heavy' ? 'Тяжесть справа' : 'Горечь во рту'}\n`;
-                        if(h.notes) txt += `• Заметки: ${h.notes}\n`;
+                        txt += `• Состояние ЖКТ: ${h.gastro || 'Не указано'}\n`;
+                        if(h.notes) txt += `• Заметки по состоянию: ${h.notes}\n`;
+                        if(h.dietNotes) txt += `• Инфо по БАДам/Диете: ${h.dietNotes}\n`;
                         
+                        if(customs.length > 0) {
+                            txt += `• Свои задачи в чек-листе:\n`;
+                            customs.forEach(c => txt += `  [${c.checked ? '✕' : ' '}] ${c.txt}\n`);
+                        }
+
+                        if(h.workoutState) txt += `• Самочувствие на тренировке: ${h.workoutState}\n`;
                         if (exs.length > 0) {
-                            txt += `• Выполненная тренировка:\n`;
+                            txt += `• Выполненные упражнения:\n`;
                             exs.forEach((ex, idx) => {
-                                txt += `  ${idx + 1}. ${ex.name} — подходы: ${ex.sets || '—'}, повт/время: ${ex.reps || '—'}, вес: ${ex.weight || '—'} кг\n`;
+                                txt += `  ${idx + 1}. ${ex.name} — ${ex.sets || '—'}х${ex.reps || '—'}, вес: ${ex.weight || '—'} кг\n`;
                             });
                         }
                         txt += `\n`;
@@ -474,7 +537,7 @@
             const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "Sushka_Full_Progress_Report.txt";
+            link.download = "Sushka_Extended_Report.txt";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -484,14 +547,14 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `sushka_db_v5_backup.json`);
+            downloadAnchor.setAttribute("download", `sushka_db_v6_backup.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
         }
 
         window.importData = function() {
-            const jsonStr = prompt("Вставь сюда текст из файла JSON бэкапа:");
+            const jsonStr = prompt("Вставь JSON данные из файла бэкапа:");
             if (!jsonStr) return;
             try {
                 const parsed = JSON.parse(jsonStr);
@@ -500,7 +563,7 @@
                     saveDB();
                     buildCalendar();
                     loadDay(selectedDay);
-                    alert("База данных успешно восстановлена!");
+                    alert("Успешно импортировано!");
                 }
             } catch (e) { alert("Ошибка чтения файла."); }
         }
