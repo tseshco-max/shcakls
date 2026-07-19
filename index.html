@@ -17,13 +17,11 @@
                 linear-gradient(90deg, rgba(158, 255, 0, 0.03) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-        /* Футуристичная темная карточка */
         .card { 
             background-color: #11171B; 
             border: 1px solid #1E262C;
             border-radius: 16px;
         }
-        /* Обычные кнопки дней */
         .day-btn { 
             background-color: #161F25; 
             color: #94A3B8; 
@@ -34,7 +32,6 @@
             border-color: #9EFF00;
             color: #FFF;
         }
-        /* Активная кнопка - заливка ядовитым лаймом */
         .day-btn.active { 
             background-color: #9EFF00;
             color: #0A0F12; 
@@ -42,11 +39,9 @@
             border-color: #9EFF00;
             box-shadow: 0 0 15px rgba(158, 255, 0, 0.4);
         }
-        /* Завершенный день — аккуратная рамка */
         .day-btn.completed { 
             border: 2px solid #38BDF8;
         }
-        /* Технологичный инпут */
         .tech-input {
             background-color: #0A0F12;
             color: #FFF;
@@ -78,7 +73,7 @@
 
     <!-- КНОПКА ОТКРЫТИЯ АРХИВА -->
     <button onclick="openArchiveModal()" class="w-full bg-[#11171B] hover:bg-[#161F25] text-white border border-[#1E262C] hover:border-[#9EFF00] font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 mb-6 transition cursor-pointer active:scale-98 shadow-lg">
-        📂 Просмотреть архив и рабочие веса
+        📂 Просмотреть archive и рабочие веса
     </button>
 
     <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ -->
@@ -228,6 +223,7 @@
 
     <script>
         const startDate = new Date(2026, 6, 20); // 20 июля 2026
+        const DB_KEY = 'sushka_db_v11'; // Единый синхронизированный ключ базы
 
         function getDateStringForDay(dayIndex) {
             const currentDayDate = new Date(startDate);
@@ -266,7 +262,7 @@
         ];
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
-        let db = JSON.parse(localStorage.getItem('sushka_db_v10')) || {};
+        let db = JSON.parse(localStorage.getItem(DB_KEY)) || {};
 
         const calendarGrid = document.getElementById('calendar-grid');
         const currentWeekLabel = document.getElementById('current-week-label');
@@ -441,7 +437,7 @@
 
             if (pulse > 75) alerts.push("⚠️ <b>Критический пульс покоя:</b> Сигнал перегрузки ЦНС или избытка кофеина.");
             if (gastro.includes('горечь') || gastro.includes('тяжест') || gastro.includes('болит')) {
-                alerts.push("⚠️ <b>Дисфункция ЖКТ:</b> Застой желчи! Срочно добавь артишок/таурин.");
+                alerts.push("⚠️ <b>Дисфункция ЖКТ:</b> Нарушение оттока желчи! Срочно добавь артишок/таурин.");
             }
 
             if (alerts.length > 0) {
@@ -506,11 +502,13 @@
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-2 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 tech-input rounded-xl p-2.5 text-xs">
-                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center">
-                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-2.5 text-xs text-center">
-                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center text-[#9EFF00] font-bold">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 tech-input rounded-xl p-2.5 text-xs anonymity-ex-name">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center ex-sets">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-2.5 text-xs text-center ex-reps">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center text-[#9EFF00] font-bold ex-weight">
             `;
+            // Исправлена внутренняя привязка классов для сбора массива через селекторы
+            div.querySelector('.anonymity-ex-name').className = "col-span-5 tech-input rounded-xl p-2.5 text-xs ex-name";
             workoutContainer.appendChild(div);
         }
 
@@ -526,7 +524,7 @@
             exerciseCountLabel.innerText = `${currentRows}/30`;
         }
 
-        function saveDB() { localStorage.setItem('sushka_db_v10', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
 
         window.resetChecklist = function() {
             if(confirm("Стереть запись за этот день?")) {
@@ -685,7 +683,7 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `sushka_db_v10_backup.json`);
+            downloadAnchor.setAttribute("download", `sushka_db_v11_backup.json`);
             downloadAnchor.click();
         }
 
