@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сушка 100кг | Трекер и Архив</title>
+    <title>Трекер похудения</title>
     <link rel="icon" href="https://fav.farm/🏋️‍♂️" />
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -19,10 +19,10 @@
 
     <!-- HEADER -->
     <header class="mb-4 text-center">
-        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase">Протокол Сушки</h1>
+        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase">КРЕКЕР</h1>
         <p class="text-xs text-slate-400 mt-1">
             Вес: <span id="header-weight" class="text-white font-bold">100</span> кг | 
-            Ккал (План/Факт): <span id="header-calories" class="text-amber-400 font-bold">1660 / 0</span>
+            Ккал (План/Факт): <span id="header-calories" class="text-amber-400 font-bold">1800 / 0</span>
         </p>
     </header>
 
@@ -43,44 +43,50 @@
 
     <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
     <div class="card rounded-2xl p-4 mb-4">
-        <h3 id="health-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">🩺 Маркеры и Активность</h3>
+        <div class="flex justify-between items-center mb-3">
+            <h3 id="health-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">🩺 Маркеры и Активность</h3>
+            <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded-md font-semibold animate-pulse">Автосохранение</span>
+        </div>
         
         <div class="grid grid-cols-3 gap-2 mb-3">
             <div>
                 <label class="block text-[10px] text-slate-400 mb-1 text-center">Вес тела (кг)</label>
-                <input type="number" step="0.1" id="input-weight" placeholder="100.0" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center font-bold">
+                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="100.0" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center font-bold">
             </div>
             <div>
                 <label class="block text-[10px] text-slate-400 mb-1 text-center">Ккал (План)</label>
-                <input type="number" id="input-calories-target" placeholder="1660" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-300 text-xs text-center font-semibold">
+                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1660" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-300 text-xs text-center font-semibold">
             </div>
             <div>
                 <label class="block text-[10px] text-slate-400 mb-1 text-center">Ккал (Факт)</label>
-                <input type="number" id="input-calories-fact" placeholder="0" class="w-full bg-slate-800 border border-amber-500/40 rounded-lg p-2 text-amber-400 text-xs text-center font-bold">
+                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full bg-slate-800 border border-amber-500/40 rounded-lg p-2 text-amber-400 text-xs text-center font-bold">
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 mb-3">
             <div>
                 <label class="block text-[11px] text-slate-400 mb-1">Шаги за день</label>
-                <input type="number" id="input-steps" placeholder="15000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-emerald-400 text-xs text-center font-bold">
+                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-emerald-400 text-xs text-center font-bold">
             </div>
             <div>
                 <label class="block text-[11px] text-slate-400 mb-1">Пульс в покое</label>
-                <input type="number" id="input-pulse" placeholder="уд/мин" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center">
+                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center">
             </div>
         </div>
 
         <div class="mb-3">
             <label class="block text-xs text-slate-400 mb-1">Состояние ЖКТ</label>
-            <input type="text" id="input-gastro" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
+            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
         </div>
         
         <div class="mb-1">
             <label class="block text-xs text-slate-400 mb-1">Общее состояние / Заметки по дню</label>
-            <textarea id="input-notes" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none"></textarea>
+            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none"></textarea>
         </div>
     </div>
+
+    <!-- БЛОК ПРЕДУПРЕЖДЕНИЙ ПО ЗДОРОВЬЮ -->
+    <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4"></div>
 
     <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
     <div class="card rounded-2xl p-4 mb-4">
@@ -91,7 +97,7 @@
 
         <div class="mb-4">
             <label class="block text-[11px] text-slate-400 mb-1">Состояние на тренировке</label>
-            <input type="text" id="input-workout-state" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-slate-800 border border-sky-500/30 rounded-lg p-2 text-white text-xs italic">
+            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-slate-800 border border-sky-500/30 rounded-lg p-2 text-white text-xs italic">
         </div>
         
         <div class="grid grid-cols-12 gap-1 mb-1 px-1 text-[10px] text-slate-400 uppercase font-semibold text-center">
@@ -124,15 +130,9 @@
 
         <div>
             <label class="block text-[11px] text-slate-400 mb-1">Доп. информация по диете за сегодня</label>
-            <textarea id="input-diet-notes" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none"></textarea>
+            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none"></textarea>
         </div>
     </div>
-
-    <!-- КНОПКА ГЛОБАЛЬНОГО СОХРАНЕНИЯ -->
-    <button onclick="saveAllDayData()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/10 mb-4">
-        💾 Сохранить весь день и проверить маркеры
-    </button>
-    <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4"></div>
 
     <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
     <div class="card rounded-2xl p-4">
@@ -158,9 +158,7 @@
                 <h2 class="text-base font-bold text-sky-400 uppercase">Архив прошлых тренировок</h2>
                 <button onclick="closeArchiveModal()" class="text-slate-400 hover:text-white font-bold text-lg p-1">✕</button>
             </div>
-            <div id="archive-content" class="overflow-y-auto flex-1 py-3 space-y-4 pr-1 text-xs text-slate-300">
-                <!-- Сюда сгенерируется архив из записок -->
-            </div>
+            <div id="archive-content" class="overflow-y-auto flex-1 py-3 space-y-4 pr-1 text-xs text-slate-300"></div>
         </div>
     </div>
 
@@ -187,7 +185,7 @@
                 ]
             },
             2: {
-                desc: "Неделя 2 — Углубление дефицита. Контроль нагрузок и электролитов.",
+                desc: "Неделя 2 — Углубление дефицита. ...",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220–250 г" },
@@ -196,7 +194,7 @@
                 ]
             },
             3: {
-                desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г. Защита мышц максимальным белком.",
+                desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: держать максимум" },
@@ -215,214 +213,29 @@
             }
         };
 
-        // БАЗА ДАННЫХ ПРОШЛЫХ ТРЕНИРОВОК ИЗ ЗАПИСОК
         const historicalWorkouts = [
-            {
-                date: "18.07.2026",
-                exercises: [
-                    { name: "Пресс скручивания", sets: "3", reps: "1 мин", weight: "10 кг" },
-                    { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг (без скамьи)" },
-                    { name: "Выпады со ступеньки", sets: "3", reps: "24", weight: "—" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57; 66 кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "62.5 кг" }
-                ]
-            },
-            {
-                date: "15.07.2026",
-                exercises: [
-                    { name: "Пресс скручивания лежа с поднятием одной ноги", sets: "3", reps: "20; 15; 12", weight: "—" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "43 кг" },
-                    { name: "Подтягивания с зеленой резинкой", sets: "3", reps: "5; 4; 3", weight: "—" },
-                    { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" },
-                    { name: "Бицепс в кроссовере прямая рукоять", sets: "3", reps: "10", weight: "19.8; 18.1 кг" },
-                    { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "15 кг" }
-                ]
-            },
-            {
-                date: "11.07.2026",
-                exercises: [
-                    { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" },
-                    { name: "Выпады со ступенькой", sets: "3", reps: "20", weight: "—" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57... кг" },
-                    { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15... кг" }
-                ]
-            },
-            {
-                date: "09.07.2026",
-                exercises: [
-                    { name: "Пресс скручивание с поднятием ноги", sets: "2", reps: "12; 11", weight: "—" },
-                    { name: "Вращение блина", sets: "2", reps: "60 сек", weight: "10 кг" },
-                    { name: "Подтягивания с резинкой", sets: "3", reps: "5", weight: "—" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "10; 12", weight: "36 кг" },
-                    { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" },
-                    { name: "Сгибание голени", sets: "3", reps: "15; 12", weight: "61; 70... кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "55... кг" },
-                    { name: "Трицепс в кроссовере е", sets: "3", reps: "12", weight: "14.7; 16.4... кг" },
-                    { name: "Вращение блина", sets: "3", reps: "1 минута", weight: "15 кг" }
-                ]
-            },
-            {
-                date: "06.07.2026",
-                exercises: [
-                    { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" },
-                    { name: "Приведение в кроссовере стоя на грудь", sets: "3", reps: "12, 10, 9", weight: "8; 6.8... кг" },
-                    { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5; 65; 62.5... кг" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50; 57... кг" },
-                    { name: "Французский жим", sets: "3", reps: "10", weight: "20; 15... кг" },
-                    { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6... кг" }
-                ]
-            },
-            {
-                date: "04.07.2026",
-                exercises: [
-                    { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" },
-                    { name: "Приседания на скамью с минимальным градусом", sets: "3", reps: "7", weight: "30 кг" },
-                    { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57... кг" },
-                    { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1... кг" },
-                    { name: "Поднятие блина к груди и подьем над головой", sets: "3", reps: "12", weight: "15... кг" }
-                ]
-            },
-            {
-                date: "01.07.2026",
-                exercises: [
-                    { name: "Пресс вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36... кг" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50... кг" },
-                    { name: "Приведение плеча", sets: "3", reps: "12", weight: "5.7... кг" },
-                    { name: "Сгибание голени", sets: "3", reps: "12", weight: "52... кг" },
-                    { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10.2; 9.1; 8; 6.8... кг" }
-                ]
-            },
-            {
-                date: "24.06.2026",
-                exercises: [
-                    { name: "Пресс", sets: "3", reps: "20, 10, 10", weight: "соб. вес" },
-                    { name: "Тяга штанги в приседа", sets: "3", reps: "10", weight: "40; 45... кг" },
-                    { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36... кг" },
-                    { name: "Разгибание голени", sets: "3", reps: "10", weight: "45... кг" },
-                    { name: "Приведение плеча в кроссовере", sets: "3", reps: "12", weight: "8; 6.8; 5.7... кг" }
-                ]
-            },
-            {
-                date: "22.06.2026",
-                exercises: [
-                    { name: "Пресс", sets: "—", reps: "—", weight: "—" },
-                    { name: "Приведение плеча в кроссовере", sets: "3", reps: "6", weight: "5.7... кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10, 7, 7", weight: "50... кг" },
-                    { name: "Сгибание голени", sets: "3", reps: "15", weight: "52... кг" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "1", weight: "—" },
-                    { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2... кг" },
-                    { name: "Разгибание предплечья в кроссовере с канатом", sets: "—", reps: "—", weight: "—" }
-                ]
-            },
-            {
-                date: "10.06.2026",
-                exercises: [
-                    { name: "Сгибание голени", sets: "3", reps: "15", weight: "45; 52... кг" },
-                    { name: "Гиперэкстензия", sets: "3", reps: "12", weight: "—" },
-                    { name: "Приседания под трек", sets: "—", reps: "—", weight: "—" },
-                    { name: "Жим лежа", sets: "3", reps: "5", weight: "50; 55; 57.5; 60... кг" },
-                    { name: "Фронтальная тяга", sets: "4", reps: "12", weight: "50... кг" },
-                    { name: "Трицепс", sets: "3", reps: "12", weight: "14.7... кг" }
-                ]
-            },
-            {
-                date: "08.06.2026",
-                exercises: [
-                    { name: "Пресс вращение туловища с блином", sets: "3", reps: "1 минута", weight: "10 кг" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50... кг" },
-                    { name: "Подтягивания", sets: "3", reps: "5; 4; 3", weight: "с резинкой" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36... кг" }
-                ]
-            },
-            {
-                date: "02.06.2026",
-                exercises: [
-                    { name: "Пресс вращение туловища с блином", sets: "3", reps: "1 минута", weight: "10 кг" },
-                    { name: "Приведение плеча в кроссовере стоя", sets: "3", reps: "10", weight: "8... кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10; 6", weight: "45; 50... кг" },
-                    { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "45 кг" },
-                    { name: "Разгибание голени", sets: "3", reps: "6; 10", weight: "39; 35... кг" },
-                    { name: "Разведение плеча в дапе (кроссовере)", sets: "3", reps: "10 на руку", weight: "2.6 кг" },
-                    { name: "Борцовские вращения", sets: "—", reps: "1 мин работы / 1 отдых", weight: "5 кг; 10 кг" }
-                ]
-            },
-            {
-                date: "29.05.2026",
-                exercises: [
-                    { name: "Пресс поднимание ног на брусьях", sets: "3", reps: "15", weight: "соб. вес" },
-                    { name: "Фронтальная тяга стоя", sets: "3", reps: "15", weight: "с резинками" },
-                    { name: "Комплекс бицепс и трицепс", sets: "3", reps: "10", weight: "блин 15 / резинки" },
-                    { name: "Выпады", sets: "3", reps: "10", weight: "15 кг" },
-                    { name: "Отжимания", sets: "2", reps: "9, 5", weight: "—" }
-                ]
-            },
-            {
-                date: "28.05.2026",
-                exercises: [
-                    { name: "Пресс вращение туловищем с блином", sets: "—", reps: "—", weight: "10 кг" },
-                    { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36... кг" },
-                    { name: "Сгибание голени", sets: "3", reps: "15", weight: "32; 39; 45... кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "42.5... кг" },
-                    { name: "Комплекс бицепс и трицепс", sets: "3", reps: "15", weight: "блин 10кг / 14.7" }
-                ]
-            },
-            {
-                date: "26.05.2026",
-                exercises: [
-                    { name: "Боковая планка + Поворот с блином", sets: "3", reps: "30 сек / 30", weight: "10 кг" },
-                    { name: "Разгибание голени", sets: "3", reps: "12", weight: "39... кг" },
-                    { name: "Выпады", sets: "3", reps: "20", weight: "5 кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "43... кг" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "36... кг" },
-                    { name: "Трицепс", sets: "3", reps: "12", weight: "14.7... кг" }
-                ]
-            },
-            {
-                date: "22.05.2026",
-                exercises: [
-                    { name: "Пресс боковая планка", sets: "3", reps: "30 сек", weight: "—" },
-                    { name: "Приведение плеча в кроссовере стоя", sets: "2", reps: "10", weight: "8; 5.7; 4.5... кг" },
-                    { name: "Жим лежа", sets: "4", reps: "10, 9, 8, 8", weight: "40; 35... кг" },
-                    { name: "Подтягивания", sets: "3", reps: "4; 3", weight: "с резинкой 27-37кг" },
-                    { name: "Фронтальная тяга с упором в грудь", sets: "3", reps: "10", weight: "30... кг" },
-                    { name: "Приседания с блином", sets: "3", reps: "10", weight: "10 кг" },
-                    { name: "Борцовские вращения", sets: "—", reps: "40 сек раб / 1:20 отд", weight: "10 кг; 20 кг" }
-                ]
-            },
-            {
-                date: "18.05.2026",
-                exercises: [
-                    { name: "Пресс", sets: "—", reps: "—", weight: "—" },
-                    { name: "Разгибание голени", sets: "3", reps: "12", weight: "32; 39; 39... кг" },
-                    { name: "Выпады", sets: "2", reps: "20", weight: "5 кг / соб. вес" },
-                    { name: "Жим лежа", sets: "3", reps: "10", weight: "40... кг" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "15; 10; 12", weight: "30... кг" },
-                    { name: "Трицепс в кроссовере с прямой рукоятью", sets: "3", reps: "12; 10; 10", weight: "13; 14; 13... кг" },
-                    { name: "Борцовское вращение блина", sets: "5 серий", reps: "30 сек раб / 1:30 отд", weight: "10 кг" }
-                ]
-            },
-            {
-                date: "16.05.2026",
-                exercises: [
-                    { name: "Пресс", sets: "—", reps: "—", weight: "—" },
-                    { name: "Приведение плеча в кроссовере стоя", sets: "3", reps: "10", weight: "8; 6.8; 5.7... кг" },
-                    { name: "Жим лежа", sets: "3", reps: "10; 8; 7", weight: "40... кг" },
-                    { name: "Разгибание голени", sets: "3", reps: "10", weight: "32; 25; 32... кг" },
-                    { name: "Фронтальная тяга с упором в грудь", sets: "3", reps: "15", weight: "30... кг" },
-                    { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "30; 23... кг" },
-                    { name: "Борцовское вращение блина", sets: "5 серий", reps: "30 сек раб / 1:30 отд", weight: "10 кг" }
-                ]
-            }
+            { date: "18.07.2026", exercises: [ { name: "Пресс скручивания", sets: "3", reps: "1 мин", weight: "10 кг" }, { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг (без скамьи)" }, { name: "Выпады со ступеньки", sets: "3", reps: "24", weight: "—" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57; 66 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "62.5 кг" } ] },
+            { date: "15.07.2026", exercises: [ { name: "Пресс скручивания лежа с поднятием одной ноги", sets: "3", reps: "20; 15; 12", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "43 кг" }, { name: "Подтягивания с зеленой резинкой", sets: "3", reps: "5; 4; 3", weight: "—" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Бицепс в кроссовере прямая рукоять", sets: "3", reps: "10", weight: "19.8; 18.1 кг" }, { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "15 кг" } ] },
+            { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступенькой", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15 кг" } ] },
+            { date: "09.07.2026", exercises: [ { name: "Пресс скручивание с поднятием ноги", sets: "2", reps: "12; 11", weight: "—" }, { name: "Вращение блина", sets: "2", reps: "60 сек", weight: "10 кг" }, { name: "Подтягивания с резинкой", sets: "3", reps: "5", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "10; 12", weight: "36 кг" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Сгибание голени", sets: "3", reps: "15; 12", weight: "61; 70 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Трицепс в кроссовере е", sets: "3", reps: "12", weight: "14.7; 16.4 кг" }, { name: "Вращение блина", sets: "3", reps: "1 минута", weight: "15 кг" } ] },
+            { date: "06.07.2026", exercises: [ { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" }, { name: "Приведение в кроссовере стоя на грудь", sets: "3", reps: "12, 10, 9", weight: "8; 6.8 кг" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5; 65; 62.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50; 57 кг" }, { name: "Французский жим", sets: "3", reps: "10", weight: "20; 15 кг" }, { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6 кг" } ] },
+            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15  кг" } ] },
+            { date: "01.07.2026", exercises: [ { name: "Пресс вращение блина", sets: "3", reps: "60сек", weight: "10кг" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Приведение плеча", sets: "3", reps: "12", weight: "5,7" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "52" }, { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10,2; 9.1; 8; 6,8" } ] },
+            { date: "24.06.2026", exercises: [ { name: "Пресс", sets: "3", reps: "20,10, 10", weight: "—" }, { name: "Тяга штанги в приседа", sets: "3", reps: "10", weight: "40, 45" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "45" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "12", weight: "8; 6,8; 5,7" } ] },
+            { date: "22.06.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "6", weight: "5.7" }, { name: "Жим лежа", sets: "3", reps: "10, 7, 7", weight: "50" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "52" }, { name: "Вертикальная тяга", sets: "3", reps: "1", weight: "—" }, { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2" }, { name: "Разгибание предплечья с канатом", sets: "—", reps: "—", weight: "—" } ] },
+            { date: "10.06.2026", exercises: [ { name: "Сгибание голени", sets: "3", reps: "15", weight: "45,52" }, { name: "Гиберэкстензия", sets: "3", reps: "12", weight: "—" }, { name: "Приседания под трек", sets: "—", reps: "—", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "50;55;57,5;60" }, { name: "Фронтальная тяга", sets: "4", reps: "12", weight: "50" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
+            { date: "08.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Подтягивания", sets: "3", reps: "5;4;3", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36" } ] },
+            { date: "02.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8" }, { name: "Жим лежа", sets: "3", reps: "10;6", weight: "45;50" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "45кг" }, { name: "Разгибание голени", sets: "3", reps: "6;10", weight: "39, 35" }, { name: "Разведение плеча в дапе", sets: "3", reps: "10 на руку", weight: "2,6 кг" }, { name: "Борцовские вращения", sets: "—", reps: "1 мин", weight: "5кг 10 кг" } ] },
+            { date: "29.05.2026", exercises: [ { name: "Пресс на брусьях", sets: "3", reps: "15", weight: "соб вес" }, { name: "Фронтальная тяга стоя", sets: "3", reps: "15", weight: "с резинками" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "10", weight: "блин 15 / резинки" }, { name: "Выпады", sets: "3", reps: "10", weight: "15кг" }, { name: "Отжимания", sets: "2", reps: "9, 5", weight: "—" } ] },
+            { date: "28.05.2026", exercises: [ { name: "Пресс вращение туловищем", sets: "—", reps: "—", weight: "10 кг" }, { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" }, { name: "Вертикальная тагя", sets: "3", reps: "10", weight: "36" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "32,39,45" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "42,5" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "15", weight: "блин 10кг / 14,7" } ] },
+            { date: "26.05.2026", exercises: [ { name: "Боковая планка + Поворот корпуса", sets: "3", reps: "30 с / 30", weight: "10кг" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "39" }, { name: "Выпады", sets: "3", reps: "20", weight: "5кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "43" }, { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "36" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
+            { date: "22.05.2026", exercises: [ { name: "Пресс боковая планка", sets: "3", reps: "30 сек", weight: "—" }, { name: "Приведение плеча стоя", sets: "2", reps: "10", weight: "8, 5,7, 4,5" }, { name: "Жим лежа", sets: "4", reps: "10,9,8,8", weight: "40, 35" }, { name: "Подтягивания", sets: "3", reps: "4;3", weight: "с резинкой" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "10", weight: "30" }, { name: "Приседания с блином", sets: "3", reps: "10", weight: "10кг" }, { name: "Борцовские вращения", sets: "—", reps: "40 с раб", weight: "10кг, 20кг" } ] },
+            { date: "18.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "32;39;39" }, { name: "Выпады", sets: "2", reps: "20", weight: "5; соб. Вес" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "40" }, { name: "Вертикальная тяга", sets: "3", reps: "15;10;12", weight: "30" }, { name: "Трицепс с прямой рукоятью", sets: "3", reps: "12;10;10", weight: "13, 14, 13" }, { name: "Борцовское вращение", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] },
+            { date: "16.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8; 6.8, 5.7" }, { name: "Жим лежа", sets: "3", reps: "10;8;7", weight: "40;" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "32; 25; 32" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "15", weight: "30" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "30, 23" }, { name: "Борцовское вращение блина", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] }
         ];
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
-        let db = JSON.parse(localStorage.getItem('sushka_db_v8')) || {};
+        let db = JSON.parse(localStorage.getItem('sushka_db_v9')) || {};
 
         const calendarGrid = document.getElementById('calendar-grid');
         const currentWeekLabel = document.getElementById('current-week-label');
@@ -514,12 +327,12 @@
             document.getElementById('input-notes').value = h.notes || '';
             document.getElementById('input-workout-state').value = h.workoutState || '';
             document.getElementById('input-diet-notes').value = h.dietNotes || '';
-            document.getElementById('health-alert').classList.add('hidden');
 
             renderChecklist(proto.tasks, db[dayKey].tasks, db[dayKey].customTasks);
             renderWorkoutFields(db[dayKey].exercises);
             updateHeaderData();
             updateProgress();
+            checkLiveAlerts();
         }
 
         function renderChecklist(baseTasks, checkedBase, customTasks) {
@@ -550,6 +363,65 @@
             });
         }
 
+        // АВТОСОХРАНЕНИЕ — ГЛАВНАЯ ФУНКЦИЯ
+        window.autoSaveDayData = function() {
+            const dayKey = `day${selectedDay}`;
+            if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
+
+            db[dayKey].health = {
+                weight: document.getElementById('input-weight').value,
+                caloriesTarget: document.getElementById('input-calories-target').value || '1660',
+                caloriesFact: document.getElementById('input-calories-fact').value || '0',
+                steps: document.getElementById('input-steps').value,
+                pulse: document.getElementById('input-pulse').value,
+                gastro: document.getElementById('input-gastro').value,
+                notes: document.getElementById('input-notes').value,
+                workoutState: document.getElementById('input-workout-state').value,
+                dietNotes: document.getElementById('input-diet-notes').value
+            };
+
+            const rows = workoutContainer.getElementsByClassName('exercise-row');
+            const savedExercises = [];
+            for (let row of rows) {
+                const name = row.querySelector('.ex-name').value.trim();
+                const sets = row.querySelector('.ex-sets').value;
+                const reps = row.querySelector('.ex-reps').value.trim();
+                const weightEx = row.querySelector('.ex-weight').value.trim();
+                if (name !== '' || sets !== '' || reps !== '' || weightEx !== '') {
+                    savedExercises.push({ name, sets, reps, weight: weightEx });
+                }
+            }
+            db[dayKey].exercises = savedExercises;
+
+            saveDB();
+            updateHeaderData();
+            checkLiveAlerts();
+            
+            const btn = document.getElementById(`btn-day-${selectedDay}`);
+            if (isDayFullyCompleted(selectedDay)) btn.classList.add('completed');
+            else btn.classList.remove('completed');
+        }
+
+        function checkLiveAlerts() {
+            const alertDiv = document.getElementById('health-alert');
+            let alerts = [];
+            const pulse = parseInt(document.getElementById('input-pulse').value);
+            const gastro = document.getElementById('input-gastro').value.toLowerCase();
+
+            if (pulse > 75) alerts.push("⚠️ <b>Высокий пульс (" + pulse + " уд/мин):</b> Ограничь снюс/кофеин.");
+            if (gastro.includes('горечь') || gastro.includes('тяжест') || gastro.includes('болит')) {
+                alerts.push("⚠️ <b>Сигнал ЖКТ:</b> Застой желчи при низком жире! Прими таурин/артишок.");
+            }
+
+            if (alerts.length > 0) {
+                alertDiv.innerHTML = alerts.join('<br class="my-2">');
+                alertDiv.className = "p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4";
+                alertDiv.classList.remove('hidden');
+            } else {
+                alertDiv.classList.add('hidden');
+            }
+        }
+
         window.addNewCustomTask = function() {
             const input = document.getElementById('new-task-text');
             const txt = input.value.trim();
@@ -570,11 +442,8 @@
 
         window.toggleTask = function(id, isCustom) {
             const dayKey = `day${selectedDay}`;
-            if (isCustom) {
-                db[dayKey].customTasks[id].checked = document.getElementById(`custom-${id}`).checked;
-            } else {
-                db[dayKey].tasks[id] = document.getElementById(id).checked;
-            }
+            if (isCustom) db[dayKey].customTasks[id].checked = document.getElementById(`custom-${id}`).checked;
+            else db[dayKey].tasks[id] = document.getElementById(id).checked;
             saveDB();
             updateProgress();
             buildCalendar();
@@ -589,8 +458,7 @@
             const total = baseTasksCount + customTasksCount;
             const checkedBase = Object.values(db[dayKey]?.tasks || {}).filter(Boolean).length;
             const checkedCustom = db[dayKey]?.customTasks ? db[dayKey].customTasks.filter(t => t.checked).length : 0;
-            const totalChecked = checkedBase + checkedCustom;
-            const percent = total > 0 ? Math.round((totalChecked / total) * 100) : 0;
+            const percent = total > 0 ? Math.round(((checkedBase + checkedCustom) / total) * 100) : 0;
             dayProgressLabel.innerText = `${percent}%`;
         }
 
@@ -608,10 +476,10 @@
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-1 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Упражнение" value="${ex.name}" class="col-span-5 ex-name bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
-                <input type="number" placeholder="4" value="${ex.sets}" class="col-span-2 ex-sets bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
-                <input type="text" placeholder="12" value="${ex.reps}" class="col-span-3 ex-reps bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
-                <input type="text" placeholder="80" value="${ex.weight}" class="col-span-2 ex-weight bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 ex-name bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 ex-sets bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 ex-reps bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 ex-weight bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
             `;
             workoutContainer.appendChild(div);
         }
@@ -628,51 +496,7 @@
             exerciseCountLabel.innerText = `${currentRows}/30`;
         }
 
-        window.saveAllDayData = function() {
-            const dayKey = `day${selectedDay}`;
-            db[dayKey].health = {
-                weight: document.getElementById('input-weight').value,
-                caloriesTarget: document.getElementById('input-calories-target').value || '1660',
-                caloriesFact: document.getElementById('input-calories-fact').value || '0',
-                steps: document.getElementById('input-steps').value,
-                pulse: document.getElementById('input-pulse').value,
-                gastro: document.getElementById('input-gastro').value,
-                notes: document.getElementById('input-notes').value,
-                workoutState: document.getElementById('input-workout-state').value,
-                dietNotes: document.getElementById('input-diet-notes').value
-            };
-
-            const rows = workoutContainer.getElementsByClassName('exercise-row');
-            const savedExercises = [];
-            for (let row of rows) {
-                const name = row.querySelector('.ex-name').value.trim();
-                const sets = row.querySelector('.ex-sets').value;
-                const reps = row.querySelector('.ex-reps').value.trim();
-                const weightEx = row.querySelector('.ex-weight').value.trim();
-                if (name !== '') savedExercises.push({ name, sets, reps, weight: weightEx });
-            }
-            db[dayKey].exercises = savedExercises;
-
-            saveDB();
-            updateHeaderData();
-            buildCalendar();
-
-            const alertDiv = document.getElementById('health-alert');
-            let alerts = [];
-            const pulseNum = parseInt(db[dayKey].health.pulse);
-            if (pulseNum > 75) alerts.push("⚠️ <b>Высокий пульс:</b> Обрати внимание на интенсивность кардио и восстановление.");
-            
-            alertDiv.classList.remove('hidden');
-            if (alerts.length > 0) {
-                alertDiv.innerHTML = alerts.join('<br class="my-2">');
-                alertDiv.className = "p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4";
-            } else {
-                alertDiv.innerHTML = "✅ Данные успешно сохранены!";
-                alertDiv.className = "p-3 rounded-xl text-xs bg-emerald-900/40 border border-emerald-700 text-emerald-200 mb-4";
-            }
-        }
-
-        function saveDB() { localStorage.setItem('sushka_db_v8', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('sushka_db_v9', JSON.stringify(db)); }
 
         window.resetChecklist = function() {
             if(confirm("Полностью стереть данные за этот день?")) {
@@ -684,7 +508,6 @@
             }
         }
 
-        // МОДАЛЬНОЕ ОКНО — ЛОГИКА
         window.openArchiveModal = function() { document.getElementById('archive-modal').classList.remove('hidden'); }
         window.closeArchiveModal = function() { document.getElementById('archive-modal').classList.add('hidden'); }
 
@@ -694,47 +517,31 @@
             historicalWorkouts.forEach(workout => {
                 const section = document.createElement('div');
                 section.className = "p-3 bg-slate-800 rounded-xl border border-slate-700/60";
-                
                 let exLines = '';
                 workout.exercises.forEach((ex, idx) => {
                     exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1">
                         <span class="text-amber-400 font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets}х(${ex.reps}) <span class="text-sky-400">${ex.weight}</span>
                     </div>`;
                 });
-
-                section.innerHTML = `
-                    <div class="font-bold text-white text-sm mb-2 pb-1 border-b border-sky-500/30 flex justify-between">
-                        <span>📅 Дата: ${workout.date}</span>
-                    </div>
-                    <div class="space-y-1">${exLines}</div>
-                `;
+                section.innerHTML = `<div class="font-bold text-white text-sm mb-2 pb-1 border-b border-sky-500/30">📅 Дата: ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
                 container.appendChild(section);
             });
         }
 
         window.exportTextReport = function() {
-            let txt = `=========================================\n`;
-            txt += `    ОТЧЕТ ПО ПРОТОКОЛУ СУШКИ (28 ДНЕЙ)   \n`;
-            txt += `=========================================\n\n`;
-
+            let txt = `=========================================\n  ОТЧЕТ ПО ПРОТОКОЛУ СУШКИ (28 ДНЕЙ) \n=========================================\n\n`;
             for (let i = 1; i <= 28; i++) {
                 const dayKey = `day${i}`;
                 if (db[dayKey]) {
                     const h = db[dayKey].health || {};
                     const exs = db[dayKey].exercises || [];
                     const customs = db[dayKey].customTasks || [];
-                    
                     if (h.weight || h.steps || h.pulse || h.notes || h.caloriesFact || exs.length > 0 || customs.length > 0) {
-                        txt += `ДЕНЬ ${i} (${getDateStringForDay(i)}) [Неделя ${getWeekFromDay(i)}]\n`;
-                        txt += `-----------------------------------------\n`;
+                        txt += `ДЕНЬ ${i} (${getDateStringForDay(i)}) [Неделя ${getWeekFromDay(i)}]\n-----------------------------------------\n`;
                         txt += `• Калории (План/Факт): ${h.caloriesTarget || '1660'} / ${h.caloriesFact || '0'} ккал\n`;
-                        txt += `• Вес тела: ${h.weight || '—'} кг\n`;
-                        txt += `• Шаги: ${h.steps || '—'}\n`;
-                        txt += `• Пульс в покое: ${h.pulse || '—'} уд/мин\n`;
-                        txt += `• Состояние ЖКТ: ${h.gastro || 'Не указано'}\n`;
+                        txt += `• Вес тела: ${h.weight || '—'} кг\n• Шаги: ${h.steps || '—'}\n• Пульс в покое: ${h.pulse || '—'} уд/мин\n• Состояние ЖКТ: ${h.gastro || 'Не указано'}\n`;
                         if(h.notes) txt += `• Заметки по состоянию: ${h.notes}\n`;
                         if(h.dietNotes) txt += `• Инфо по Диете: ${h.dietNotes}\n`;
-                        
                         if(customs.length > 0) {
                             txt += `• Свои задачи в чек-листе:\n`;
                             customs.forEach(c => txt += `  [${c.checked ? '✕' : ' '}] ${c.txt}\n`);
@@ -742,31 +549,22 @@
                         if(h.workoutState) txt += `• Самочувствие на тренировке: ${h.workoutState}\n`;
                         if (exs.length > 0) {
                             txt += `• Выполненные упражнения:\n`;
-                            exs.forEach((ex, idx) => {
-                                txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}), вес: ${ex.weight || '—'} кг\n`;
-                            });
+                            exs.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}), вес: ${ex.weight || '—'} кг\n`; });
                         }
                         txt += `\n`;
                     }
                 }
             }
-
-            // Добавляем старую историю в конец текстового файла при выгрузке
-            txt += `=========================================\n`;
-            txt += `        АРХИВ ПРОШЛЫХ ТРЕНИРОВОК         \n`;
-            txt += `=========================================\n\n`;
+            txt += `=========================================\n        АРХИВ ПРОШЛЫХ ТРЕНИРОВОК         \n=========================================\n\n`;
             historicalWorkouts.forEach(w => {
                 txt += `Дата: ${w.date}\n`;
-                w.exercises.forEach((ex, idx) => {
-                    txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}) вес: ${ex.weight}\n`;
-                });
+                w.exercises.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}) вес: ${ex.weight}\n`; });
                 txt += `\n`;
             });
-
             const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "Sushka_Progress_With_Archive.txt";
+            link.download = "Sushka_Progress_Autosave.txt";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -776,10 +574,8 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `sushka_db_v8_backup.json`);
-            document.body.appendChild(downloadAnchor);
+            downloadAnchor.setAttribute("download", `sushka_db_v9_backup.json`);
             downloadAnchor.click();
-            downloadAnchor.remove();
         }
 
         window.importData = function() {
@@ -787,13 +583,7 @@
             if (!jsonStr) return;
             try {
                 const parsed = JSON.parse(jsonStr);
-                if (typeof parsed === 'object') {
-                    db = parsed;
-                    saveDB();
-                    buildCalendar();
-                    loadDay(selectedDay);
-                    alert("Успешно импортировано!");
-                }
+                if (typeof parsed === 'object') { db = parsed; saveDB(); buildCalendar(); loadDay(selectedDay); alert("Успешно импортировано!"); }
             } catch (e) { alert("Ошибка чтения файла."); }
         }
     </script>
