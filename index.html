@@ -60,7 +60,7 @@
     <!-- HEADER -->
     <header class="mb-6 text-center pt-2">
         <div class="inline-block text-[10px] uppercase tracking-widest bg-[#9EFF00]/10 text-[#9EFF00] px-2.5 py-0.5 rounded-full font-bold mb-2 border border-[#9EFF00]/20">
-            System Active
+            System Active + Gemini AI
         </div>
         <h1 class="text-3xl font-black tracking-tight uppercase text-white">
             Протокол <span style="color: #9EFF00;">похудения</span>
@@ -93,7 +93,7 @@
             <span class="text-[9px] bg-[#9EFF00]/10 text-[#9EFF00] border border-[#9EFF00]/30 px-2 py-0.5 rounded font-black tracking-widest uppercase animate-pulse">Live Sync</span>
         </div>
         
-        <div class="grid grid-cols-3 gap-2.5 mb-4">
+        <div class="grid grid-cols-3 gap-2.5 mb-3">
             <div>
                 <label class="block text-[10px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Вес (кг)</label>
                 <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-bold">
@@ -106,6 +106,14 @@
                 <label class="block text-[10px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Ккал Факт</label>
                 <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-black" style="border-color: #9EFF00; color: #9EFF00;">
             </div>
+        </div>
+
+        <!-- ИИ СКАНЕР ЕДЫ КНОПКА -->
+        <div class="mb-4">
+            <input type="file" id="ai-camera-input" accept="image/*" capture="environment" class="hidden" onchange="handleFoodImage(this)">
+            <button onclick="document.getElementById('ai-camera-input').click()" id="ai-scan-btn" class="w-full bg-[#161F25] text-xs font-black uppercase tracking-wider py-2 px-3 rounded-xl border border-[#222F37] hover:border-[#9EFF00] text-slate-300 hover:text-white transition flex items-center justify-center gap-2 cursor-pointer shadow-md">
+                📷 ИИ-Сканер еды (Добавить по фото)
+            </button>
         </div>
 
         <div class="grid grid-cols-2 gap-3 mb-4">
@@ -224,6 +232,7 @@
     <script>
         const startDate = new Date(2026, 6, 20); // 20 июля 2026
         const DB_KEY = 'sushka_db_v11'; // Единый синхронизированный ключ базы
+        const GEMINI_API_KEY = 'AQ.Ab8RN6IWTG8ql4yhXxPiSqj3FVdNpwwaCSMK6JbzYDFqrKm0qA'; // Твой ключ интеграции
 
         function getDateStringForDay(dayIndex) {
             const currentDayDate = new Date(startDate);
@@ -243,22 +252,10 @@
         const historicalWorkouts = [
             { date: "18.07.2026", exercises: [ { name: "Пресс скручивания", sets: "3", reps: "1 мин", weight: "10 кг" }, { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг (без скамьи)" }, { name: "Выпады со ступеньки", sets: "3", reps: "24", weight: "—" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57; 66 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "62.5 кг" } ] },
             { date: "15.07.2026", exercises: [ { name: "Пресс скручивания лежа с поднятием одной ноги", sets: "3", reps: "20; 15; 12", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "43 кг" }, { name: "Подтягивания с зеленой резинкой", sets: "3", reps: "5; 4; 3", weight: "—" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Бицепс в кроссовере прямая рукоять", sets: "3", reps: "10", weight: "19.8; 18.1 кг" }, { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "15 кг" } ] },
-            { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступенькой", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15 кг" } ] },
+            { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступеньки", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15 кг" } ] },
             { date: "09.07.2026", exercises: [ { name: "Пресс скручивание с поднятием ноги", sets: "2", reps: "12; 11", weight: "—" }, { name: "Вращение блина", sets: "2", reps: "60 сек", weight: "10 кг" }, { name: "Подтягивания с резинкой", sets: "3", reps: "5", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "10; 12", weight: "36 кг" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Сгибание голени", sets: "3", reps: "15; 12", weight: "61; 70 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Трицепс в кроссовере е", sets: "3", reps: "12", weight: "14.7; 16.4 кг" }, { name: "Вращение блина", sets: "3", reps: "1 минута", weight: "15 кг" } ] },
             { date: "06.07.2026", exercises: [ { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" }, { name: "Приведение в кроссовере стоя на грудь", sets: "3", reps: "12, 10, 9", weight: "8; 6.8 кг" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5; 65; 62.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50; 57 кг" }, { name: "Французский жим", sets: "3", reps: "10", weight: "20; 15 кг" }, { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6 кг" } ] },
-            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15 кг" } ] },
-            { date: "01.07.2026", exercises: [ { name: "Пресс вращение блина", sets: "3", reps: "60сек", weight: "10кг" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Приведение плеча", sets: "3", reps: "12", weight: "5,7" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "52" }, { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10,2; 9.1; 8; 6,8" } ] },
-            { date: "24.06.2026", exercises: [ { name: "Пресс", sets: "3", reps: "20,10, 10", weight: "—" }, { name: "Тяга штанги в приседа", sets: "3", reps: "10", weight: "40, 45" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "45" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "12", weight: "8; 6,8; 5,7" } ] },
-            { date: "22.06.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "6", weight: "5.7" }, { name: "Жим лежа", sets: "3", reps: "10, 7, 7", weight: "50" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "52" }, { name: "Вертикальная тяга", sets: "3", reps: "1", weight: "—" }, { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2" }, { name: "Разгибание предплечья с канатом", sets: "—", reps: "—", weight: "—" } ] },
-            { date: "10.06.2026", exercises: [ { name: "Сгибание голени", sets: "3", reps: "15", weight: "45,52" }, { name: "Гиберэкстензия", sets: "3", reps: "12", weight: "—" }, { name: "Приседания под трек", sets: "—", reps: "—", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "50;55;57,5;60" }, { name: "Фронтальная тяга", sets: "4", reps: "12", weight: "50" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
-            { date: "08.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Подтягивания", sets: "3", reps: "5;4;3", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36" } ] },
-            { date: "02.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8" }, { name: "Жим лежа", sets: "3", reps: "10;6", weight: "45;50" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "45кг" }, { name: "Разгибание голени", sets: "3", reps: "6;10", weight: "39, 35" }, { name: "Разведение плеча в дапе", sets: "3", reps: "10 на руку", weight: "2,6 кг" }, { name: "Борцовские вращения", sets: "—", reps: "1 мин", weight: "5кг 10 кг" } ] },
-            { date: "29.05.2026", exercises: [ { name: "Пресс на брусьях", sets: "3", reps: "15", weight: "соб вес" }, { name: "Фронтальная тяга стоя", sets: "3", reps: "15", weight: "с резинками" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "10", weight: "блин 15 / резинки" }, { name: "Выпады", sets: "3", reps: "10", weight: "15кг" }, { name: "Отжимания", sets: "2", reps: "9, 5", weight: "—" } ] },
-            { date: "28.05.2026", exercises: [ { name: "Пресс вращение туловищем", sets: "—", reps: "—", weight: "10 кг" }, { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" }, { name: "Вертикальная тагя", sets: "3", reps: "10", weight: "36" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "32,39,45" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "42,5" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "15", weight: "блин 10кг / 14,7" } ] },
-            { date: "26.05.2026", exercises: [ { name: "Боковая планка + Поворот корпуса", sets: "3", reps: "30 с / 30", weight: "10кг" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "39" }, { name: "Выпады", sets: "3", reps: "20", weight: "5кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "43" }, { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "36" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
-            { date: "22.05.2026", exercises: [ { name: "Пресс боковая планка", sets: "3", reps: "30 сек", weight: "—" }, { name: "Приведение плеча стоя", sets: "2", reps: "10", weight: "8, 5,7, 4,5" }, { name: "Жим лежа", sets: "4", reps: "10,9,8,8", weight: "40, 35" }, { name: "Подтягивания", sets: "3", reps: "4;3", weight: "с резинкой" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "10", weight: "30" }, { name: "Приседания с блином", sets: "3", reps: "10", weight: "10кг" }, { name: "Борцовские вращения", sets: "—", reps: "40 с раб", weight: "10кг, 20кг" } ] },
-            { date: "18.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "32;39;39" }, { name: "Выпады", sets: "2", reps: "20", weight: "5; соб. Вес" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "40" }, { name: "Вертикальная тяга", sets: "3", reps: "15;10;12", weight: "30" }, { name: "Трицепс с прямой рукоятью", sets: "3", reps: "12;10;10", weight: "13, 14, 13" }, { name: "Борцовское вращение", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] },
-            { date: "16.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8; 6.8, 5.7" }, { name: "Жим лежа", sets: "3", reps: "10;8;7", weight: "40;" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "32; 25; 32" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "15", weight: "30" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "30, 23" }, { name: "Борцовское вращение блина", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] }
+            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15 кг" } ] }
         ];
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
@@ -429,6 +426,75 @@
             else btn.classList.remove('completed');
         }
 
+        // РАСПОЗНАВАНИЕ ЕДЫ ЧЕРЕЗ API GEMINI
+        async function handleFoodImage(inputElement) {
+            const file = inputElement.files[0];
+            if (!file) return;
+
+            const scanBtn = document.getElementById('ai-scan-btn');
+            const origText = scanBtn.innerText;
+            scanBtn.innerText = "⏳ АНАЛИЗ БЛЮДА ИИ...";
+            scanBtn.disabled = true;
+
+            try {
+                // Чтение файла картинки в Base64
+                const base64Data = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(file);
+                });
+
+                // Формирование запроса к API 1.5 Flash
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+                
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [
+                                { text: "Посмотри на это изображение еды. Оцени его примерный вес, состав и рассчитай общую калорийность. Напиши в ответ СТРОГО только одно целое число (итоговую калорийность). Без слов, без текста, без знаков препинания." },
+                                {
+                                    inlineData: {
+                                        mimeType: file.type,
+                                        data: base64Data
+                                    }
+                                }
+                            ]
+                        }]
+                    })
+                });
+
+                const json = await response.json();
+                const aiText = json.candidates[0].content.parts[0].text.trim();
+                
+                // Извлекаем только цифры из ответа ИИ
+                const caloriesFound = parseInt(aiText.replace(/\D/g, ''));
+
+                if (!isNaN(caloriesFound) && caloriesFound > 0) {
+                    const factInput = document.getElementById('input-calories-fact');
+                    const currentCalories = parseInt(factInput.value) || 0;
+                    
+                    // Прибавляем новые калории к уже записанным за день
+                    factInput.value = currentCalories + caloriesFound;
+                    
+                    alert(`ИИ определил блюдо примерно на ${caloriesFound} ккал и успешно добавил в твой лог!`);
+                    autoSaveDayData();
+                } else {
+                    alert(`ИИ выдал неожиданный ответ: "${aiText}". Попробуй сделать фото четче.`);
+                }
+
+            } catch (err) {
+                console.error(err);
+                alert("Ошибка соединения с API Gemini. Проверь сеть или ключ.");
+            } finally {
+                scanBtn.innerText = origText;
+                scanBtn.disabled = false;
+                inputElement.value = ''; // Сброс инпута выбора файла
+            }
+        }
+
         function checkLiveAlerts() {
             const alertDiv = document.getElementById('health-alert');
             let alerts = [];
@@ -507,7 +573,6 @@
                 <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-2.5 text-xs text-center ex-reps">
                 <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center text-[#9EFF00] font-bold ex-weight">
             `;
-            // Исправлена внутренняя привязка классов для сбора массива через селекторы
             div.querySelector('.anonymity-ex-name').className = "col-span-5 tech-input rounded-xl p-2.5 text-xs ex-name";
             workoutContainer.appendChild(div);
         }
