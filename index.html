@@ -9,207 +9,220 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { 
-            background-color: #0D1D25; 
-            color: #C6C6D0; 
-            font-family: system-ui, -apple-system, sans-serif; 
+            background-color: #0A0F12; 
+            color: #E2E8F0; 
+            font-family: system-ui, -apple-system, sans-serif;
+            background-image: 
+                linear-gradient(rgba(158, 255, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(158, 255, 0, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
-        /* Неоморфная выпуклая карточка */
+        /* Футуристичная темная карточка */
         .card { 
-            background-color: #0D1D25; 
-            border-radius: 20px;
-            box-shadow: 6px 6px 16px #050b0f, -6px -6px 16px #152f3b;
-            border: none;
+            background-color: #11171B; 
+            border: 1px solid #1E262C;
+            border-radius: 16px;
         }
-        /* Неоморфная обычная кнопка/элемент */
+        /* Обычные кнопки дней */
         .day-btn { 
-            background-color: #0D1D25; 
-            color: #C6C6D0; 
-            box-shadow: 4px 4px 10px #050b0f, -4px -4px 10px #152f3b;
-            transition: all 0.2s ease;
+            background-color: #161F25; 
+            color: #94A3B8; 
+            border: 1px solid #222F37;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        /* Вдавленный эффект для активного дня */
+        .day-btn:hover {
+            border-color: #9EFF00;
+            color: #FFF;
+        }
+        /* Активная кнопка - заливка ядовитым лаймом */
         .day-btn.active { 
-            background-color: #0D1D25;
-            color: #D59D80; 
-            font-weight: bold; 
-            box-shadow: inset 4px 4px 8px #050b0f, inset -4px -4px 8px #152f3b;
+            background-color: #9EFF00;
+            color: #0A0F12; 
+            font-weight: 800; 
+            border-color: #9EFF00;
+            box-shadow: 0 0 15px rgba(158, 255, 0, 0.4);
         }
-        /* Маркер выполненного дня (мягкое внутреннее свечение) */
+        /* Завершенный день — аккуратная рамка */
         .day-btn.completed { 
-            border: 1px solid #104C64;
+            border: 2px solid #38BDF8;
         }
-        /* Вдавленное неоморфное поле ввода */
-        .neu-input {
-            background-color: #0D1D25;
-            color: #C6C6D0;
-            border: none;
-            box-shadow: inset 3px 3px 6px #050b0f, inset -3px -3px 6px #152f3b;
+        /* Технологичный инпут */
+        .tech-input {
+            background-color: #0A0F12;
+            color: #FFF;
+            border: 1px solid #222F37;
             outline: none;
             transition: all 0.2s;
         }
-        .neu-input:focus {
-            box-shadow: inset 3px 3px 6px #050b0f, inset -3px -3px 6px #152f3b, 0 0 4px #104C64;
+        .tech-input:focus {
+            border-color: #9EFF00;
+            box-shadow: 0 0 8px rgba(158, 255, 0, 0.2);
         }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
 
     <!-- HEADER -->
-    <header class="mb-6 text-center">
-        <h1 class="text-2xl font-bold tracking-wide uppercase" style="color: #D59D80; text-shadow: 2px 2px 4px #050b0f;">Протокол похудения</h1>
-        <p class="text-xs mt-2" style="color: #C6C6D0; opacity: 0.7;">
-            Текущий вес: <span id="header-weight" class="font-bold" style="color: #C6C6D0;">-</span> кг | 
-            Ккал (План/Факт): <span id="header-calories" class="font-bold" style="color: #D59D80;">1800 / 0</span>
+    <header class="mb-6 text-center pt-2">
+        <div class="inline-block text-[10px] uppercase tracking-widest bg-[#9EFF00]/10 text-[#9EFF00] px-2.5 py-0.5 rounded-full font-bold mb-2 border border-[#9EFF00]/20">
+            System Active
+        </div>
+        <h1 class="text-3xl font-black tracking-tight uppercase text-white">
+            Протокол <span style="color: #9EFF00;">похудения</span>
+        </h1>
+        <p class="text-xs mt-2 text-slate-400">
+            Вес: <span id="header-weight" class="text-white font-bold">—</span> кг | 
+            Ккал (План/Факт): <span class="font-bold" style="color: #9EFF00;">1800</span> <span class="text-slate-500">/</span> <span id="header-calories" class="text-white font-bold">0</span>
         </p>
     </header>
 
-    <!-- КНОПКА ОТКРЫТИЯ АРХИВА ПРОШЛЫХ ТРЕНИРОВОК -->
-    <button onclick="openArchiveModal()" class="w-full day-btn font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 mb-6 cursor-pointer active:scale-98">
+    <!-- КНОПКА ОТКРЫТИЯ АРХИВА -->
+    <button onclick="openArchiveModal()" class="w-full bg-[#11171B] hover:bg-[#161F25] text-white border border-[#1E262C] hover:border-[#9EFF00] font-bold py-3 px-4 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 mb-6 transition cursor-pointer active:scale-98 shadow-lg">
         📂 Просмотреть архив и рабочие веса
     </button>
 
-    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ (28 ДНЕЙ С ДАТАМИ) -->
-    <div class="card p-5 mb-6">
+    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ -->
+    <div class="card p-4 mb-6">
         <div class="flex justify-between items-center mb-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.8;">Календарь (Старт: 20.07.2026)</h3>
-            <span id="current-week-label" class="text-xs font-semibold" style="color: #D59D80;">Неделя 1</span>
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Календарная сетка (Старт: 20.07)</h3>
+            <span id="current-week-label" class="text-xs font-black uppercase tracking-wider" style="color: #9EFF00;">Неделя 1</span>
         </div>
-        <div id="calendar-grid" class="grid grid-cols-4 gap-3 text-center text-xs"></div>
-        <p id="week-desc" class="text-xs mt-4 italic p-3 rounded-xl neu-input" style="color: #C6C6D0; opacity: 0.9;"></p>
+        <div id="calendar-grid" class="grid grid-cols-4 gap-2 text-center text-xs"></div>
+        <p id="week-desc" class="text-xs mt-4 italic p-3 rounded-xl tech-input text-slate-400 border-dashed"></p>
     </div>
 
     <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
-    <div class="card p-5 mb-6">
+    <div class="card p-4 mb-6">
         <div class="flex justify-between items-center mb-4">
-            <h3 id="health-title" class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">🩺 Маркеры и Активность</h3>
-            <span class="text-[10px] bg-[#050b0f] text-emerald-400 px-2 py-0.5 rounded-md font-semibold animate-pulse" style="color: #D59D80;">Автосохранение</span>
+            <h3 id="health-title" class="text-sm font-bold uppercase tracking-wider text-white">🩺 Параметры & Маркеры</h3>
+            <span class="text-[9px] bg-[#9EFF00]/10 text-[#9EFF00] border border-[#9EFF00]/30 px-2 py-0.5 rounded font-black tracking-widest uppercase animate-pulse">Live Sync</span>
         </div>
         
-        <div class="grid grid-cols-3 gap-3 mb-4">
+        <div class="grid grid-cols-3 gap-2.5 mb-4">
             <div>
-                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Вес тела (кг)</label>
-                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full neu-input rounded-xl p-2.5 text-xs text-center font-bold">
+                <label class="block text-[10px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Вес (кг)</label>
+                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-bold">
             </div>
             <div>
-                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Ккал (План)</label>
-                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full neu-input rounded-xl p-2.5 text-xs text-center font-semibold">
+                <label class="block text-[10px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Ккал План</label>
+                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-semibold">
             </div>
             <div>
-                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Ккал (Факт)</label>
-                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full neu-input rounded-xl p-2.5 text-xs text-center font-bold" style="color: #D59D80;">
+                <label class="block text-[10px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Ккал Факт</label>
+                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-black" style="border-color: #9EFF00; color: #9EFF00;">
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-2 gap-3 mb-4">
             <div>
-                <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Шаги за день</label>
-                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full neu-input rounded-xl p-2.5 text-xs text-center font-bold">
+                <label class="block text-[10px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Шаги за сутки</label>
+                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-bold text-sky-400">
             </div>
             <div>
-                <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Пульс в покое</label>
-                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full neu-input rounded-xl p-2.5 text-xs text-center">
+                <label class="block text-[10px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Пульс покоя</label>
+                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full tech-input rounded-xl p-2.5 text-xs text-center">
             </div>
         </div>
 
         <div class="mb-4">
-            <label class="block text-xs mb-1" style="color: #C6C6D0; opacity: 0.7;">Состояние ЖКТ</label>
-            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full neu-input rounded-xl p-2.5 text-xs">
+            <label class="block text-[10px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Состояние ЖКТ</label>
+            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full tech-input rounded-xl p-2.5 text-xs">
         </div>
         
         <div class="mb-1">
-            <label class="block text-xs mb-1" style="color: #C6C6D0; opacity: 0.7;">Общее состояние / Заметки по дню</label>
-            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full neu-input rounded-xl p-2.5 text-sm resize-none"></textarea>
+            <label class="block text-[10px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Общие заметки по состоянию</label>
+            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Сон, общая менталка, тонус..." class="w-full tech-input rounded-xl p-2.5 text-xs resize-none"></textarea>
         </div>
     </div>
 
     <!-- БЛОК ПРЕДУПРЕЖДЕНИЙ ПО ЗДОРОВЬЮ -->
-    <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-950/40 border border-red-900/40 text-red-200 mb-6 card"></div>
+    <div id="health-alert" class="hidden p-4 rounded-xl text-xs bg-red-950/20 border border-red-500/30 text-red-400 mb-6 card tracking-wide"></div>
 
     <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
-    <div class="card p-5 mb-6">
+    <div class="card p-4 mb-6">
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">🏋️‍♂️ Дневник Тренировки</h3>
-            <span id="exercise-count" class="text-xs" style="color: #C6C6D0; opacity: 0.5;">0/30</span>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-white">🏋️‍♂️ Тренировочный лог</h3>
+            <span id="exercise-count" class="text-xs font-mono text-slate-500">0/30</span>
         </div>
 
         <div class="mb-4">
-            <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Состояние на тренировке</label>
-            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full neu-input rounded-xl p-2.5 text-xs italic">
+            <label class="block text-[10px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Самочувствие на тренировке</label>
+            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full tech-input rounded-xl p-2.5 text-xs italic text-slate-300">
         </div>
         
-        <div class="grid grid-cols-12 gap-1 mb-2 px-1 text-[10px] uppercase font-semibold text-center" style="color: #C6C6D0; opacity: 0.6;">
+        <div class="grid grid-cols-12 gap-1 mb-2 px-1 text-[9px] uppercase font-bold text-center text-slate-500 tracking-wider">
             <div class="col-span-5 text-left">Упражнение</div>
             <div class="col-span-2">Подх</div>
             <div class="col-span-3">Повт/Вр</div>
             <div class="col-span-2">Вес</div>
         </div>
 
-        <div id="workout-container" class="space-y-3 mb-4"></div>
+        <div id="workout-container" class="space-y-2.5 mb-4"></div>
 
-        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-transparent border border-dashed text-slate-400 py-2.5 rounded-xl text-xs font-semibold transition cursor-pointer active:scale-98" style="border-color: #2d3a3f; color: #C6C6D0;">
-            + Добавить упражнение
+        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-[#161F25] hover:bg-[#1C2830] border border-dashed border-[#222F37] hover:border-[#9EFF00] text-slate-400 hover:text-white py-2.5 rounded-xl text-xs font-bold transition cursor-pointer active:scale-98">
+            + Добавить позицию
         </button>
     </div>
 
     <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
-    <div class="card p-5 mb-6">
+    <div class="card p-4 mb-6">
         <div class="flex justify-between items-center mb-4">
-            <h3 id="checklist-title" class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">📋 Чек-лист питания и шагов</h3>
-            <span id="day-progress" class="text-xs font-bold" style="color: #104C64;">0%</span>
+            <h3 id="checklist-title" class="text-sm font-bold uppercase tracking-wider text-white">📋 Режим дня и Питание</h3>
+            <span id="day-progress" class="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-[#9EFF00]/10 text-[#9EFF00]">0%</span>
         </div>
         
-        <div id="checklist-container" class="space-y-3 mb-4"></div>
+        <div id="checklist-container" class="space-y-2.5 mb-4"></div>
 
-        <div class="flex gap-2 mb-4 pt-3 border-t" style="border-color: #152f3b;">
-            <input type="text" id="new-task-text" placeholder="Добавить свой пункт в чек-лист..." class="flex-1 neu-input rounded-xl p-2 text-xs">
-            <button onclick="addNewCustomTask()" class="day-btn font-bold px-4 rounded-xl text-xs transition cursor-pointer active:scale-95" style="color: #D59D80;">+</button>
+        <div class="flex gap-2 mb-4 pt-3 border-t border-[#1E262C]">
+            <input type="text" id="new-task-text" placeholder="Свой пункт в протокол..." class="flex-1 tech-input rounded-xl p-2 text-xs">
+            <button onclick="addNewCustomTask()" class="bg-[#9EFF00] text-[#0A0F12] font-black px-4 rounded-xl text-sm transition cursor-pointer active:scale-95 hover:shadow-[0_0_10px_rgba(158,255,0,0.3)]">+</button>
         </div>
 
         <div>
-            <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Доп. информация по диете за сегодня</label>
-            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full neu-input rounded-xl p-2.5 text-xs resize-none"></textarea>
+            <label class="block text-[10px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Тайминги диеты / Погрешности</label>
+            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать приемы пищи или косяки..." class="w-full tech-input rounded-xl p-2.5 text-xs resize-none"></textarea>
         </div>
     </div>
 
     <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
-    <div class="card p-5">
-        <h3 class="text-sm font-bold tracking-wider mb-4 uppercase" style="color: #C6C6D0; opacity: 0.6;">💾 База данных и Экспорт</h3>
-        <div class="space-y-3">
-            <button onclick="exportTextReport()" class="w-full day-btn font-bold py-2.5 px-3 rounded-xl text-xs transition cursor-pointer" style="color: #D59D80;">
-                📋 Скачать читаемый текстовый отчет (.txt)
+    <div class="card p-4">
+        <h3 class="text-xs font-bold tracking-widest mb-4 uppercase text-slate-500">💾 Ядро управления & Экспорт</h3>
+        <div class="space-y-2.5">
+            <button onclick="exportTextReport()" class="w-full bg-[#161F25] hover:bg-[#1C2830] border border-[#222F37] text-white hover:text-[#9EFF00] font-bold py-2.5 px-3 rounded-xl text-xs transition cursor-pointer text-center">
+                📋 Скачать полный отчет (.txt)
             </button>
-            <div class="flex gap-3">
-                <button onclick="exportData()" class="flex-1 day-btn text-[11px] py-2 px-2 rounded-xl font-semibold transition cursor-pointer">📥 Бэкап (JSON)</button>
-                <button onclick="importData()" class="flex-1 day-btn text-[11px] py-2 px-2 rounded-xl font-semibold transition cursor-pointer">📤 Загрузить (JSON)</button>
+            <div class="flex gap-2">
+                <button onclick="exportData()" class="flex-1 bg-transparent border border-[#222F37] hover:border-slate-600 text-slate-400 hover:text-white text-[11px] py-2 px-2 rounded-xl font-semibold transition cursor-pointer">📥 Бэкап JSON</button>
+                <button onclick="importData()" class="flex-1 bg-transparent border border-[#222F37] hover:border-slate-600 text-slate-400 hover:text-white text-[11px] py-2 px-2 rounded-xl font-semibold transition cursor-pointer">📤 Импорт JSON</button>
             </div>
-            <button onclick="resetChecklist()" class="w-full text-red-400 text-[10px] py-2 px-3 rounded-xl transition mt-2 bg-[#050b0f]/40 active:scale-98">
-                Полный сброс текущего дня
+            <button onclick="resetChecklist()" class="w-full text-red-500/70 hover:text-red-400 text-[10px] py-2 px-3 rounded-xl transition mt-1 bg-red-950/5 active:scale-98">
+                Очистить ячейку текущего дня
             </button>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО АРХИВА И АНАЛИТИКИ ВЕСОВ -->
-    <div id="archive-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="card w-full max-w-md max-h-[88vh] flex flex-col p-5">
-            <div class="flex justify-between items-center pb-3 border-b" style="border-color: #152f3b;">
-                <h2 class="text-base font-bold uppercase" style="color: #D59D80;">Архив и Аналитика Весов</h2>
-                <button onclick="closeArchiveModal()" class="hover:text-white font-bold text-lg p-1 cursor-pointer" style="color: #C6C6D0;">✕</button>
+    <!-- МОДАЛЬНОЕ ОКНО АРХИВА -->
+    <div id="archive-modal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="card w-full max-w-md max-h-[88vh] flex flex-col p-5 bg-[#0A0F12] border-[#1E262C]">
+            <div class="flex justify-between items-center pb-3 border-b border-[#1E262C]">
+                <h2 class="text-base font-black uppercase text-white">Лог весов & Архивы</h2>
+                <button onclick="closeArchiveModal()" class="text-slate-500 hover:text-white font-bold text-lg p-1 cursor-pointer">✕</button>
             </div>
             
-            <div class="p-4 rounded-2xl mt-4 bg-[#050b0f]/20 border border-[#152f3b]/30">
-                <h3 class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #D59D80;">🏋️‍♂️ База рабочих весов</h3>
+            <div class="p-4 rounded-2xl mt-4 bg-[#11171B] border border-[#1E262C]">
+                <h3 class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #9EFF00;">🏋️‍♂️ База рабочих весов</h3>
                 <div class="flex flex-col gap-2">
-                    <label class="text-[10px]" style="color: #C6C6D0; opacity: 0.7;">Выберите упражнение из списка:</label>
-                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full neu-input rounded-xl p-2 text-xs focus:outline-none">
+                    <label class="text-[10px] text-slate-500">Выберите упражнение:</label>
+                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full tech-input rounded-xl p-2 text-xs focus:outline-none">
                     </select>
                 </div>
-                <div id="last-weight-display" class="mt-3 p-2 bg-[#050b0f]/40 rounded-xl text-center text-xs min-h-[40px] flex items-center justify-center font-medium">
-                    <span style="color: #C6C6D0; opacity: 0.5;">Выберите упражнение для просмотра веса</span>
+                <div id="last-weight-display" class="mt-3 p-3 bg-[#0A0F12] rounded-xl text-center text-xs min-h-[40px] flex items-center justify-center font-semibold border border-[#1E262C]">
+                    <span class="text-slate-600">Система ждет выбора упражнения...</span>
                 </div>
             </div>
 
-            <h3 class="text-xs font-bold uppercase mt-4 mb-2 tracking-wider" style="color: #C6C6D0; opacity: 0.6;">📋 История тренировок по датам</h3>
-            <div id="archive-content" class="overflow-y-auto flex-1 space-y-4 pr-1 text-xs" style="color: #C6C6D0;"></div>
+            <h3 class="text-xs font-bold uppercase mt-5 mb-2 tracking-wider text-slate-500">📋 Исторический стек тренировок</h3>
+            <div id="archive-content" class="overflow-y-auto flex-1 space-y-4 pr-1 text-xs text-slate-300"></div>
         </div>
     </div>
 
@@ -274,8 +287,8 @@
             for (let i = 1; i <= 28; i++) {
                 const btn = document.createElement('button');
                 btn.id = `btn-day-${i}`;
-                btn.className = `day-btn p-2 rounded-2xl flex flex-col items-center justify-center gap-0.5 cursor-pointer select-none active:scale-95`;
-                btn.innerHTML = `<span class="opacity-40 text-[9px]">Дн i</span><span class="font-bold text-white">${getDateStringForDay(i)}</span>`;
+                btn.className = `day-btn p-2.5 rounded-xl flex flex-col items-center justify-center gap-0.5 cursor-pointer font-medium active:scale-95`;
+                btn.innerHTML = `<span class="opacity-40 text-[9px] uppercase font-mono">D${i}</span><span class="font-bold text-white">${getDateStringForDay(i)}</span>`;
                 if (isDayFullyCompleted(i)) btn.classList.add('completed');
                 btn.onclick = () => {
                     selectedDay = i;
@@ -314,9 +327,7 @@
                 headerWeight.innerText = lastWeight;
             }
 
-            const target = h.caloriesTarget || '1800';
-            const fact = h.caloriesFact || '0';
-            headerCalories.innerText = `${target} / ${fact}`;
+            headerCalories.innerText = h.caloriesFact || '0';
         }
 
         function loadDay(day) {
@@ -330,7 +341,7 @@
 
             currentWeekLabel.innerText = `Неделя ${week}`;
             weekDesc.innerText = proto.desc;
-            healthTitle.innerText = `🩺 Маркеры и Активность (${getDateStringForDay(day)} — День ${day})`;
+            healthTitle.innerText = `🩺 Лог параметров (${getDateStringForDay(day)} — День ${day})`;
 
             if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
             if (!db[dayKey].health) db[dayKey].health = { weight: '', caloriesTarget: '1800', caloriesFact: '', steps: '', pulse: '', gastro: '', notes: '', workoutState: '', dietNotes: '' };
@@ -361,11 +372,11 @@
             baseTasks.forEach(task => {
                 const isChecked = checkedBase[task.id] ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-3 bg-[#0D1D25] rounded-xl border border-slate-900/60 shadow-[inset_2px_2px_5px_#050b0f,inset_-2px_-2px_5px_#152f3b]";
+                div.className = "flex items-start p-3 bg-[#0A0F12] rounded-xl border border-[#1E262C]";
                 div.innerHTML = `
                     <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}', false)" 
-                        class="w-5 h-5 rounded bg-[#0D1D25] border-none mt-0.5 cursor-pointer accent-amber-500" style="accent-color: #D59D80; box-shadow: 2px 2px 5px #050b0f, -2px -2px 5px #152f3b;">
-                    <label for="${task.id}" class="ml-3 text-sm select-none cursor-pointer leading-tight flex-1" style="color: #C6C6D0;">${task.txt}</label>
+                        class="w-5 h-5 rounded border-none mt-0.5 cursor-pointer accent-[#9EFF00]" style="accent-color: #9EFF00;">
+                    <label for="${task.id}" class="ml-3 text-sm select-none cursor-pointer leading-tight text-slate-300">${task.txt}</label>
                 `;
                 checklistContainer.appendChild(div);
             });
@@ -373,11 +384,11 @@
             customTasks.forEach((task, index) => {
                 const isChecked = task.checked ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-3 bg-[#0D1D25] rounded-xl border border-dashed border-[#D59D80]/20 shadow-[inset_2px_2px_5px_#050b0f,inset_-2px_-2px_5px_#152f3b]";
+                div.className = "flex items-start p-3 bg-[#0A0F12] rounded-xl border border-dashed border-[#9EFF00]/20";
                 div.innerHTML = `
                     <input type="checkbox" id="custom-${index}" ${isChecked} onchange="toggleTask(${index}, true)" 
-                        class="w-5 h-5 rounded bg-[#0D1D25] border-none mt-0.5 cursor-pointer accent-amber-500" style="accent-color: #D59D80; box-shadow: 2px 2px 5px #050b0f, -2px -2px 5px #152f3b;">
-                    <label for="custom-${index}" class="ml-3 text-sm select-none cursor-pointer leading-tight flex-1" style="color: #C6C6D0;">${task.txt}</label>
+                        class="w-5 h-5 rounded border-none mt-0.5 cursor-pointer accent-[#9EFF00]" style="accent-color: #9EFF00;">
+                    <label for="custom-${index}" class="ml-3 text-sm select-none cursor-pointer leading-tight flex-1 text-slate-300">${task.txt}</label>
                     <button onclick="deleteCustomTask(${index})" class="text-xs text-red-400 hover:text-red-300 ml-2 px-1 cursor-pointer">✕</button>
                 `;
                 checklistContainer.appendChild(div);
@@ -428,9 +439,9 @@
             const pulse = parseInt(document.getElementById('input-pulse').value);
             const gastro = document.getElementById('input-gastro').value.toLowerCase();
 
-            if (pulse > 75) alerts.push("⚠️ <b>Высокий пульс (" + pulse + " уд/мин):</b> Ограничь снюс/кофеин.");
+            if (pulse > 75) alerts.push("⚠️ <b>Критический пульс покоя:</b> Сигнал перегрузки ЦНС или избытка кофеина.");
             if (gastro.includes('горечь') || gastro.includes('тяжест') || gastro.includes('болит')) {
-                alerts.push("⚠️ <b>Сигнал ЖКТ:</b> Нарушение оттока желчи. Прими таурин/артишок.");
+                alerts.push("⚠️ <b>Дисфункция ЖКТ:</b> Застой желчи! Срочно добавь артишок/таурин.");
             }
 
             if (alerts.length > 0) {
@@ -495,10 +506,10 @@
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-2 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 neu-input rounded-lg p-2 text-xs">
-                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 neu-input rounded-lg p-2 text-xs text-center">
-                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 neu-input rounded-lg p-2 text-xs text-center">
-                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 neu-input rounded-lg p-2 text-xs text-center">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 tech-input rounded-xl p-2.5 text-xs">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-2.5 text-xs text-center">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center text-[#9EFF00] font-bold">
             `;
             workoutContainer.appendChild(div);
         }
@@ -518,7 +529,7 @@
         function saveDB() { localStorage.setItem('sushka_db_v10', JSON.stringify(db)); }
 
         window.resetChecklist = function() {
-            if(confirm("Полностью стереть данные за этот день?")) {
+            if(confirm("Стереть запись за этот день?")) {
                 const dayKey = `day${selectedDay}`;
                 db[dayKey] = { tasks: {}, customTasks: [], health: { caloriesTarget: '1800' }, exercises: [] };
                 saveDB();
@@ -536,7 +547,7 @@
 
         function buildExerciseSelector() {
             const selector = document.getElementById('exercise-weight-selector');
-            selector.innerHTML = '<option value="">-- Выберите из списка --</option>';
+            selector.innerHTML = '<option value="">-- Выберите упражнение --</option>';
             let allNames = new Set();
             historicalWorkouts.forEach(w => w.exercises.forEach(e => allNames.add(e.name.trim())));
             for (let i = 1; i <= 28; i++) {
@@ -557,7 +568,7 @@
             const display = document.getElementById('last-weight-display');
 
             if (!targetName) {
-                display.innerHTML = '<span style="color: #C6C6D0; opacity: 0.5;">Выберите упражнение для просмотра веса</span>';
+                display.innerHTML = '<span class="text-slate-600">Система ждет выбора упражнения...</span>';
                 return;
             }
 
@@ -583,14 +594,14 @@
 
             if (foundRecord) {
                 display.innerHTML = `
-                    <div style="color: #C6C6D0;">
-                        Крайний вес: <span style="color: #D59D80;" class="font-bold text-sm">${foundRecord.weight}</span> 
-                        <span style="opacity: 0.6;" class="text-[11px]">(${foundRecord.sets || '—'}х${foundRecord.reps || '—'})</span> 
-                        — <span style="color: #D59D80;" class="text-[11px] font-semibold">${foundRecord.date}</span>
+                    <div class="text-slate-300">
+                        Вес: <span style="color: #9EFF00;" class="font-black text-sm">${foundRecord.weight}</span> 
+                        <span class="text-slate-500 text-[11px]">(${foundRecord.sets || '—'}х${foundRecord.reps || '—'})</span> 
+                        — <span class="text-sky-400 text-[11px] font-semibold">${foundRecord.date}</span>
                     </div>
                 `;
             } else {
-                display.innerHTML = '<span class="text-red-400">Рабочий вес не найден или не указан</span>';
+                display.innerHTML = '<span class="text-red-400 font-mono text-[11px]">NULL: ВЕС НЕ НАЙДЕН</span>';
             }
         }
 
@@ -602,30 +613,28 @@
                 const dayExs = db[dayKey]?.exercises || [];
                 if (dayExs.length > 0) {
                     const section = document.createElement('div');
-                    section.className = "p-4 rounded-2xl border bg-[#0D1D25]/40 shadow-[4px_4px_10px_#050b0f,-4px_-4px_10px_#152f3b]";
-                    section.style.borderColor = "#104C6430";
+                    section.className = "p-4 rounded-xl border bg-[#11171B] border-[#1E262C]";
                     let exLines = '';
                     dayExs.forEach((ex, idx) => {
-                        exLines += `<div class="py-1 border-b border-slate-900/30 last:border-0 pl-1">
-                            <span style="color: #D59D80;" class="font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets || '—'}х(${ex.reps || '—'}) <span style="color: #C6C6D0; opacity: 0.8;">${ex.weight || '—'}</span>
+                        exLines += `<div class="py-1 border-b border-[#222F37]/30 last:border-0 pl-1 text-slate-300">
+                            <span style="color: #9EFF00;" class="font-bold">${idx + 1}. ${ex.name}</span> — ${ex.sets || '—'}х(${ex.reps || '—'}) <span class="text-white">${ex.weight || '—'}</span>
                         </div>`;
                     });
-                    section.innerHTML = `<div class="font-bold text-sm mb-2 pb-1 border-b flex justify-between" style="color: #D59D80; border-color: #152f3b;"><span>📅 Дата: ${getDateStringForDay(i)}.2026</span><span class="text-[10px] px-1.5 rounded uppercase" style="background-color: #050b0f; color: #C6C6D0;">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
+                    section.innerHTML = `<div class="font-bold text-sm mb-2 pb-1 border-b flex justify-between border-[#1E262C]"><span style="color: #9EFF00;">📅 ${getDateStringForDay(i)}.2026</span><span class="text-[9px] px-1.5 rounded uppercase bg-sky-950 text-sky-400 tracking-wider">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
                     container.appendChild(section);
                 }
             }
 
             historicalWorkouts.forEach(workout => {
                 const section = document.createElement('div');
-                section.className = "p-4 rounded-2xl bg-[#0D1D25]/40 shadow-[4px_4px_10px_#050b0f,-4px_-4px_10px_#152f3b]";
-                section.style.borderColor = "transparent";
+                section.className = "p-4 rounded-xl bg-[#11171B] border border-[#1E262C]";
                 let exLines = '';
                 workout.exercises.forEach((ex, idx) => {
-                    exLines += `<div class="py-1 border-b border-slate-900/30 last:border-0 pl-1">
-                        <span style="color: #D59D80;" class="font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets}х(${ex.reps}) <span style="color: #C6C6D0; opacity: 0.8;">${ex.weight}</span>
+                    exLines += `<div class="py-1 border-b border-[#222F37]/30 last:border-0 pl-1 text-slate-400">
+                        <span class="text-slate-200 font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets}х(${ex.reps}) <span class="text-white">${ex.weight}</span>
                     </div>`;
                 });
-                section.innerHTML = `<div class="font-bold text-white text-sm mb-2 pb-1 border-b" style="color: #C6C6D0; border-color: #152f3b;">📅 Дата: ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
+                section.innerHTML = `<div class="font-bold text-slate-400 text-sm mb-2 pb-1 border-b border-[#1E262C]">📅 ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
                 container.appendChild(section);
             });
         }
@@ -660,7 +669,7 @@
             txt += `=========================================\n        АРХИВ ПРОШЛЫХ ТРЕНИРОВОК         \n=========================================\n\n`;
             historicalWorkouts.forEach(w => {
                 txt += `Дата: ${w.date}\n`;
-                w.exercises.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}) вес: ${w.weight}\n`; });
+                w.exercises.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}) вес: ${ex.weight}\n`; });
                 txt += `\n`;
             });
             const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
