@@ -23,6 +23,7 @@
             overflow-x: hidden;
         }
 
+        /* Ambient Background Orbs */
         body::before, body::after {
             content: '';
             position: absolute;
@@ -33,9 +34,18 @@
             z-index: -1;
             pointer-events: none;
         }
-        body::before { top: -100px; left: -100px; background: rgba(158, 255, 0, 0.15); }
-        body::after { bottom: 20%; right: -100px; background: rgba(56, 189, 248, 0.1); }
+        body::before {
+            top: -100px;
+            left: -100px;
+            background: rgba(158, 255, 0, 0.15);
+        }
+        body::after {
+            bottom: 20%;
+            right: -100px;
+            background: rgba(56, 189, 248, 0.1);
+        }
 
+        /* Стеклянная карточка */
         .glass-card { 
             background-color: var(--glass-bg); 
             backdrop-filter: blur(16px);
@@ -45,6 +55,7 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
         }
 
+        /* Кнопки дней */
         .day-btn { 
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -68,6 +79,7 @@
             background: rgba(56, 189, 248, 0.05);
         }
 
+        /* Инпуты премиум-класса */
         .tech-input {
             background: rgba(0, 0, 0, 0.3);
             color: #FFF;
@@ -80,10 +92,17 @@
             background: rgba(0, 0, 0, 0.5);
             box-shadow: inset 0 0 0 1px var(--neon), 0 0 12px rgba(158, 255, 0, 0.15);
         }
-        
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .tech-input::placeholder {
+            color: #475569;
+        }
 
+        /* Скрываем стрелочки у инпутов */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; margin: 0; 
+        }
+
+        /* Чекбоксы */
         .cyber-checkbox {
             appearance: none;
             width: 22px;
@@ -106,23 +125,46 @@
             background: var(--neon);
             box-shadow: 0 0 10px var(--neon);
         }
-        .cyber-checkbox:checked { border-color: var(--neon); }
-        .cyber-checkbox:checked::before { transform: scale(1); }
+        .cyber-checkbox:checked {
+            border-color: var(--neon);
+        }
+        .cyber-checkbox:checked::before {
+            transform: scale(1);
+        }
+
+        /* Кастомный скроллбар */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24 selection:bg-[#9EFF00] selection:text-black">
 
+    <!-- HEADER -->
     <header class="mb-8 text-center pt-4">
+        <div class="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-widest bg-[#9EFF00]/10 text-[#9EFF00] px-3 py-1 rounded-full font-bold mb-4 border border-[#9EFF00]/20 backdrop-blur-sm shadow-[0_0_10px_rgba(158,255,0,0.1)]">
+            <div class="w-1.5 h-1.5 rounded-full bg-[#9EFF00] animate-pulse"></div>
+            System Active
+        </div>
         <h1 class="text-3xl font-black tracking-tight uppercase mb-2">
             <span class="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Протокол</span>
             <span style="color: var(--neon); text-shadow: 0 0 20px rgba(158,255,0,0.3);">похудения</span>
         </h1>
+        <div class="inline-block glass-card px-4 py-2 mt-2">
+            <p class="text-[11px] text-slate-400 font-medium tracking-wide">
+                Вес: <span id="header-weight" class="text-white font-bold text-sm">—</span> <span class="text-slate-500 mr-2">кг</span>
+                Ккал: <span class="font-bold text-sm" style="color: var(--neon);">1800</span> <span class="text-slate-600 mx-1">/</span> <span id="header-calories" class="text-white font-bold text-sm">0</span>
+            </p>
+        </div>
     </header>
 
+    <!-- КНОПКА ОТКРЫТИЯ АРХИВА -->
     <button onclick="openArchiveModal()" class="w-full glass-card hover:bg-white/5 text-white font-bold py-3.5 px-4 text-xs uppercase tracking-widest flex items-center justify-center gap-2 mb-6 transition-all duration-300 cursor-pointer active:scale-[0.98] group">
         <span class="group-hover:text-[#9EFF00] transition-colors">📂 Открыть архив и базу весов</span>
     </button>
 
+    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ -->
     <div class="glass-card p-5 mb-6">
         <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
             <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Календарная сетка</h3>
@@ -130,12 +172,18 @@
         </div>
         <div id="calendar-grid" class="grid grid-cols-4 gap-2 text-center text-xs"></div>
         <div class="mt-4 p-3.5 rounded-xl tech-input bg-black/20 border-white/5 flex gap-3 items-start">
+            <span class="text-lg leading-none opacity-50">💡</span>
             <p id="week-desc" class="text-xs italic text-slate-400 leading-relaxed"></p>
         </div>
     </div>
 
+    <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
     <div class="glass-card p-5 mb-6">
-        <h3 id="health-title" class="text-sm font-bold uppercase tracking-widest text-white mb-5">🩺 Параметры</h3>
+        <div class="flex justify-between items-center mb-5">
+            <h3 id="health-title" class="text-sm font-bold uppercase tracking-widest text-white">🩺 Параметры</h3>
+            <span class="text-[8px] bg-sky-500/10 text-sky-400 border border-sky-500/20 px-2 py-1 rounded font-black tracking-widest uppercase">Live Sync</span>
+        </div>
+        
         <div class="grid grid-cols-3 gap-3 mb-4">
             <div>
                 <label class="block text-[9px] mb-1.5 text-center text-slate-400 uppercase font-semibold tracking-widest">Вес (кг)</label>
@@ -147,48 +195,121 @@
             </div>
             <div>
                 <label class="block text-[9px] mb-1.5 text-center text-slate-400 uppercase font-semibold tracking-widest">Ккал Факт</label>
-                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full tech-input rounded-xl p-3 text-sm text-center font-black" style="color: var(--neon);">
+                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full tech-input rounded-xl p-3 text-sm text-center font-black" style="color: var(--neon); background: rgba(158, 255, 0, 0.02);">
             </div>
         </div>
+
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div>
+                <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Шаги за сутки</label>
+                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15 000" class="w-full tech-input rounded-xl p-3 text-sm text-center font-bold text-sky-300">
+            </div>
+            <div>
+                <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Пульс покоя</label>
+                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full tech-input rounded-xl p-3 text-sm text-center">
+            </div>
+        </div>
+
         <div class="mb-4">
+            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Состояние ЖКТ</label>
+            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Опишите состояние..." class="w-full tech-input rounded-xl p-3 text-xs">
+        </div>
+        
+        <div class="mb-1">
             <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Менталка & Тонус</label>
             <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Как сон, общая энергия?..." class="w-full tech-input rounded-xl p-3 text-xs resize-none"></textarea>
         </div>
     </div>
 
+    <!-- БЛОК ПРЕДУПРЕЖДЕНИЙ ПО ЗДОРОВЬЮ -->
+    <div id="health-alert" class="hidden p-4 rounded-xl text-xs bg-red-950/40 border border-red-500/30 text-red-300 mb-6 glass-card tracking-wide leading-relaxed shadow-[0_0_15px_rgba(220,38,38,0.15)]"></div>
+
+    <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
     <div class="glass-card p-5 mb-6">
         <div class="flex justify-between items-center mb-5 border-b border-white/5 pb-3">
             <h3 class="text-sm font-bold uppercase tracking-widest text-white">🏋️‍♂️ Тренировка</h3>
             <span id="exercise-count" class="text-[10px] font-mono font-bold text-slate-500 bg-white/5 px-2 py-1 rounded">0/30</span>
         </div>
+
+        <div class="mb-5">
+            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Оценка сил на сессии</label>
+            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Отличный памп, слабость..." class="w-full tech-input rounded-xl p-3 text-xs italic text-slate-300">
+        </div>
+        
+        <div class="grid grid-cols-12 gap-1.5 mb-2 px-1 text-[8px] uppercase font-bold text-center text-slate-500 tracking-widest">
+            <div class="col-span-5 text-left">Упражнение</div>
+            <div class="col-span-2">Подх</div>
+            <div class="col-span-3">Повт/Вр</div>
+            <div class="col-span-2">Вес</div>
+        </div>
+
         <div id="workout-container" class="space-y-3 mb-5"></div>
+
         <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-white/5 hover:bg-white/10 border border-dashed border-white/10 hover:border-[#9EFF00]/50 text-slate-400 hover:text-white py-3.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-[0.98]">
             + Добавить упражнение
         </button>
     </div>
 
+    <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
     <div class="glass-card p-5 mb-6">
         <div class="flex justify-between items-center mb-5 border-b border-white/5 pb-3">
-            <h3 class="text-sm font-bold uppercase tracking-widest text-white">📋 Режим & Диета</h3>
-            <span id="day-progress" class="text-xs font-black tracking-widest px-2.5 py-1 rounded bg-[#9EFF00]/10 text-[#9EFF00] border border-[#9EFF00]/20">0%</span>
+            <h3 id="checklist-title" class="text-sm font-bold uppercase tracking-widest text-white">📋 Режим & Диета</h3>
+            <span id="day-progress" class="text-xs font-black tracking-widest px-2.5 py-1 rounded bg-[#9EFF00]/10 text-[#9EFF00] border border-[#9EFF00]/20 shadow-[0_0_10px_rgba(158,255,0,0.1)]">0%</span>
         </div>
+        
         <div id="checklist-container" class="space-y-3 mb-5"></div>
-        <div class="flex gap-2 pt-4 border-t border-white/5">
+
+        <div class="flex gap-2 mb-5 pt-4 border-t border-white/5">
             <input type="text" id="new-task-text" placeholder="Добавить свою задачу..." class="flex-1 tech-input rounded-xl p-3 text-xs">
-            <button onclick="addNewCustomTask()" class="bg-[#9EFF00] text-black font-black px-5 rounded-xl text-lg">+</button>
+            <button onclick="addNewCustomTask()" class="bg-[#9EFF00] text-black font-black px-5 rounded-xl text-lg transition-all duration-300 cursor-pointer active:scale-95 hover:shadow-[0_0_15px_rgba(158,255,0,0.4)]">+</button>
+        </div>
+
+        <div>
+            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Заметки по диете</label>
+            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Тайминги, читмилы, косяки..." class="w-full tech-input rounded-xl p-3 text-xs resize-none"></textarea>
         </div>
     </div>
 
+    <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
     <div class="glass-card p-5">
-        <button onclick="resetChecklist()" class="w-full text-red-400/80 hover:text-red-300 text-[10px] uppercase tracking-widest py-3 px-3 rounded-xl transition-all bg-red-900/10">
-            Сбросить день
-        </button>
+        <h3 class="text-[10px] font-bold tracking-widest mb-4 uppercase text-slate-500 text-center">Система управления</h3>
+        <div class="space-y-3">
+            <button onclick="exportTextReport()" class="w-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-white font-bold py-3 px-4 rounded-xl text-xs transition-all cursor-pointer text-center">
+                📋 Выгрузить красивый текстовый отчет
+            </button>
+            <div class="flex gap-3">
+                <button onclick="exportData()" class="flex-1 bg-black/30 hover:bg-black/50 border border-white/5 text-slate-400 hover:text-white text-[10px] uppercase tracking-wider py-2.5 px-2 rounded-xl font-bold transition-all cursor-pointer">📥 Бэкап</button>
+                <button onclick="importData()" class="flex-1 bg-black/30 hover:bg-black/50 border border-white/5 text-slate-400 hover:text-white text-[10px] uppercase tracking-wider py-2.5 px-2 rounded-xl font-bold transition-all cursor-pointer">📤 Импорт</button>
+            </div>
+            <button onclick="resetChecklist()" class="w-full text-red-400/80 hover:text-red-300 text-[10px] uppercase tracking-widest py-3 px-3 rounded-xl transition-all mt-2 bg-red-900/10 hover:bg-red-900/20 active:scale-98">
+                ⚠️ Сбросить текущий день
+            </button>
+        </div>
     </div>
 
+    <!-- МОДАЛЬНОЕ ОКНО АРХИВА -->
     <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
+        <!-- Blur Backdrop -->
         <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeArchiveModal()"></div>
-        <div class="glass-card w-full max-w-md max-h-[85vh] flex flex-col p-6 relative z-10">
-            <h2 class="text-sm font-black uppercase text-white tracking-widest mb-4">Архив</h2>
+        
+        <div class="glass-card w-full max-w-md max-h-[85vh] flex flex-col p-6 relative z-10 shadow-2xl border-white/10">
+            <div class="flex justify-between items-center pb-4 border-b border-white/5">
+                <h2 class="text-sm font-black uppercase text-white tracking-widest">База данных & Архив</h2>
+                <button onclick="closeArchiveModal()" class="text-slate-500 hover:text-white font-bold text-xl p-1 leading-none cursor-pointer transition-colors">✕</button>
+            </div>
+            
+            <div class="p-4 rounded-2xl mt-5 bg-black/30 border border-white/5">
+                <h3 class="text-[10px] font-bold uppercase mb-3 tracking-widest" style="color: var(--neon);">🏋️‍♂️ Поиск рабочих весов</h3>
+                <div class="flex flex-col gap-2">
+                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full tech-input rounded-xl p-3 text-xs focus:outline-none appearance-none cursor-pointer">
+                    </select>
+                </div>
+                <div id="last-weight-display" class="mt-3 p-4 bg-black/40 rounded-xl text-center text-xs min-h-[50px] flex items-center justify-center font-semibold border border-white/5">
+                    <span class="text-slate-600">Ожидание запроса...</span>
+                </div>
+            </div>
+
+            <h3 class="text-[10px] font-bold uppercase mt-6 mb-3 tracking-widest text-slate-500">📋 Исторический лог</h3>
             <div id="archive-content" class="overflow-y-auto flex-1 space-y-4 pr-2 text-xs text-slate-300"></div>
         </div>
     </div>
@@ -197,51 +318,476 @@
         const startDate = new Date(2026, 6, 20); 
         const DB_KEY = 'sushka_db_v11'; 
 
+        function getDateStringForDay(dayIndex) {
+            const currentDayDate = new Date(startDate);
+            currentDayDate.setDate(startDate.getDate() + (dayIndex - 1));
+            const d = String(currentDayDate.getDate()).padStart(2, '0');
+            const m = String(currentDayDate.getMonth() + 1).padStart(2, '0');
+            return `${d}.${m}`;
+        }
+
+        const weekProtocols = {
+            1: { desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Лимит жиров 40-50г.", tasks: [ { id: "cal", txt: "Уложиться в целевую калорийность" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "carb", txt: "Углеводы: 60-80 г (возле тренировки)" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] },
+            2: { desc: "Неделя 2 — Углубление дефицита. Контроль нагрузок и электролитов.", tasks: [ { id: "cal", txt: "Уложиться в целевую калорийность" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "cardio", txt: "Активность: 40 мин LISS + шаги" } ] },
+            3: { desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г.", tasks: [ { id: "cal", txt: "Уложиться в целевую калорийность" }, { id: "prot", txt: "Белок: держать максимум" }, { id: "fat", txt: "Жиры: жестко 40 г" }, { id: "cardio", txt: "Активность: 40 мин LISS + шаги" } ] },
+            4: { desc: "Неделя 4 — Выход. Постепенное завершение цикла сушки.", tasks: [ { id: "cal", txt: "Уложиться в целевую калорийность" }, { id: "prot", txt: "Белок: 220 г" }, { id: "fat", txt: "Жиры: 40-50 г" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] }
+        };
+
+        const historicalWorkouts = [
+            { date: "18.07.2026", exercises: [ { name: "Пресс скручивания", sets: "3", reps: "1 мин", weight: "10 кг" }, { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг (без скамьи)" }, { name: "Выпады со ступеньки", sets: "3", reps: "24", weight: "—" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57; 66 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "62.5 кг" } ] },
+            { date: "15.07.2026", exercises: [ { name: "Пресс скручивания лежа с поднятием одной ноги", sets: "3", reps: "20; 15; 12", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "43 кг" }, { name: "Подтягивания с зеленой резинкой", sets: "3", reps: "5; 4; 3", weight: "—" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Бицепс в кроссовере прямая рукоять", sets: "3", reps: "10", weight: "19.8; 18.1 кг" }, { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "15 кг" } ] },
+            { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступенькой", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15 кг" } ] },
+            { date: "09.07.2026", exercises: [ { name: "Пресс скручивание с поднятием ноги", sets: "2", reps: "12; 11", weight: "—" }, { name: "Вращение блина", sets: "2", reps: "60 сек", weight: "10 кг" }, { name: "Подтягивания с резинкой", sets: "3", reps: "5", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "10; 12", weight: "36 кг" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Сгибание голени", sets: "3", reps: "15; 12", weight: "61; 70 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Трицепс в кроссовере е", sets: "3", reps: "12", weight: "14.7; 16.4 кг" }, { name: "Вращение блина", sets: "3", reps: "1 минута", weight: "15 кг" } ] },
+            { date: "06.07.2026", exercises: [ { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" }, { name: "Приведение в кроссовере стоя на грудь", sets: "3", reps: "12, 10, 9", weight: "8; 6.8 кг" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5; 65; 62.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50; 57 кг" }, { name: "Французский жим", sets: "3", reps: "10", weight: "20; 15 кг" }, { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6 кг" } ] },
+            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15 кг" } ] },
+            { date: "01.07.2026", exercises: [ { name: "Пресс вращение блина", sets: "3", reps: "60сек", weight: "10кг" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Приведение плеча", sets: "3", reps: "12", weight: "5,7" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "52" }, { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10,2; 9.1; 8; 6,8" } ] },
+            { date: "24.06.2026", exercises: [ { name: "Пресс", sets: "3", reps: "20,10, 10", weight: "—" }, { name: "Тяга штанги в приседа", sets: "3", reps: "10", weight: "40, 45" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "45" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "12", weight: "8; 6,8; 5,7" } ] },
+            { date: "22.06.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "6", weight: "5.7" }, { name: "Жим лежа", sets: "3", reps: "10, 7, 7", weight: "50" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "52" }, { name: "Вертикальная тяга", sets: "3", reps: "1", weight: "—" }, { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2" }, { name: "Разгибание предплечья с канатом", sets: "—", reps: "—", weight: "—" } ] },
+            { date: "10.06.2026", exercises: [ { name: "Сгибание голени", sets: "3", reps: "15", weight: "45,52" }, { name: "Гиберэкстензия", sets: "3", reps: "12", weight: "—" }, { name: "Приседания под трек", sets: "—", reps: "—", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "50;55;57,5;60" }, { name: "Фронтальная тяга", sets: "4", reps: "12", weight: "50" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
+            { date: "08.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Подтягивания", sets: "3", reps: "5;4;3", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36" } ] },
+            { date: "02.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8" }, { name: "Жим лежа", sets: "3", reps: "10;6", weight: "45;50" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "45кг" }, { name: "Разгибание голени", sets: "3", reps: "6;10", weight: "39, 35" }, { name: "Разведение плеча в дапе", sets: "3", reps: "10 на руку", weight: "2,6 кг" }, { name: "Борцовские вращения", sets: "—", reps: "1 мин", weight: "5кг 10 кг" } ] },
+            { date: "29.05.2026", exercises: [ { name: "Пресс на брусьях", sets: "3", reps: "15", weight: "соб вес" }, { name: "Фронтальная тяга стоя", sets: "3", reps: "15", weight: "с резинками" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "10", weight: "блин 15 / резинки" }, { name: "Выпады", sets: "3", reps: "10", weight: "15кг" }, { name: "Отжимания", sets: "2", reps: "9, 5", weight: "—" } ] },
+            { date: "28.05.2026", exercises: [ { name: "Пресс вращение туловищем", sets: "—", reps: "—", weight: "10 кг" }, { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" }, { name: "Вертикальная тагя", sets: "3", reps: "10", weight: "36" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "32,39,45" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "42,5" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "15", weight: "блин 10кг / 14,7" } ] },
+            { date: "26.05.2026", exercises: [ { name: "Боковая планка + Поворот корпуса", sets: "3", reps: "30 с / 30", weight: "10кг" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "39" }, { name: "Выпады", sets: "3", reps: "20", weight: "5кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "43" }, { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "36" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
+            { date: "22.05.2026", exercises: [ { name: "Пресс боковая планка", sets: "3", reps: "30 сек", weight: "—" }, { name: "Приведение плеча стоя", sets: "2", reps: "10", weight: "8, 5,7, 4,5" }, { name: "Жим лежа", sets: "4", reps: "10,9,8,8", weight: "40, 35" }, { name: "Подтягивания", sets: "3", reps: "4;3", weight: "с резинкой" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "10", weight: "30" }, { name: "Приседания с блином", sets: "3", reps: "10", weight: "10кг" }, { name: "Борцовские вращения", sets: "—", reps: "40 с раб", weight: "10кг, 20кг" } ] },
+            { date: "18.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "32;39;39" }, { name: "Выпады", sets: "2", reps: "20", weight: "5; соб. Вес" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "40" }, { name: "Вертикальная тяга", sets: "3", reps: "15;10;12", weight: "30" }, { name: "Трицепс с прямой рукоятью", sets: "3", reps: "12;10;10", weight: "13, 14, 13" }, { name: "Борцовское вращение", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] },
+            { date: "16.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8; 6.8, 5.7" }, { name: "Жим лежа", sets: "3", reps: "10;8;7", weight: "40;" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "32; 25; 32" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "15", weight: "30" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "30, 23" }, { name: "Борцовское вращение блина", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] }
+        ];
+
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
         let db = JSON.parse(localStorage.getItem(DB_KEY)) || {};
+
+        const calendarGrid = document.getElementById('calendar-grid');
+        const currentWeekLabel = document.getElementById('current-week-label');
+        const weekDesc = document.getElementById('week-desc');
+        const checklistContainer = document.getElementById('checklist-container');
+        const healthTitle = document.getElementById('health-title');
+        const dayProgressLabel = document.getElementById('day-progress');
+        const headerWeight = document.getElementById('header-weight');
+        const headerCalories = document.getElementById('header-calories');
+        const workoutContainer = document.getElementById('workout-container');
+        const exerciseCountLabel = document.getElementById('exercise-count');
+
+        buildCalendar();
+        loadDay(selectedDay);
 
         function buildCalendar() {
             calendarGrid.innerHTML = '';
             for (let i = 1; i <= 28; i++) {
                 const btn = document.createElement('button');
-                btn.className = `day-btn p-3 rounded-2xl flex flex-col items-center justify-center gap-1 cursor-pointer font-medium ${i === selectedDay ? 'active' : ''}`;
-                btn.innerHTML = `<span class="opacity-50 text-[9px] uppercase font-mono">D${i}</span><span class="font-bold text-sm">${getDateStringForDay(i)}</span>`;
-                btn.onclick = () => { selectedDay = i; localStorage.setItem('sushka_selected_day', i); loadDay(i); };
+                btn.id = `btn-day-${i}`;
+                btn.className = `day-btn p-3 rounded-2xl flex flex-col items-center justify-center gap-1 cursor-pointer font-medium`;
+                btn.innerHTML = `<span class="opacity-50 text-[9px] uppercase font-mono tracking-wider">Day ${i}</span><span class="font-bold text-sm leading-none">${getDateStringForDay(i)}</span>`;
+                if (isDayFullyCompleted(i)) btn.classList.add('completed');
+                btn.onclick = () => {
+                    selectedDay = i;
+                    localStorage.setItem('sushka_selected_day', selectedDay);
+                    loadDay(i);
+                };
                 calendarGrid.appendChild(btn);
             }
         }
 
-        function loadDay(day) {
-            const week = Math.ceil(day / 7);
-            document.querySelectorAll('.day-btn').forEach((b, i) => b.className = `day-btn p-3 rounded-2xl flex flex-col items-center justify-center gap-1 cursor-pointer font-medium ${i+1 === day ? 'active' : ''}`);
-            document.getElementById('current-week-label').innerText = `Неделя ${week}`;
-            if (!db[`day${day}`]) db[`day${day}`] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
-            const h = db[`day${day}`].health;
-            document.getElementById('input-weight').value = h.weight || '';
-            document.getElementById('input-calories-fact').value = h.caloriesFact || '';
-            document.getElementById('input-notes').value = h.notes || '';
-            updateHeaderData();
+        function getWeekFromDay(day) { return Math.ceil(day / 7); }
+
+        function isDayFullyCompleted(day) {
+            const dayKey = `day${day}`;
+            const week = getWeekFromDay(day);
+            const totalBaseTasks = weekProtocols[week].tasks.length;
+            if (!db[dayKey] || !db[dayKey].tasks) return false;
+            const customTasksCount = db[dayKey].customTasks ? db[dayKey].customTasks.length : 0;
+            const totalRequired = totalBaseTasks + customTasksCount;
+            const checkedBaseCount = Object.values(db[dayKey].tasks).filter(Boolean).length;
+            const checkedCustomCount = db[dayKey].customTasks ? db[dayKey].customTasks.filter(t => t.checked).length : 0;
+            return (checkedBaseCount + checkedCustomCount) === totalRequired;
         }
 
-        function autoSaveDayData() {
+        function updateHeaderData() {
             const dayKey = `day${selectedDay}`;
+            const h = db[dayKey]?.health || {};
+            
+            if (h.weight) { 
+                headerWeight.innerText = h.weight; 
+            } else {
+                let lastWeight = '—';
+                for (let i = selectedDay - 1; i >= 1; i--) {
+                    if (db[`day${i}`]?.health?.weight) { lastWeight = db[`day${i}`].health.weight; break; }
+                }
+                headerWeight.innerText = lastWeight;
+            }
+
+            headerCalories.innerText = h.caloriesFact || '0';
+        }
+
+        function loadDay(day) {
+            const week = getWeekFromDay(day);
+            const proto = weekProtocols[week];
+            const dayKey = `day${day}`;
+
+            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById(`btn-day-${day}`);
+            if (activeBtn) activeBtn.classList.add('active');
+
+            currentWeekLabel.innerText = `Неделя ${week}`;
+            weekDesc.innerHTML = `<span class="text-white font-medium mr-1">Фокус недели:</span> ${proto.desc}`;
+            healthTitle.innerText = `🩺 Параметры (${getDateStringForDay(day)})`;
+
+            if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
+            if (!db[dayKey].health) db[dayKey].health = { weight: '', caloriesTarget: '1800', caloriesFact: '', steps: '', pulse: '', gastro: '', notes: '', workoutState: '', dietNotes: '' };
+            if (!db[dayKey].customTasks) db[dayKey].customTasks = [];
+            if (!db[dayKey].exercises) db[dayKey].exercises = [];
+
+            const h = db[dayKey].health;
+
+            document.getElementById('input-weight').value = h.weight || '';
+            document.getElementById('input-calories-target').value = h.caloriesTarget || '1800';
+            document.getElementById('input-calories-fact').value = h.caloriesFact || '';
+            document.getElementById('input-steps').value = h.steps || '';
+            document.getElementById('input-pulse').value = h.pulse || '';
+            document.getElementById('input-gastro').value = h.gastro || '';
+            document.getElementById('input-notes').value = h.notes || '';
+            document.getElementById('input-workout-state').value = h.workoutState || '';
+            document.getElementById('input-diet-notes').value = h.dietNotes || '';
+
+            renderChecklist(proto.tasks, db[dayKey].tasks, db[dayKey].customTasks);
+            renderWorkoutFields(db[dayKey].exercises);
+            updateHeaderData();
+            updateProgress();
+            checkLiveAlerts();
+        }
+
+        function renderChecklist(baseTasks, checkedBase, customTasks) {
+            checklistContainer.innerHTML = '';
+            baseTasks.forEach(task => {
+                const isChecked = checkedBase[task.id] ? 'checked' : '';
+                const div = document.createElement('div');
+                div.className = "flex items-start p-3.5 bg-black/20 rounded-xl border border-white/5 transition-colors hover:bg-black/30";
+                div.innerHTML = `
+                    <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}', false)" class="cyber-checkbox mt-0.5">
+                    <label for="${task.id}" class="ml-4 text-sm select-none cursor-pointer leading-tight text-slate-300 font-medium pt-0.5">${task.txt}</label>
+                `;
+                checklistContainer.appendChild(div);
+            });
+
+            customTasks.forEach((task, index) => {
+                const isChecked = task.checked ? 'checked' : '';
+                const div = document.createElement('div');
+                div.className = "flex items-start p-3.5 bg-black/20 rounded-xl border border-dashed border-white/10 hover:border-white/20 transition-colors";
+                div.innerHTML = `
+                    <input type="checkbox" id="custom-${index}" ${isChecked} onchange="toggleTask(${index}, true)" class="cyber-checkbox mt-0.5">
+                    <label for="custom-${index}" class="ml-4 text-sm select-none cursor-pointer leading-tight flex-1 text-slate-300 font-medium pt-0.5">${task.txt}</label>
+                    <button onclick="deleteCustomTask(${index})" class="text-xs text-slate-500 hover:text-red-400 ml-2 px-2 py-1 rounded bg-white/5 hover:bg-red-500/10 transition-colors cursor-pointer">✕</button>
+                `;
+                checklistContainer.appendChild(div);
+            });
+        }
+
+        window.autoSaveDayData = function() {
+            const dayKey = `day${selectedDay}`;
+            if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
+
             db[dayKey].health = {
                 weight: document.getElementById('input-weight').value,
-                caloriesFact: document.getElementById('input-calories-fact').value,
-                notes: document.getElementById('input-notes').value
+                caloriesTarget: document.getElementById('input-calories-target').value || '1800',
+                caloriesFact: document.getElementById('input-calories-fact').value || '0',
+                steps: document.getElementById('input-steps').value,
+                pulse: document.getElementById('input-pulse').value,
+                gastro: document.getElementById('input-gastro').value,
+                notes: document.getElementById('input-notes').value,
+                workoutState: document.getElementById('input-workout-state').value,
+                dietNotes: document.getElementById('input-diet-notes').value
             };
-            localStorage.setItem(DB_KEY, JSON.stringify(db));
+
+            const rows = workoutContainer.getElementsByClassName('exercise-row');
+            const savedExercises = [];
+            for (let row of rows) {
+                const name = row.querySelector('.ex-name').value.trim();
+                const sets = row.querySelector('.ex-sets').value;
+                const reps = row.querySelector('.ex-reps').value.trim();
+                const weightEx = row.querySelector('.ex-weight').value.trim();
+                if (name !== '' || sets !== '' || reps !== '' || weightEx !== '') {
+                    savedExercises.push({ name, sets, reps, weight: weightEx });
+                }
+            }
+            db[dayKey].exercises = savedExercises;
+
+            saveDB();
             updateHeaderData();
+            checkLiveAlerts();
+            
+            const btn = document.getElementById(`btn-day-${selectedDay}`);
+            if (isDayFullyCompleted(selectedDay)) btn.classList.add('completed');
+            else btn.classList.remove('completed');
         }
 
-        function getDateStringForDay(d) { return new Date(startDate.getTime() + (d-1)*86400000).toLocaleDateString('ru-RU', {day:'2-digit', month:'2-digit'}); }
-        function updateHeaderData() { 
-            document.getElementById('header-weight').innerText = db[`day${selectedDay}`].health.weight || '—';
-            document.getElementById('header-calories').innerText = db[`day${selectedDay}`].health.caloriesFact || '0';
+        function checkLiveAlerts() {
+            const alertDiv = document.getElementById('health-alert');
+            let alerts = [];
+            const pulse = parseInt(document.getElementById('input-pulse').value);
+            const gastro = document.getElementById('input-gastro').value.toLowerCase();
+
+            if (pulse > 75) alerts.push("⚠️ <strong class='text-red-400'>Пульс покоя завышен:</strong> Возможна перегрузка ЦНС. Снизьте количество кофеина.");
+            if (gastro.includes('горечь') || gastro.includes('тяжест') || gastro.includes('болит')) {
+                alerts.push("⚠️ <strong class='text-red-400'>Дисфункция ЖКТ:</strong> Застой желчи. Рекомендован прием артишока или таурина.");
+            }
+
+            if (alerts.length > 0) {
+                alertDiv.innerHTML = alerts.join('<br class="my-3">');
+                alertDiv.classList.remove('hidden');
+            } else {
+                alertDiv.classList.add('hidden');
+            }
         }
-        function openArchiveModal() { document.getElementById('archive-modal').classList.remove('hidden'); }
-        function closeArchiveModal() { document.getElementById('archive-modal').classList.add('hidden'); }
-        buildCalendar();
+
+        window.addNewCustomTask = function() {
+            const input = document.getElementById('new-task-text');
+            const txt = input.value.trim();
+            if (!txt) return;
+            const dayKey = `day${selectedDay}`;
+            db[dayKey].customTasks.push({ txt, checked: false });
+            saveDB();
+            input.value = '';
+            loadDay(selectedDay);
+        }
+
+        window.deleteCustomTask = function(index) {
+            const dayKey = `day${selectedDay}`;
+            db[dayKey].customTasks.splice(index, 1);
+            saveDB();
+            loadDay(selectedDay);
+        }
+
+        window.toggleTask = function(id, isCustom) {
+            const dayKey = `day${selectedDay}`;
+            if (isCustom) db[dayKey].customTasks[id].checked = document.getElementById(`custom-${id}`).checked;
+            else db[dayKey].tasks[id] = document.getElementById(id).checked;
+            saveDB();
+            updateProgress();
+            buildCalendar();
+            loadDay(selectedDay);
+        }
+
+        function updateProgress() {
+            const week = getWeekFromDay(selectedDay);
+            const baseTasksCount = weekProtocols[week].tasks.length;
+            const dayKey = `day${selectedDay}`;
+            const customTasksCount = db[dayKey]?.customTasks ? db[dayKey].customTasks.length : 0;
+            const total = baseTasksCount + customTasksCount;
+            const checkedBase = Object.values(db[dayKey]?.tasks || {}).filter(Boolean).length;
+            const checkedCustom = db[dayKey]?.customTasks ? db[dayKey].customTasks.filter(t => t.checked).length : 0;
+            const percent = total > 0 ? Math.round(((checkedBase + checkedCustom) / total) * 100) : 0;
+            dayProgressLabel.innerText = `${percent}%`;
+        }
+
+        function renderWorkoutFields(exercisesArr) {
+            workoutContainer.innerHTML = '';
+            const fieldsCount = Math.max(2, exercisesArr.length);
+            for (let i = 0; i < fieldsCount; i++) {
+                const ex = exercisesArr[i] || { name: '', sets: '', reps: '', weight: '' };
+                createExerciseRow(i, ex);
+            }
+            updateExerciseCountLabel();
+        }
+
+        function createExerciseRow(index, ex) {
+            const div = document.createElement('div');
+            div.className = "grid grid-cols-12 gap-2 items-center exercise-row";
+            div.innerHTML = `
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 tech-input rounded-xl p-3 text-xs anonymity-ex-name">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-3 text-xs text-center ex-sets">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-3 text-xs text-center ex-reps">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-3 text-xs text-center text-[#9EFF00] font-bold ex-weight bg-black/40">
+            `;
+            // Подключение правильного класса для сохранения данных
+            div.querySelector('.anonymity-ex-name').className = "col-span-5 tech-input rounded-xl p-3 text-xs ex-name";
+            workoutContainer.appendChild(div);
+        }
+
+        function addExerciseField() {
+            const currentRows = workoutContainer.getElementsByClassName('exercise-row').length;
+            if (currentRows >= 30) return alert("Максимум 30 упражнений!");
+            createExerciseRow(currentRows, { name: '', sets: '', reps: '', weight: '' });
+            updateExerciseCountLabel();
+        }
+
+        function updateExerciseCountLabel() {
+            const currentRows = workoutContainer.getElementsByClassName('exercise-row').length;
+            exerciseCountLabel.innerText = `${currentRows}/30`;
+        }
+
+        function saveDB() { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+
+        window.resetChecklist = function() {
+            if(confirm("Вы уверены, что хотите полностью стереть данные за этот день?")) {
+                const dayKey = `day${selectedDay}`;
+                db[dayKey] = { tasks: {}, customTasks: [], health: { caloriesTarget: '1800' }, exercises: [] };
+                saveDB();
+                buildCalendar();
+                loadDay(selectedDay);
+            }
+        }
+
+        window.openArchiveModal = function() { 
+            document.getElementById('archive-modal').classList.remove('hidden'); 
+            buildExerciseSelector(); 
+            generateArchiveDOM();
+        }
+        window.closeArchiveModal = function() { document.getElementById('archive-modal').classList.add('hidden'); }
+
+        function buildExerciseSelector() {
+            const selector = document.getElementById('exercise-weight-selector');
+            selector.innerHTML = '<option value="">-- Выберите упражнение --</option>';
+            let allNames = new Set();
+            historicalWorkouts.forEach(w => w.exercises.forEach(e => allNames.add(e.name.trim())));
+            for (let i = 1; i <= 28; i++) {
+                const dayExs = db[`day${i}`]?.exercises || [];
+                dayExs.forEach(e => { if(e.name.trim()) allNames.add(e.name.trim()); });
+            }
+            const sortedNames = Array.from(allNames).sort((a, b) => a.localeCompare(b));
+            sortedNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                selector.appendChild(opt);
+            });
+        }
+
+        window.displayLastWorkingWeight = function() {
+            const targetName = document.getElementById('exercise-weight-selector').value;
+            const display = document.getElementById('last-weight-display');
+
+            if (!targetName) {
+                display.innerHTML = '<span class="text-slate-500">Система ждет выбора упражнения...</span>';
+                return;
+            }
+
+            let foundRecord = null;
+            for (let i = 28; i >= 1; i--) {
+                const dayExs = db[`day${i}`]?.exercises || [];
+                const match = dayExs.find(e => e.name.trim() === targetName);
+                if (match && match.weight) {
+                    foundRecord = { date: getDateStringForDay(i) + '.2026', weight: match.weight, reps: match.reps, sets: match.sets };
+                    break;
+                }
+            }
+
+            if (!foundRecord) {
+                for (let w of historicalWorkouts) {
+                    const match = w.exercises.find(e => e.name.trim() === targetName);
+                    if (match && match.weight && match.weight !== '—') {
+                        foundRecord = { date: w.date, weight: match.weight, reps: match.reps, sets: match.sets };
+                        break;
+                    }
+                }
+            }
+
+            if (foundRecord) {
+                display.innerHTML = `
+                    <div class="text-slate-300">
+                        Рабочий вес: <span style="color: var(--neon); text-shadow: 0 0 10px rgba(158,255,0,0.3);" class="font-black text-lg ml-1 mr-2">${foundRecord.weight}</span> 
+                        <span class="text-slate-500 text-xs font-medium">(${foundRecord.sets || '—'}х${foundRecord.reps || '—'})</span> 
+                        <div class="text-sky-400 text-[10px] font-semibold tracking-widest mt-1">ЗАПИСАНО: ${foundRecord.date}</div>
+                    </div>
+                `;
+            } else {
+                display.innerHTML = '<span class="text-red-400 font-mono text-xs tracking-widest bg-red-900/20 px-3 py-1 rounded">NULL: ВЕС НЕ НАЙДЕН</span>';
+            }
+        }
+
+        function generateArchiveDOM() {
+            const container = document.getElementById('archive-content');
+            container.innerHTML = '';
+            for (let i = 28; i >= 1; i--) {
+                const dayKey = `day${i}`;
+                const dayExs = db[dayKey]?.exercises || [];
+                if (dayExs.length > 0) {
+                    const section = document.createElement('div');
+                    section.className = "p-4 rounded-xl bg-black/30 border border-white/5";
+                    let exLines = '';
+                    dayExs.forEach((ex, idx) => {
+                        exLines += `<div class="py-1.5 border-b border-white/5 last:border-0 pl-1 text-slate-300 flex justify-between">
+                            <span><span style="color: var(--neon);" class="font-bold mr-1">${idx + 1}.</span> ${ex.name} <span class="text-slate-500 text-[10px] ml-1">${ex.sets || '—'}х${ex.reps || '—'}</span></span>
+                            <span class="font-bold text-white">${ex.weight || '—'}</span>
+                        </div>`;
+                    });
+                    section.innerHTML = `<div class="font-bold text-xs mb-3 pb-2 border-b flex justify-between border-white/10 tracking-widest"><span style="color: var(--neon);">📅 ${getDateStringForDay(i)}.2026</span><span class="text-[9px] px-2 py-0.5 rounded uppercase bg-sky-500/10 text-sky-400">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
+                    container.appendChild(section);
+                }
+            }
+
+            historicalWorkouts.forEach(workout => {
+                const section = document.createElement('div');
+                section.className = "p-4 rounded-xl bg-black/20 border border-white/5";
+                let exLines = '';
+                workout.exercises.forEach((ex, idx) => {
+                    exLines += `<div class="py-1.5 border-b border-white/5 last:border-0 pl-1 text-slate-400 flex justify-between">
+                        <span><span class="text-slate-500 font-bold mr-1">${idx + 1}.</span> ${ex.name} <span class="text-slate-600 text-[10px] ml-1">${ex.sets}х${ex.reps}</span></span>
+                        <span class="font-semibold text-slate-300">${ex.weight}</span>
+                    </div>`;
+                });
+                section.innerHTML = `<div class="font-bold text-slate-500 text-[11px] tracking-widest mb-3 pb-2 border-b border-white/5">📅 ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
+                container.appendChild(section);
+            });
+        }
+
+        window.exportTextReport = function() {
+            let txt = `=========================================\n  ОТЧЕТ ПО ПРОТОКОЛУ ПОХУДЕНИЯ (28 ДНЕЙ) \n=========================================\n\n`;
+            for (let i = 1; i <= 28; i++) {
+                const dayKey = `day${i}`;
+                if (db[dayKey]) {
+                    const h = db[dayKey].health || {};
+                    const exs = db[dayKey].exercises || [];
+                    const customs = db[dayKey].customTasks || [];
+                    if (h.weight || h.steps || h.pulse || h.notes || h.caloriesFact || exs.length > 0 || customs.length > 0) {
+                        txt += `ДЕНЬ ${i} (${getDateStringForDay(i)}) [Неделя ${getWeekFromDay(i)}]\n-----------------------------------------\n`;
+                        txt += `• Калории (План/Факт): ${h.caloriesTarget || '1800'} / ${h.caloriesFact || '0'} ккал\n`;
+                        txt += `• Вес тела: ${h.weight || '—'} кг\n• Шаги: ${h.steps || '—'}\n• Пульс в покое: ${h.pulse || '—'} уд/мин\n• Состояние ЖКТ: ${h.gastro || 'Не указано'}\n`;
+                        if(h.notes) txt += `• Заметки по состоянию: ${h.notes}\n`;
+                        if(h.dietNotes) txt += `• Инфо по Диете: ${h.dietNotes}\n`;
+                        if(customs.length > 0) {
+                            txt += `• Свои задачи в чек-листе:\n`;
+                            customs.forEach(c => txt += `  [${c.checked ? '✕' : ' '}] ${c.txt}\n`);
+                        }
+                        if(h.workoutState) txt += `• Самочувствие на тренировке: ${h.workoutState}\n`;
+                        if (exs.length > 0) {
+                            txt += `• Выполненные упражнения:\n`;
+                            exs.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}), вес: ${ex.weight || '—'} кг\n`; });
+                        }
+                        txt += `\n`;
+                    }
+                }
+            }
+            txt += `=========================================\n        АРХИВ ПРОШЛЫХ ТРЕНИРОВОК         \n=========================================\n\n`;
+            historicalWorkouts.forEach(w => {
+                txt += `Дата: ${w.date}\n`;
+                w.exercises.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}) вес: ${ex.weight}\n`; });
+                txt += `\n`;
+            });
+            const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Sushka_Progress_Report.txt";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.exportData = function() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `sushka_db_v11_backup.json`);
+            downloadAnchor.click();
+        }
+
+        window.importData = function() {
+            const jsonStr = prompt("Вставь JSON данные из файла бэкапа:");
+            if (!jsonStr) return;
+            try {
+                const parsed = JSON.parse(jsonStr);
+                if (typeof parsed === 'object') { db = parsed; saveDB(); buildCalendar(); loadDay(selectedDay); alert("Бэкап успешно загружен!"); }
+            } catch (e) { alert("Ошибка чтения файла."); }
+        }
     </script>
 </body>
 </html>
