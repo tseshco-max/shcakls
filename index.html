@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ЦЕШКА ХУДЕЕТ</title>
-    <link rel="icon" href="https://fav.farm/⚡" />
+    <title>Сушка 100кг | Календарный Трекер</title>
+    <link rel="icon" href="https://fav.farm/🏋️‍♂️" />
+    <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
@@ -16,25 +17,28 @@
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
 
+    <!-- HEADER -->
     <header class="mb-4 text-center">
-        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase">ЦЕШКА ХУДЕЕТ</h1>
+        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase">Протокол Сушки</h1>
         <p class="text-xs text-slate-400 mt-1">
             Вес: <span id="header-weight" class="text-white font-bold">100</span> кг | 
             Ккал (План/Факт): <span id="header-calories" class="text-amber-400 font-bold">1660 / 0</span>
         </p>
     </header>
 
+    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ (28 ДНЕЙ С ДАТАМИ) -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-2">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Календарь сушки</h3>
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Календарь (Старт: 20.07.2026)</h3>
             <span id="current-week-label" class="text-xs text-amber-400 font-semibold">Неделя 1</span>
         </div>
-        <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 text-center text-xs"></div>
+        <div id="calendar-grid" class="grid grid-cols-4 gap-2 text-center text-xs"></div>
         <p id="week-desc" class="text-xs text-slate-400 mt-3 italic bg-slate-800/50 p-2 rounded-lg border border-slate-700/30"></p>
     </div>
 
+    <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
     <div class="card rounded-2xl p-4 mb-4">
-        <h3 id="health-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">🩺 Маркеры и Активность (День 1)</h3>
+        <h3 id="health-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider mb-3">🩺 Маркеры и Активность</h3>
         
         <div class="grid grid-cols-3 gap-2 mb-3">
             <div>
@@ -63,8 +67,8 @@
         </div>
 
         <div class="mb-3">
-            <label class="block text-xs text-slate-400 mb-1">Состояние ЖКТ / Желчный</label>
-            <input type="text" id="input-gastro" placeholder="Тяжесть, горечь, вздутие, или всё ок..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
+            <label class="block text-xs text-slate-400 mb-1">Состояние ЖКТ</label>
+            <input type="text" id="input-gastro" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
         </div>
         
         <div class="mb-1">
@@ -73,6 +77,7 @@
         </div>
     </div>
 
+    <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
             <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wider">🏋️‍♂️ Дневник Тренировки</h3>
@@ -80,8 +85,8 @@
         </div>
 
         <div class="mb-4">
-            <label class="block text-[11px] text-slate-400 mb-1">Состояние на тренировке (силы, памп, выносливость)</label>
-            <input type="text" id="input-workout-state" placeholder="Пример: Силы упали на 10%, дикий тупняк, но памп хороший" class="w-full bg-slate-800 border border-sky-500/30 rounded-lg p-2 text-white text-xs italic">
+            <label class="block text-[11px] text-slate-400 mb-1">Состояние на тренировке</label>
+            <input type="text" id="input-workout-state" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-slate-800 border border-sky-500/30 rounded-lg p-2 text-white text-xs italic">
         </div>
         
         <div class="grid grid-cols-12 gap-1 mb-1 px-1 text-[10px] text-slate-400 uppercase font-semibold text-center">
@@ -98,9 +103,10 @@
         </button>
     </div>
 
+    <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
-            <h3 id="checklist-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">📋 Чек-лист диеты и БАДов</h3>
+            <h3 id="checklist-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">📋 Чек-лист питания и шагов</h3>
             <span id="day-progress" class="text-xs text-slate-400">0%</span>
         </div>
         
@@ -112,16 +118,18 @@
         </div>
 
         <div>
-            <label class="block text-[11px] text-slate-400 mb-1">Доп. информация по диете / БАДам за сегодня</label>
-            <textarea id="input-diet-notes" rows="2" placeholder="Записать тайминги приёма, бренды добавок или погрешности в еде..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none"></textarea>
+            <label class="block text-[11px] text-slate-400 mb-1">Доп. информация по диете за сегодня</label>
+            <textarea id="input-diet-notes" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none"></textarea>
         </div>
     </div>
 
+    <!-- КНОПКА ГЛОБАЛЬНОГО СОХРАНЕНИЯ -->
     <button onclick="saveAllDayData()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold py-3.5 rounded-2xl text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/10 mb-4">
         💾 Сохранить весь день и проверить маркеры
     </button>
     <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4"></div>
 
+    <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
     <div class="card rounded-2xl p-4">
         <h3 class="text-sm font-bold text-slate-400 tracking-wider mb-3 uppercase">💾 Управление базой и Экспорт</h3>
         <div class="space-y-2">
@@ -139,74 +147,59 @@
     </div>
 
     <script>
+        const startDate = new Date(2026, 6, 20); // 20 июля 2026
+
+        // Хелпер получения даты для i-го дня (1-28)
+        function getDateStringForDay(dayIndex) {
+            const currentDayDate = new Date(startDate);
+            currentDayDate.setDate(startDate.getDate() + (dayIndex - 1));
+            const d = String(currentDayDate.getDate()).padStart(2, '0');
+            const m = String(currentDayDate.getMonth() + 1).padStart(2, '0');
+            return `${d}.${m}`;
+        }
+
         const weekProtocols = {
             1: {
-                desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Слив воды травами. Контроль жиров 40-50г.",
+                desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Лимит жиров 40-50г.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220–250 г" },
                     { id: "fat", txt: "Жиры: строго 40-50 г" },
                     { id: "carb", txt: "Углеводы: 60-80 г (вокруг тренировки)" },
-                    { id: "creat", txt: "Креатин: 5 г" },
-                    { id: "omega", txt: "Омега-3: 2 г" },
-                    { id: "bile", txt: "Желчь: Таурин + Экстракт артишока" },
-                    { id: "diur", txt: "Диуретик: Травяной чай до 16:00" },
-                    { id: "snus", txt: "Снюс: макс 1-2 порции до 14:00" },
-                    { id: "cardio", txt: "Активность: 30 мин LISS + шаги" },
-                    { id: "magnesium", txt: "Сон: Магний глицинат 400 мг до сна" }
+                    { id: "cardio", txt: "Активность: 30 мин LISS + шаги" }
                 ]
             },
             2: {
-                desc: "Неделя 2 — Торасемид. Фарма-диуретики (Вт, Чт, Пт). Жесткий контроль электролитов.",
+                desc: "Неделя 2 — Углубление дефицита. Контроль нагрузок и электролитов.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220–250 г" },
-                    { id: "fat", txt: "Жиры: 40-50 г" },
-                    { id: "creat", txt: "Креатин: 5 г" },
-                    { id: "omega", txt: "Омега-3: 2 г" },
-                    { id: "bile", txt: "Желчь: Таурин + Артишок" },
-                    { id: "diur", txt: "Диуретик (Вт, Чт, Пт): Торасемид 5 мг или Индапамид 1.5 мг" },
-                    { id: "potassium", txt: "Электролиты: Добавить Калий в дни приема фармы" },
-                    { id: "snus", txt: "Снюс: строго до обеда" },
-                    { id: "cardio", txt: "Активность: 40 мин LISS + шаги" },
-                    { id: "magnesium", txt: "Сон: Магний глицинат 400 мг" }
+                    { id: "fat", txt: "Жиры: строго 40-50 г" },
+                    { id: "cardio", txt: "Активность: 40 мин LISS + шаги" }
                 ]
             },
             3: {
-                desc: "Неделя 3 — Хардкор Фуросемид. Пик сушки. Фуросемид (Пн, Ср) натощак. Максимальный контроль судорог!",
+                desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г. Защита мышц максимальным белком.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: держать максимум" },
                     { id: "fat", txt: "Жиры: жестко 40 г" },
-                    { id: "creat", txt: "Креатин: 5 г" },
-                    { id: "omega", txt: "Омега-3: 2 г" },
-                    { id: "diur", txt: "Диуретик (Пн, Ср): Фуросемид 20 мг утром натощак" },
-                    { id: "pot_strong", txt: "КРИТИЧНО: Аптечный калий (К-норма)" },
-                    { id: "bile", txt: "Желчь: Таурин + Аллохол" },
-                    { id: "snus", txt: "Снюс: макс 1 порция утром" },
-                    { id: "cardio", txt: "Активность: 40 мин LISS + шаги" },
-                    { id: "magnesium", txt: "Сон: Магний 400 мг" }
+                    { id: "cardio", txt: "Активность: 40 мин LISS + шаги" }
                 ]
             },
             4: {
-                desc: "Неделя 4 — Выход. Восстановление баланса жидкости. Индапамид (Вт, Пт). Плавное завершение.",
+                desc: "Неделя 4 — Выход. Постепенное завершение цикла сушки.",
                 tasks: [
                     { id: "cal", txt: "Калории: уложиться в лимит дня" },
                     { id: "prot", txt: "Белок: 220 г" },
                     { id: "fat", txt: "Жиры: 40-50 г" },
-                    { id: "creat", txt: "Креатин: 5 г" },
-                    { id: "diur", txt: "Диуретик (Вт, Пт): Индапамид 1.5 мг" },
-                    { id: "potassium", txt: "Электролиты: Калий цитрат 1-2 г" },
-                    { id: "bile", txt: "Желчь: Таурин" },
-                    { id: "snus", txt: "Снюс: 1-2 порции, не позже 14:00" },
-                    { id: "cardio", txt: "Активность: 30 мин LISS + шаги" },
-                    { id: "magnesium", txt: "Сон: Магний глицинат" }
+                    { id: "cardio", txt: "Активность: 30 мин LISS + шаги" }
                 ]
             }
         };
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
-        let db = JSON.parse(localStorage.getItem('sushka_db_v6')) || {};
+        let db = JSON.parse(localStorage.getItem('sushka_db_v8')) || {};
 
         const calendarGrid = document.getElementById('calendar-grid');
         const currentWeekLabel = document.getElementById('current-week-label');
@@ -227,8 +220,11 @@
             for (let i = 1; i <= 28; i++) {
                 const btn = document.createElement('button');
                 btn.id = `btn-day-${i}`;
-                btn.className = `day-btn p-2 rounded-lg font-medium text-slate-200 focus:outline-none`;
-                btn.innerText = i;
+                btn.className = `day-btn p-2 rounded-xl text-[11px] font-medium text-slate-200 focus:outline-none flex flex-col items-center justify-center gap-0.5`;
+                
+                // Выводим "Дн X" и реальную календарную дату
+                btn.innerHTML = `<span class="opacity-50 text-[9px]">Дн ${i}</span><span class="font-bold text-white">${getDateStringForDay(i)}</span>`;
+                
                 if (isDayFullyCompleted(i)) btn.classList.add('completed');
                 btn.onclick = () => {
                     selectedDay = i;
@@ -260,7 +256,6 @@
             const dayKey = `day${selectedDay}`;
             const h = db[dayKey]?.health || {};
             
-            // Расчет веса
             if (h.weight) { headerWeight.innerText = h.weight; } else {
                 let lastWeight = 100;
                 for (let i = selectedDay; i >= 1; i--) {
@@ -269,7 +264,6 @@
                 headerWeight.innerText = lastWeight;
             }
 
-            // Расчет калорий в шапке
             const target = h.caloriesTarget || '1660';
             const fact = h.caloriesFact || '0';
             headerCalories.innerText = `${target} / ${fact}`;
@@ -286,9 +280,8 @@
 
             currentWeekLabel.innerText = `Неделя ${week}`;
             weekDesc.innerText = proto.desc;
-            healthTitle.innerText = `🩺 Маркеры и Активность (День ${day})`;
+            healthTitle.innerText = `🩺 Маркеры и Активность (${getDateStringForDay(day)} — День ${day})`;
 
-            // Инициализация структуры
             if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
             if (!db[dayKey].health) db[dayKey].health = { weight: '', caloriesTarget: '1660', caloriesFact: '', steps: '', pulse: '', gastro: '', notes: '', workoutState: '', dietNotes: '' };
             if (!db[dayKey].customTasks) db[dayKey].customTasks = [];
@@ -296,7 +289,6 @@
 
             const h = db[dayKey].health;
 
-            // Заполнение инпутов здоровья
             document.getElementById('input-weight').value = h.weight || '';
             document.getElementById('input-calories-target').value = h.caloriesTarget || '1660';
             document.getElementById('input-calories-fact').value = h.caloriesFact || '';
@@ -308,7 +300,6 @@
             document.getElementById('input-diet-notes').value = h.dietNotes || '';
             document.getElementById('health-alert').classList.add('hidden');
 
-            // Рендер чек-листа (Базовые + Кастомные)
             renderChecklist(proto.tasks, db[dayKey].tasks, db[dayKey].customTasks);
             renderWorkoutFields(db[dayKey].exercises);
             updateHeaderData();
@@ -318,7 +309,6 @@
         function renderChecklist(baseTasks, checkedBase, customTasks) {
             checklistContainer.innerHTML = '';
             
-            // 1. Базовые пункты недели
             baseTasks.forEach(task => {
                 const isChecked = checkedBase[task.id] ? 'checked' : '';
                 const div = document.createElement('div');
@@ -331,7 +321,6 @@
                 checklistContainer.appendChild(div);
             });
 
-            // 2. Кастомные добавленные пункты
             customTasks.forEach((task, index) => {
                 const isChecked = task.checked ? 'checked' : '';
                 const div = document.createElement('div');
@@ -376,8 +365,8 @@
             updateProgress();
             
             const btn = document.getElementById(`btn-day-${selectedDay}`);
-            if (isDayFullyCompleted(selectedDay)) btn.classList.add('completed');
-            else btn.classList.remove('completed');
+            buildCalendar(); // Пересобираем для обновления рамок дат
+            loadDay(selectedDay);
         }
 
         function updateProgress() {
@@ -433,7 +422,6 @@
         window.saveAllDayData = function() {
             const dayKey = `day${selectedDay}`;
             
-            // Сбор здоровья и текстовых заметок
             db[dayKey].health = {
                 weight: document.getElementById('input-weight').value,
                 caloriesTarget: document.getElementById('input-calories-target').value || '1660',
@@ -446,7 +434,6 @@
                 dietNotes: document.getElementById('input-diet-notes').value
             };
 
-            // Сбор тренировки
             const rows = workoutContainer.getElementsByClassName('exercise-row');
             const savedExercises = [];
             for (let row of rows) {
@@ -460,30 +447,25 @@
 
             saveDB();
             updateHeaderData();
+            buildCalendar(); // Обновляем рамки завершенности в сетке календаря
 
-            // Проверка алертов здоровья
             const alertDiv = document.getElementById('health-alert');
             let alerts = [];
             const pulseNum = parseInt(db[dayKey].health.pulse);
 
-            if (pulseNum > 75) alerts.push("⚠️ <b>Высокий пульс:</b> Ограничь снюс/кофеин.");
+            if (pulseNum > 75) alerts.push("⚠️ <b>Высокий пульс:</b> Обрати внимание на интенсивность кардио и восстановление.");
             
-            const gastroText = db[dayKey].health.gastro.toLowerCase();
-            if (gastroText.includes('горечь') || gastroText.includes('тяжест') || gastroText.includes('болит')) {
-                alerts.push("⚠️ <b>Сигнал ЖКТ:</b> Застой желчи при низком жире! Прими таурин/артишок.");
-            }
-
             alertDiv.classList.remove('hidden');
             if (alerts.length > 0) {
                 alertDiv.innerHTML = alerts.join('<br class="my-2">');
                 alertDiv.className = "p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4";
             } else {
-                alertDiv.innerHTML = "✅ Данные успешно зафиксированы в базе!";
+                alertDiv.innerHTML = "✅ Данные успешно сохранены!";
                 alertDiv.className = "p-3 rounded-xl text-xs bg-emerald-900/40 border border-emerald-700 text-emerald-200 mb-4";
             }
         }
 
-        function saveDB() { localStorage.setItem('sushka_db_v6', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('sushka_db_v8', JSON.stringify(db)); }
 
         window.resetChecklist = function() {
             if(confirm("Полностью стереть данные за этот день?")) {
@@ -497,7 +479,7 @@
 
         window.exportTextReport = function() {
             let txt = `=========================================\n`;
-            txt += `    РАСШИРЕННЫЙ ОТЧЕТ ПО СУШКЕ (28 ДНЕЙ) \n`;
+            txt += `    ОТЧЕТ ПО ПРОТОКОЛУ СУШКИ (28 ДНЕЙ)   \n`;
             txt += `=========================================\n\n`;
 
             for (let i = 1; i <= 28; i++) {
@@ -508,7 +490,7 @@
                     const customs = db[dayKey].customTasks || [];
                     
                     if (h.weight || h.steps || h.pulse || h.notes || h.caloriesFact || exs.length > 0 || customs.length > 0) {
-                        txt += `ДЕНЬ ${i} [Неделя ${getWeekFromDay(i)}]\n`;
+                        txt += `ДЕНЬ ${i} (${getDateStringForDay(i)}) [Неделя ${getWeekFromDay(i)}]\n`;
                         txt += `-----------------------------------------\n`;
                         txt += `• Калории (План/Факт): ${h.caloriesTarget || '1660'} / ${h.caloriesFact || '0'} ккал\n`;
                         txt += `• Вес тела: ${h.weight || '—'} кг\n`;
@@ -516,7 +498,7 @@
                         txt += `• Пульс в покое: ${h.pulse || '—'} уд/мин\n`;
                         txt += `• Состояние ЖКТ: ${h.gastro || 'Не указано'}\n`;
                         if(h.notes) txt += `• Заметки по состоянию: ${h.notes}\n`;
-                        if(h.dietNotes) txt += `• Инфо по БАДам/Диете: ${h.dietNotes}\n`;
+                        if(h.dietNotes) txt += `• Инфо по Диете: ${h.dietNotes}\n`;
                         
                         if(customs.length > 0) {
                             txt += `• Свои задачи в чек-листе:\n`;
@@ -538,7 +520,7 @@
             const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "Sushka_Extended_Report.txt";
+            link.download = "Sushka_Progress_Report_Dates.txt";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -548,7 +530,7 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `sushka_db_v6_backup.json`);
+            downloadAnchor.setAttribute("download", `sushka_db_v8_backup.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
