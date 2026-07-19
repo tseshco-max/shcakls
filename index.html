@@ -8,99 +8,145 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        body { background-color: #0D1D25; color: #C6C6D0; font-family: system-ui, -apple-system, sans-serif; }
-        .card { background-color: #1e2528; border: 1px solid #2d3a3f; }
-        .day-btn { background-color: #243339; color: #C6C6D0; transition: all 0.2s; }
-        .day-btn.active { background-color: #D59D80; color: #0D1D25; font-weight: bold; }
-        .day-btn.completed { border: 2px solid #104C64; }
+        body { 
+            background: radial-gradient(circle at center, #1b2e37 0%, #0D1D25 100%); 
+            color: #C6C6D0; 
+            font-family: 'Georgia', 'Times New Roman', serif; 
+        }
+        .card { 
+            background-color: #162226; 
+            border: 1px solid #c0754d40; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(192, 117, 77, 0.1);
+            border-radius: 1.5rem;
+            position: relative;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid #c0754d15;
+            border-radius: 1.3rem;
+            pointer-events: none;
+        }
+        .day-btn { 
+            background-color: #121f24; 
+            color: #C6C6D0; 
+            border: 1px solid #2d3a3f;
+            border-radius: 1rem 0.25rem 1rem 0.25rem;
+            transition: all 0.3s ease; 
+        }
+        .day-btn:hover {
+            border-color: #D59D80;
+        }
+        .day-btn.active { 
+            background: linear-gradient(135deg, #D59D80 0%, #b6410f 100%);
+            color: #0D1D25; 
+            font-weight: bold; 
+            border-color: #D59D80;
+            box-shadow: 0 0 10px rgba(213, 157, 128, 0.4);
+        }
+        .day-btn.completed { 
+            border: 2px solid #104C64; 
+            background-color: #0d1a1e;
+        }
+        input, textarea, select {
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .classic-decor {
+            font-family: 'Georgia', serif;
+            color: #c0754d;
+            opacity: 0.6;
+        }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
 
     <!-- HEADER -->
-    <header class="mb-4 text-center">
-        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase" style="color: #D59D80;">Протокол похудения</h1>
-        <p class="text-xs text-slate-400 mt-1" style="color: #C6C6D0; opacity: 0.7;">
+    <header class="mb-6 text-center relative pt-4">
+        <div class="classic-decor text-lg mb-1">⚜ ⚜ ⚜</div>
+        <h1 class="text-3xl font-normal tracking-wide italic" style="color: #D59D80; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">Протокол похудения</h1>
+        <div class="w-32 h-[1px] bg-gradient-to-r from-transparent via(#c0754d) to-transparent mx-auto my-2" style="background-color: #c0754d60;"></div>
+        <p class="text-xs mt-1 font-sans uppercase tracking-widest" style="color: #C6C6D0; opacity: 0.7;">
             Текущий вес: <span id="header-weight" class="text-white font-bold" style="color: #C6C6D0;">-</span> кг | 
-            Ккал (План/Факт): <span id="header-calories" class="font-bold" style="color: #D59D80;">1800 / 0</span>
+            Ккал: <span id="header-calories" class="font-bold" style="color: #D59D80;">1800 / 0</span>
         </p>
     </header>
 
     <!-- КНОПКА ОТКРЫТИЯ АРХИВА ПРОШЛЫХ ТРЕНИРОВОК -->
-    <button onclick="openArchiveModal()" class="w-full text-white font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition mb-4 shadow-md flex items-center justify-center gap-2" style="background-color: #104C64;">
-        📂 Просмотреть архив и рабочие веса
+    <button onclick="openArchiveModal()" class="w-full text-white font-medium py-3 px-4 rounded-xl text-xs uppercase tracking-widest transition mb-4 shadow-md flex items-center justify-center gap-2 border border(#c0754d30)" style="background: linear-gradient(135deg, #104C64 0%, #092c3a 100%); border-color: #104C6470;">
+        📂 Архив и рабочие веса
     </button>
 
-    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ (28 ДНЕЙ С ДАТАМИ) -->
-    <div class="card rounded-2xl p-4 mb-4">
-        <div class="flex justify-between items-center mb-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.8;">Календарь (Старт: 20.07.2026)</h3>
-            <span id="current-week-label" class="text-xs font-semibold" style="color: #D59D80;">Неделя 1</span>
+    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ -->
+    <div class="card p-4 mb-4">
+        <div class="flex justify-between items-center mb-3 px-1">
+            <h3 class="text-xs font-semibold uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.8;">Календарь старта</h3>
+            <span id="current-week-label" class="text-xs italic font-bold" style="color: #D59D80;">Неделя 1</span>
         </div>
         <div id="calendar-grid" class="grid grid-cols-4 gap-2 text-center text-xs"></div>
-        <p id="week-desc" class="text-xs mt-3 italic bg-slate-900/40 p-2 rounded-lg border border-slate-800/30" style="color: #C6C6D0; opacity: 0.9;"></p>
+        <p id="week-desc" class="text-xs mt-4 italic p-2.5 rounded-lg border border-slate-800/60 bg-black/20" style="color: #C6C6D0; opacity: 0.85; line-height: 1.4;"></p>
     </div>
 
     <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
-    <div class="card rounded-2xl p-4 mb-4">
-        <div class="flex justify-between items-center mb-3">
-            <h3 id="health-title" class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">🩺 Маркеры и Активность</h3>
-            <span class="text-[10px] bg-slate-900 text-emerald-400 border border-slate-800 px-2 py-0.5 rounded-md font-semibold animate-pulse" style="color: #D59D80; border-color: #D59D80;">Автосохранение</span>
+    <div class="card p-4 mb-4">
+        <div class="flex justify-between items-center mb-4 px-1">
+            <h3 id="health-title" class="text-base font-normal italic tracking-wide" style="color: #D59D80;">🩺 Маркеры и Активность</h3>
+            <span class="text-[9px] uppercase tracking-widest bg-black/40 text-emerald-400 border px-2 py-0.5 rounded-md font-sans font-semibold animate-pulse" style="color: #D59D80; border-color: #c0754d40;">Auto</span>
         </div>
         
-        <div class="grid grid-cols-3 gap-2 mb-3">
+        <div class="grid grid-cols-3 gap-2 mb-4">
             <div>
-                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Вес тела (кг)</label>
-                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs text-center font-bold" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <label class="block text-[10px] mb-1 text-center uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Вес (кг)</label>
+                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full bg-black/40 border rounded-lg p-2 text-white text-xs text-center font-bold" style="color: #C6C6D0; border-color: #2d3a3f;">
             </div>
             <div>
-                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Ккал (План)</label>
-                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-slate-300 text-xs text-center font-semibold" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <label class="block text-[10px] mb-1 text-center uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">План Ккал</label>
+                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full bg-black/40 border rounded-lg p-2 text-slate-300 text-xs text-center font-semibold" style="color: #C6C6D0; border-color: #2d3a3f;">
             </div>
             <div>
-                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Ккал (Факт)</label>
-                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full bg-slate-900/60 rounded-lg p-2 text-xs text-center font-bold" style="color: #D59D80; border: 1px solid #D59D80;">
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-3 mb-3">
-            <div>
-                <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Шаги за день</label>
-                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-xs text-center font-bold" style="color: #C6C6D0; border-color: #2d3a3f;">
-            </div>
-            <div>
-                <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Пульс в покое</label>
-                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <label class="block text-[10px] mb-1 text-center uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Факт Ккал</label>
+                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full bg-black/40 rounded-lg p-2 text-xs text-center font-bold" style="color: #D59D80; border: 1px solid #D59D80;">
             </div>
         </div>
 
-        <div class="mb-3">
-            <label class="block text-xs mb-1" style="color: #C6C6D0; opacity: 0.7;">Состояние ЖКТ</label>
-            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
+        <div class="grid grid-cols-2 gap-3 mb-4">
+            <div>
+                <label class="block text-[10px] mb-1 uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Шаги за день</label>
+                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full bg-black/40 border rounded-lg p-2 text-xs text-center font-bold" style="color: #C6C6D0; border-color: #2d3a3f;">
+            </div>
+            <div>
+                <label class="block text-[10px] mb-1 uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Пульс в покое</label>
+                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full bg-black/40 border rounded-lg p-2 text-white text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-[11px] mb-1 uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Состояние ЖКТ</label>
+            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-black/40 border rounded-lg p-2 text-white text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
         </div>
         
         <div class="mb-1">
-            <label class="block text-xs mb-1" style="color: #C6C6D0; opacity: 0.7;">Общее состояние / Заметки по дню</label>
-            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none" style="color: #C6C6D0; border-color: #2d3a3f;"></textarea>
+            <label class="block text-[11px] mb-1 uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Общие заметки по дню</label>
+            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-black/40 border rounded-lg p-2 text-white text-xs resize-none" style="color: #C6C6D0; border-color: #2d3a3f; font-family: system-ui, sans-serif;"></textarea>
         </div>
     </div>
 
     <!-- БЛОК ПРЕДУПРЕЖДЕНИЙ ПО ЗДОРОВЬЮ -->
-    <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4"></div>
+    <div id="health-alert" class="hidden p-3 rounded-xl text-xs bg-red-950/40 border border-red-900/60 text-red-200 mb-4 font-sans"></div>
 
     <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
-    <div class="card rounded-2xl p-4 mb-4">
+    <div class="card p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
-            <h3 class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">🏋️‍♂️ Дневник Тренировки</h3>
-            <span id="exercise-count" class="text-xs" style="color: #C6C6D0; opacity: 0.5;">0/30</span>
+            <h3 class="text-base font-normal italic tracking-wide" style="color: #D59D80;">🏋️‍♂️ Дневник Тренировки</h3>
+            <span id="exercise-count" class="text-xs font-sans" style="color: #C6C6D0; opacity: 0.5;">0/30</span>
         </div>
 
         <div class="mb-4">
-            <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Состояние на тренировке</label>
-            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-slate-900/60 border rounded-lg p-2 text-white text-xs italic" style="color: #C6C6D0; border-color: #2d3a3f;">
+            <label class="block text-[11px] mb-1 uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Самочувствие на нагрузках</label>
+            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-black/40 border rounded-lg p-2 text-white text-xs italic" style="color: #C6C6D0; border-color: #2d3a3f;">
         </div>
         
-        <div class="grid grid-cols-12 gap-1 mb-1 px-1 text-[10px] uppercase font-semibold text-center" style="color: #C6C6D0; opacity: 0.6;">
+        <div class="grid grid-cols-12 gap-1 mb-2 px-1 text-[9px] uppercase font-semibold text-center tracking-wider" style="color: #C6C6D0; opacity: 0.5;">
             <div class="col-span-5 text-left">Упражнение</div>
             <div class="col-span-2">Подх</div>
             <div class="col-span-3">Повт/Вр</div>
@@ -109,41 +155,41 @@
 
         <div id="workout-container" class="space-y-2 mb-3"></div>
 
-        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-slate-900/40 hover:bg-slate-900/80 border border-dashed text-slate-300 py-2 rounded-xl text-xs font-semibold transition mb-2" style="border-color: #2d3a3f; color: #C6C6D0;">
-            + Добавить упражнение
+        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-black/20 hover:bg-black/50 border border-dashed text-slate-300 py-2 rounded-xl text-xs font-semibold transition mb-2" style="border-color: #c0754d40; color: #C6C6D0;">
+            + Добавить строку упражнения
         </button>
     </div>
 
     <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
-    <div class="card rounded-2xl p-4 mb-4">
+    <div class="card p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
-            <h3 id="checklist-title" class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">📋 Чек-лист питания и шагов</h3>
-            <span id="day-progress" class="text-xs" style="color: #C6C6D0; opacity: 0.6;">0%</span>
+            <h3 id="checklist-title" class="text-base font-normal italic tracking-wide" style="color: #D59D80;">📋 Правила дня и Шаги</h3>
+            <span id="day-progress" class="text-xs font-sans" style="color: #C6C6D0; opacity: 0.6;">0%</span>
         </div>
         
         <div id="checklist-container" class="space-y-2.5 mb-4"></div>
 
-        <div class="flex gap-1.5 mb-4 pt-2 border-t border-slate-700/50" style="border-color: #2d3a3f;">
-            <input type="text" id="new-task-text" placeholder="Добавить свой пункт в чек-лист..." class="flex-1 bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-white text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
-            <button onclick="addNewCustomTask()" class="text-slate-950 font-bold px-3 rounded-lg text-xs transition" style="background-color: #D59D80; color: #0D1D25;">+</button>
+        <div class="flex gap-1.5 mb-4 pt-3 border-t" style="border-color: #2d3a3f;">
+            <input type="text" id="new-task-text" placeholder="Добавить свой пункт в чек-лист..." class="flex-1 bg-black/40 border border-slate-700 rounded-lg p-2 text-white text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
+            <button onclick="addNewCustomTask()" class="text-slate-950 font-bold px-4 rounded-lg text-xs transition" style="background-color: #D59D80; color: #0D1D25;">+</button>
         </div>
 
         <div>
-            <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Доп. информация по диете за сегодня</label>
-            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none" style="color: #C6C6D0; border-color: #2d3a3f;"></textarea>
+            <label class="block text-[11px] mb-1 uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.6;">Доп. информация по диете</label>
+            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-black/40 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none" style="color: #C6C6D0; border-color: #2d3a3f; font-family: system-ui, sans-serif;"></textarea>
         </div>
     </div>
 
     <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
-    <div class="card rounded-2xl p-4">
-        <h3 class="text-sm font-bold tracking-wider mb-3 uppercase" style="color: #C6C6D0; opacity: 0.6;">💾 Управление базой и Экспорт</h3>
-        <div class="space-y-2">
-            <button onclick="exportTextReport()" class="w-full text-white text-xs py-2.5 px-3 rounded-xl font-bold transition" style="background-color: #104C64;">
-                📋 Скачать читаемый текстовый отчет (.txt)
+    <div class="card p-4">
+        <h3 class="text-xs font-semibold tracking-widest mb-3 uppercase" style="color: #C6C6D0; opacity: 0.6;">💾 База данных и экспорт</h3>
+        <div class="space-y-2 font-sans">
+            <button onclick="exportTextReport()" class="w-full text-white text-xs py-2.5 px-3 rounded-xl font-bold tracking-wider transition" style="background-color: #104C64;">
+                📋 Скачать читаемый отчет (.txt)
             </button>
             <div class="flex gap-2">
-                <button onclick="exportData()" class="flex-1 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition" style="border-color: #2d3a3f;">📥 Бэкап (JSON)</button>
-                <button onclick="importData()" class="flex-1 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition" style="border-color: #2d3a3f;">📤 Загрузить (JSON)</button>
+                <button onclick="exportData()" class="flex-1 bg-black/30 border hover:bg-black/60 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition" style="border-color: #2d3a3f;">📥 Бэкап JSON</button>
+                <button onclick="importData()" class="flex-1 bg-black/30 border hover:bg-black/60 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition" style="border-color: #2d3a3f;">📤 Импорт JSON</button>
             </div>
             <button onclick="resetChecklist()" class="w-full bg-red-950/20 hover:bg-red-950/50 text-red-300 text-[10px] py-1.5 px-3 rounded-lg border border-red-900/30 transition">
                 Полный сброс текущего дня
@@ -152,26 +198,26 @@
     </div>
 
     <!-- МОДАЛЬНОЕ ОКНО АРХИВА И АНАЛИТИКИ ВЕСОВ -->
-    <div id="archive-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="border w-full max-w-md max-h-[88vh] rounded-2xl flex flex-col p-4 shadow-2xl" style="background-color: #0D1D25; border-color: #2d3a3f;">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-800" style="border-color: #2d3a3f;">
-                <h2 class="text-base font-bold uppercase" style="color: #D59D80;">Архив и Аналитика Весов</h2>
+    <div id="archive-modal" class="hidden fixed inset-0 bg-slate-950/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="border w-full max-w-md max-h-[88vh] rounded-2xl flex flex-col p-4 shadow-2xl relative" style="background-color: #0D1D25; border-color: #c0754d50;">
+            <div class="flex justify-between items-center pb-3 border-b" style="border-color: #2d3a3f;">
+                <h2 class="text-lg font-normal italic" style="color: #D59D80;">Архив и Аналитика Весов</h2>
                 <button onclick="closeArchiveModal()" class="hover:text-white font-bold text-lg p-1" style="color: #C6C6D0;">✕</button>
             </div>
             
-            <div class="p-3 rounded-xl mt-3" style="background-color: #1e2528; border: 1px solid #2d3a3f;">
+            <div class="p-3 rounded-xl mt-3" style="background-color: #162226; border: 1px solid #c0754d30;">
                 <h3 class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #D59D80;">🏋️‍♂️ База рабочих весов</h3>
                 <div class="flex flex-col gap-2">
                     <label class="text-[10px]" style="color: #C6C6D0; opacity: 0.7;">Выберите упражнение из списка:</label>
-                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full bg-slate-900 border rounded-lg p-2 text-white text-xs focus:outline-none" style="border-color: #2d3a3f; color: #C6C6D0;">
+                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full bg-black/50 border rounded-lg p-2 text-white text-xs focus:outline-none" style="border-color: #2d3a3f; color: #C6C6D0;">
                     </select>
                 </div>
-                <div id="last-weight-display" class="mt-2.5 p-2 bg-slate-950/60 rounded-lg text-center text-xs min-h-[36px] flex items-center justify-center font-medium" style="border: 1px solid #2d3a3f;">
+                <div id="last-weight-display" class="mt-2.5 p-2 bg-black/40 rounded-lg text-center text-xs min-h-[36px] flex items-center justify-center font-medium font-sans" style="border: 1px solid #2d3a3f;">
                     <span style="color: #C6C6D0; opacity: 0.5;">Выберите упражнение для просмотра веса</span>
                 </div>
             </div>
 
-            <h3 class="text-xs font-bold uppercase mt-4 mb-2 tracking-wider" style="color: #C6C6D0; opacity: 0.6;">📋 История тренировок по датам</h3>
+            <h3 class="text-xs font-bold uppercase mt-4 mb-2 tracking-wider px-1" style="color: #C6C6D0; opacity: 0.6;">📋 История тренировок по датам</h3>
             <div id="archive-content" class="overflow-y-auto flex-1 space-y-3 pr-1 text-xs" style="color: #C6C6D0;"></div>
         </div>
     </div>
@@ -188,7 +234,7 @@
         }
 
         const weekProtocols = {
-            1: { desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Лимит жиров 40-50г.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "carb", txt: "Углеводы: 60-80 г (вокруг тренировки)" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] },
+            1: { desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Лимит жиров 40-50г.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "carb", txt: "Углеводы: 60-80 г" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] },
             2: { desc: "Неделя 2 — Углубление дефицита. Контроль нагрузок и электролитов.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "cardio", txt: "Активность: 40 мин LISS + шаги" } ] },
             3: { desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: держать максимум" }, { id: "fat", txt: "Жиры: жестко 40 г" }, { id: "cardio", txt: "Активность: 40 мин LISS + шаги" } ] },
             4: { desc: "Неделя 4 — Выход. Постепенное завершение цикла сушки.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220 г" }, { id: "fat", txt: "Жиры: 40-50 г" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] }
@@ -237,8 +283,8 @@
             for (let i = 1; i <= 28; i++) {
                 const btn = document.createElement('button');
                 btn.id = `btn-day-${i}`;
-                btn.className = `day-btn p-2 rounded-xl text-[11px] font-medium focus:outline-none flex flex-col items-center justify-center gap-0.5`;
-                btn.innerHTML = `<span class="opacity-50 text-[9px]">Дн ${i}</span><span class="font-bold text-white">${getDateStringForDay(i)}</span>`;
+                btn.className = `day-btn p-2 rounded-xl text-[11px] font-sans font-medium focus:outline-none flex flex-col items-center justify-center gap-0.5`;
+                btn.innerHTML = `<span class="opacity-40 text-[8px]">Дн ${i}</span><span class="font-bold text-white">${getDateStringForDay(i)}</span>`;
                 if (isDayFullyCompleted(i)) btn.classList.add('completed');
                 btn.onclick = () => {
                     selectedDay = i;
@@ -324,11 +370,11 @@
             baseTasks.forEach(task => {
                 const isChecked = checkedBase[task.id] ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-2.5 bg-slate-900/40 rounded-xl border border-slate-800/60";
+                div.className = "flex items-start p-2.5 bg-black/30 rounded-xl border border-slate-800/60";
                 div.innerHTML = `
                     <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}', false)" 
-                        class="w-5 h-5 rounded bg-slate-900 border-slate-700 mt-0.5 accent-amber-500" style="accent-color: #D59D80;">
-                    <label for="${task.id}" class="ml-3 text-sm select-none cursor-pointer leading-tight" style="color: #C6C6D0;">${task.txt}</label>
+                        class="w-5 h-5 rounded bg-slate-900 border-slate-700 mt-0.5" style="accent-color: #D59D80;">
+                    <label for="${task.id}" class="ml-3 text-sm select-none cursor-pointer leading-tight font-sans" style="color: #C6C6D0; font-size: 13px;">${task.txt}</label>
                 `;
                 checklistContainer.appendChild(div);
             });
@@ -336,13 +382,13 @@
             customTasks.forEach((task, index) => {
                 const isChecked = task.checked ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-2.5 bg-slate-900/40 rounded-xl border";
-                div.style.borderColor = "#D59D8030";
+                div.className = "flex items-start p-2.5 bg-black/30 rounded-xl border";
+                div.style.borderColor = "#c0754d25";
                 div.innerHTML = `
                     <input type="checkbox" id="custom-${index}" ${isChecked} onchange="toggleTask(${index}, true)" 
-                        class="w-5 h-5 rounded bg-slate-900 border-slate-700 mt-0.5 accent-amber-500" style="accent-color: #D59D80;">
-                    <label for="custom-${index}" class="ml-3 text-sm select-none cursor-pointer leading-tight flex-1" style="color: #C6C6D0;">${task.txt}</label>
-                    <button onclick="deleteCustomTask(${index})" class="text-xs text-red-400 hover:text-red-300 ml-2 px-1">✕</button>
+                        class="w-5 h-5 rounded bg-slate-900 border-slate-700 mt-0.5" style="accent-color: #D59D80;">
+                    <label for="custom-${index}" class="ml-3 text-sm select-none cursor-pointer leading-tight flex-1 font-sans" style="color: #C6C6D0; font-size: 13px;">${task.txt}</label>
+                    <button onclick="deleteCustomTask(${index})" class="text-xs text-red-400/60 hover:text-red-400 ml-2 px-1 font-sans">✕</button>
                 `;
                 checklistContainer.appendChild(div);
             });
@@ -399,7 +445,7 @@
 
             if (alerts.length > 0) {
                 alertDiv.innerHTML = alerts.join('<br class="my-2">');
-                alertDiv.className = "p-3 rounded-xl text-xs bg-red-900/40 border border-red-700 text-red-200 mb-4";
+                alertDiv.className = "p-3 rounded-xl text-xs bg-red-950/40 border border-red-900/60 text-red-200 mb-4";
                 alertDiv.classList.remove('hidden');
             } else {
                 alertDiv.classList.add('hidden');
@@ -460,10 +506,10 @@
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-1 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 ex-name bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
-                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 ex-sets bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
-                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 ex-reps bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
-                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 ex-weight bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 ex-name bg-black/40 border rounded-lg p-1.5 text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 ex-sets bg-black/40 border rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 ex-reps bg-black/40 border rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 ex-weight bg-black/40 border rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
             `;
             workoutContainer.appendChild(div);
         }
@@ -568,15 +614,15 @@
                 if (dayExs.length > 0) {
                     const section = document.createElement('div');
                     section.className = "p-3 rounded-xl border";
-                    section.style.backgroundColor = "#1e2528";
+                    section.style.backgroundColor = "#162226";
                     section.style.borderColor = "#104C6450";
                     let exLines = '';
                     dayExs.forEach((ex, idx) => {
-                        exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1">
+                        exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1 font-sans">
                             <span style="color: #D59D80;" class="font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets || '—'}х(${ex.reps || '—'}) <span style="color: #C6C6D0; opacity: 0.8;">${ex.weight || '—'}</span>
                         </div>`;
                     });
-                    section.innerHTML = `<div class="font-bold text-sm mb-2 pb-1 border-b flex justify-between" style="color: #D59D80; border-color: #2d3a3f;"><span>📅 Дата: ${getDateStringForDay(i)}.2026</span><span class="text-[10px] px-1.5 rounded uppercase" style="background-color: #0D1D25; color: #C6C6D0;">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
+                    section.innerHTML = `<div class="font-bold text-sm mb-2 pb-1 border-b flex justify-between" style="color: #D59D80; border-color: #2d3a3f;"><span>📅 Дата: ${getDateStringForDay(i)}.2026</span><span class="text-[10px] font-sans px-1.5 rounded uppercase" style="background-color: #0D1D25; color: #C6C6D0;">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
                     container.appendChild(section);
                 }
             }
@@ -584,15 +630,15 @@
             historicalWorkouts.forEach(workout => {
                 const section = document.createElement('div');
                 section.className = "p-3 rounded-xl border";
-                section.style.backgroundColor = "#1e2528";
-                section.style.borderColor = "#2d3a3f";
+                section.style.backgroundColor = "#162226";
+                section.style.borderColor = "#c0754d20";
                 let exLines = '';
                 workout.exercises.forEach((ex, idx) => {
-                    exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1">
+                    exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1 font-sans">
                         <span style="color: #D59D80;" class="font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets}х(${ex.reps}) <span style="color: #C6C6D0; opacity: 0.8;">${ex.weight}</span>
                     </div>`;
                 });
-                section.innerHTML = `<div class="font-bold text-white text-sm mb-2 pb-1 border-b" style="color: #C6C6D0; border-color: #2d3a3f;">📅 Дата: ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
+                section.innerHTML = `<div class="font-bold text-sm mb-2 pb-1 border-b flex justify-between" style="color: #C6C6D0; border-color: #2d3a3f;"><span>📅 Дата: ${workout.date}</span></div><div class="space-y-1">${exLines}</div>`;
                 container.appendChild(section);
             });
         }
