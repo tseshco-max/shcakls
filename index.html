@@ -8,80 +8,80 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style>
-        body { background-color: #0f172a; color: #f8fafc; font-family: system-ui, -apple-system, sans-serif; }
-        .card { background-color: #1e293b; border: 1px solid #334155; }
-        .day-btn { background-color: #334155; transition: all 0.2s; }
-        .day-btn.active { background-color: #f59e0b; color: #0f172a; font-weight: bold; }
-        .day-btn.completed { border: 2px solid #10b981; }
+        body { background-color: #0D1D25; color: #C6C6D0; font-family: system-ui, -apple-system, sans-serif; }
+        .card { background-color: #1e2528; border: 1px solid #2d3a3f; }
+        .day-btn { background-color: #243339; color: #C6C6D0; transition: all 0.2s; }
+        .day-btn.active { background-color: #D59D80; color: #0D1D25; font-weight: bold; }
+        .day-btn.completed { border: 2px solid #104C64; }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
 
     <!-- HEADER -->
     <header class="mb-4 text-center">
-        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase">КРЕКЕР</h1>
-        <p class="text-xs text-slate-400 mt-1">
-            Вес: <span id="header-weight" class="text-white font-bold">100</span> кг | 
-            Ккал (План/Факт): <span id="header-calories" class="text-amber-400 font-bold">1800 / 0</span>
+        <h1 class="text-2xl font-bold text-amber-500 tracking-wide uppercase" style="color: #D59D80;">Протокол похудения</h1>
+        <p class="text-xs text-slate-400 mt-1" style="color: #C6C6D0; opacity: 0.7;">
+            Текущий вес: <span id="header-weight" class="text-white font-bold" style="color: #C6C6D0;">-</span> кг | 
+            Ккал (План/Факт): <span id="header-calories" class="font-bold" style="color: #D59D80;">1800 / 0</span>
         </p>
     </header>
 
     <!-- КНОПКА ОТКРЫТИЯ АРХИВА ПРОШЛЫХ ТРЕНИРОВОК -->
-    <button onclick="openArchiveModal()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition mb-4 shadow-md flex items-center justify-center gap-2">
-        📂 Просмотреть архив прошлых тренировок
+    <button onclick="openArchiveModal()" class="w-full text-white font-bold py-2.5 px-4 rounded-xl text-xs uppercase tracking-wider transition mb-4 shadow-md flex items-center justify-center gap-2" style="background-color: #104C64;">
+        📂 Просмотреть архив и рабочие веса
     </button>
 
     <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ (28 ДНЕЙ С ДАТАМИ) -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-2">
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Календарь (Старт: 20.07.2026)</h3>
-            <span id="current-week-label" class="text-xs text-amber-400 font-semibold">Неделя 1</span>
+            <h3 class="text-xs font-bold uppercase tracking-wider" style="color: #C6C6D0; opacity: 0.8;">Календарь (Старт: 20.07.2026)</h3>
+            <span id="current-week-label" class="text-xs font-semibold" style="color: #D59D80;">Неделя 1</span>
         </div>
         <div id="calendar-grid" class="grid grid-cols-4 gap-2 text-center text-xs"></div>
-        <p id="week-desc" class="text-xs text-slate-400 mt-3 italic bg-slate-800/50 p-2 rounded-lg border border-slate-700/30"></p>
+        <p id="week-desc" class="text-xs mt-3 italic bg-slate-900/40 p-2 rounded-lg border border-slate-800/30" style="color: #C6C6D0; opacity: 0.9;"></p>
     </div>
 
     <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
-            <h3 id="health-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">🩺 Маркеры и Активность</h3>
-            <span class="text-[10px] bg-emerald-950 text-emerald-400 border border-emerald-800 px-2 py-0.5 rounded-md font-semibold animate-pulse">Автосохранение</span>
+            <h3 id="health-title" class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">🩺 Маркеры и Активность</h3>
+            <span class="text-[10px] bg-slate-900 text-emerald-400 border border-slate-800 px-2 py-0.5 rounded-md font-semibold animate-pulse" style="color: #D59D80; border-color: #D59D80;">Автосохранение</span>
         </div>
         
         <div class="grid grid-cols-3 gap-2 mb-3">
             <div>
-                <label class="block text-[10px] text-slate-400 mb-1 text-center">Вес тела (кг)</label>
-                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="100.0" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center font-bold">
+                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Вес тела (кг)</label>
+                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs text-center font-bold" style="color: #C6C6D0; border-color: #2d3a3f;">
             </div>
             <div>
-                <label class="block text-[10px] text-slate-400 mb-1 text-center">Ккал (План)</label>
-                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1660" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-slate-300 text-xs text-center font-semibold">
+                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Ккал (План)</label>
+                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-slate-300 text-xs text-center font-semibold" style="color: #C6C6D0; border-color: #2d3a3f;">
             </div>
             <div>
-                <label class="block text-[10px] text-slate-400 mb-1 text-center">Ккал (Факт)</label>
-                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full bg-slate-800 border border-amber-500/40 rounded-lg p-2 text-amber-400 text-xs text-center font-bold">
+                <label class="block text-[10px] mb-1 text-center" style="color: #C6C6D0; opacity: 0.7;">Ккал (Факт)</label>
+                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full bg-slate-900/60 rounded-lg p-2 text-xs text-center font-bold" style="color: #D59D80; border: 1px solid #D59D80;">
             </div>
         </div>
 
         <div class="grid grid-cols-2 gap-3 mb-3">
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1">Шаги за день</label>
-                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-emerald-400 text-xs text-center font-bold">
+                <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Шаги за день</label>
+                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15000" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-xs text-center font-bold" style="color: #C6C6D0; border-color: #2d3a3f;">
             </div>
             <div>
-                <label class="block text-[11px] text-slate-400 mb-1">Пульс в покое</label>
-                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs text-center">
+                <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Пульс в покое</label>
+                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
             </div>
         </div>
 
         <div class="mb-3">
-            <label class="block text-xs text-slate-400 mb-1">Состояние ЖКТ</label>
-            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs">
+            <label class="block text-xs mb-1" style="color: #C6C6D0; opacity: 0.7;">Состояние ЖКТ</label>
+            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
         </div>
         
         <div class="mb-1">
-            <label class="block text-xs text-slate-400 mb-1">Общее состояние / Заметки по дню</label>
-            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none"></textarea>
+            <label class="block text-xs mb-1" style="color: #C6C6D0; opacity: 0.7;">Общее состояние / Заметки по дню</label>
+            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Общий тонус, сон, менталка..." class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-sm resize-none" style="color: #C6C6D0; border-color: #2d3a3f;"></textarea>
         </div>
     </div>
 
@@ -91,16 +91,16 @@
     <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
-            <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wider">🏋️‍♂️ Дневник Тренировки</h3>
-            <span id="exercise-count" class="text-xs text-slate-500">0/30</span>
+            <h3 class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">🏋️‍♂️ Дневник Тренировки</h3>
+            <span id="exercise-count" class="text-xs" style="color: #C6C6D0; opacity: 0.5;">0/30</span>
         </div>
 
         <div class="mb-4">
-            <label class="block text-[11px] text-slate-400 mb-1">Состояние на тренировке</label>
-            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-slate-800 border border-sky-500/30 rounded-lg p-2 text-white text-xs italic">
+            <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Состояние на тренировке</label>
+            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, тупняк или отличный памп..." class="w-full bg-slate-900/60 border rounded-lg p-2 text-white text-xs italic" style="color: #C6C6D0; border-color: #2d3a3f;">
         </div>
         
-        <div class="grid grid-cols-12 gap-1 mb-1 px-1 text-[10px] text-slate-400 uppercase font-semibold text-center">
+        <div class="grid grid-cols-12 gap-1 mb-1 px-1 text-[10px] uppercase font-semibold text-center" style="color: #C6C6D0; opacity: 0.6;">
             <div class="col-span-5 text-left">Упражнение</div>
             <div class="col-span-2">Подх</div>
             <div class="col-span-3">Повт/Вр</div>
@@ -109,7 +109,7 @@
 
         <div id="workout-container" class="space-y-2 mb-3"></div>
 
-        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-slate-800 hover:bg-slate-700 border border-dashed border-slate-600 text-slate-300 py-2 rounded-xl text-xs font-semibold transition mb-2">
+        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-slate-900/40 hover:bg-slate-900/80 border border-dashed text-slate-300 py-2 rounded-xl text-xs font-semibold transition mb-2" style="border-color: #2d3a3f; color: #C6C6D0;">
             + Добавить упражнение
         </button>
     </div>
@@ -117,48 +117,62 @@
     <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
     <div class="card rounded-2xl p-4 mb-4">
         <div class="flex justify-between items-center mb-3">
-            <h3 id="checklist-title" class="text-sm font-bold text-amber-400 uppercase tracking-wider">📋 Чек-лист питания и шагов</h3>
-            <span id="day-progress" class="text-xs text-slate-400">0%</span>
+            <h3 id="checklist-title" class="text-sm font-bold uppercase tracking-wider" style="color: #D59D80;">📋 Чек-лист питания и шагов</h3>
+            <span id="day-progress" class="text-xs" style="color: #C6C6D0; opacity: 0.6;">0%</span>
         </div>
         
         <div id="checklist-container" class="space-y-2.5 mb-4"></div>
 
-        <div class="flex gap-1.5 mb-4 pt-2 border-t border-slate-700/50">
-            <input type="text" id="new-task-text" placeholder="Добавить свой пункт в чек-лист..." class="flex-1 bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
-            <button onclick="addNewCustomTask()" class="bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-3 rounded-lg text-xs transition">+</button>
+        <div class="flex gap-1.5 mb-4 pt-2 border-t border-slate-700/50" style="border-color: #2d3a3f;">
+            <input type="text" id="new-task-text" placeholder="Добавить свой пункт в чек-лист..." class="flex-1 bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-white text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
+            <button onclick="addNewCustomTask()" class="text-slate-950 font-bold px-3 rounded-lg text-xs transition" style="background-color: #D59D80; color: #0D1D25;">+</button>
         </div>
 
         <div>
-            <label class="block text-[11px] text-slate-400 mb-1">Доп. информация по диете за сегодня</label>
-            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none"></textarea>
+            <label class="block text-[11px] mb-1" style="color: #C6C6D0; opacity: 0.7;">Доп. информация по диете за сегодня</label>
+            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Записать тайминги приёма пищи, погрешности в еде..." class="w-full bg-slate-900/60 border border-slate-700 rounded-lg p-2 text-white text-xs resize-none" style="color: #C6C6D0; border-color: #2d3a3f;"></textarea>
         </div>
     </div>
 
     <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
     <div class="card rounded-2xl p-4">
-        <h3 class="text-sm font-bold text-slate-400 tracking-wider mb-3 uppercase">💾 Управление базой и Экспорт</h3>
+        <h3 class="text-sm font-bold tracking-wider mb-3 uppercase" style="color: #C6C6D0; opacity: 0.6;">💾 Управление базой и Экспорт</h3>
         <div class="space-y-2">
-            <button onclick="exportTextReport()" class="w-full bg-sky-700 hover:bg-sky-600 text-white text-xs py-2.5 px-3 rounded-xl font-bold transition">
+            <button onclick="exportTextReport()" class="w-full text-white text-xs py-2.5 px-3 rounded-xl font-bold transition" style="background-color: #104C64;">
                 📋 Скачать читаемый текстовый отчет (.txt)
             </button>
             <div class="flex gap-2">
-                <button onclick="exportData()" class="flex-1 bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition">📥 Бэкап (JSON)</button>
-                <button onclick="importData()" class="flex-1 bg-blue-700 hover:bg-blue-600 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition">📤 Загрузить (JSON)</button>
+                <button onclick="exportData()" class="flex-1 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition" style="border-color: #2d3a3f;">📥 Бэкап (JSON)</button>
+                <button onclick="importData()" class="flex-1 bg-slate-800 border border-slate-700 hover:bg-slate-700 text-white text-[11px] py-2 px-2 rounded-lg font-semibold transition" style="border-color: #2d3a3f;">📤 Загрузить (JSON)</button>
             </div>
-            <button onclick="resetChecklist()" class="w-full bg-red-900/40 hover:bg-red-900/70 text-red-200 text-[10px] py-1.5 px-3 rounded-lg border border-red-700/50 transition">
+            <button onclick="resetChecklist()" class="w-full bg-red-950/20 hover:bg-red-950/50 text-red-300 text-[10px] py-1.5 px-3 rounded-lg border border-red-900/30 transition">
                 Полный сброс текущего дня
             </button>
         </div>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО АРХИВА ПРОШЛЫХ ТРЕНИРОВОК -->
+    <!-- МОДАЛЬНОЕ ОКНО АРХИВА И АНАЛИТИКИ ВЕСОВ -->
     <div id="archive-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-slate-900 border border-slate-700 w-full max-w-md max-h-[85vh] rounded-2xl flex flex-col p-4 shadow-2xl">
-            <div class="flex justify-between items-center pb-3 border-b border-slate-800">
-                <h2 class="text-base font-bold text-sky-400 uppercase">Архив прошлых тренировок</h2>
-                <button onclick="closeArchiveModal()" class="text-slate-400 hover:text-white font-bold text-lg p-1">✕</button>
+        <div class="border w-full max-w-md max-h-[88vh] rounded-2xl flex flex-col p-4 shadow-2xl" style="background-color: #0D1D25; border-color: #2d3a3f;">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-800" style="border-color: #2d3a3f;">
+                <h2 class="text-base font-bold uppercase" style="color: #D59D80;">Архив и Аналитика Весов</h2>
+                <button onclick="closeArchiveModal()" class="hover:text-white font-bold text-lg p-1" style="color: #C6C6D0;">✕</button>
             </div>
-            <div id="archive-content" class="overflow-y-auto flex-1 py-3 space-y-4 pr-1 text-xs text-slate-300"></div>
+            
+            <div class="p-3 rounded-xl mt-3" style="background-color: #1e2528; border: 1px solid #2d3a3f;">
+                <h3 class="text-xs font-bold uppercase mb-2 tracking-wider" style="color: #D59D80;">🏋️‍♂️ База рабочих весов</h3>
+                <div class="flex flex-col gap-2">
+                    <label class="text-[10px]" style="color: #C6C6D0; opacity: 0.7;">Выберите упражнение из списка:</label>
+                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full bg-slate-900 border rounded-lg p-2 text-white text-xs focus:outline-none" style="border-color: #2d3a3f; color: #C6C6D0;">
+                    </select>
+                </div>
+                <div id="last-weight-display" class="mt-2.5 p-2 bg-slate-950/60 rounded-lg text-center text-xs min-h-[36px] flex items-center justify-center font-medium" style="border: 1px solid #2d3a3f;">
+                    <span style="color: #C6C6D0; opacity: 0.5;">Выберите упражнение для просмотра веса</span>
+                </div>
+            </div>
+
+            <h3 class="text-xs font-bold uppercase mt-4 mb-2 tracking-wider" style="color: #C6C6D0; opacity: 0.6;">📋 История тренировок по датам</h3>
+            <div id="archive-content" class="overflow-y-auto flex-1 space-y-3 pr-1 text-xs" style="color: #C6C6D0;"></div>
         </div>
     </div>
 
@@ -174,43 +188,10 @@
         }
 
         const weekProtocols = {
-            1: {
-                desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Лимит жиров 40-50г.",
-                tasks: [
-                    { id: "cal", txt: "Калории: уложиться в лимит дня" },
-                    { id: "prot", txt: "Белок: 220–250 г" },
-                    { id: "fat", txt: "Жиры: строго 40-50 г" },
-                    { id: "carb", txt: "Углеводы: 60-80 г (вокруг тренировки)" },
-                    { id: "cardio", txt: "Активность: 30 мин LISS + шаги" }
-                ]
-            },
-            2: {
-                desc: "Неделя 2 — Углубление дефицита. ...",
-                tasks: [
-                    { id: "cal", txt: "Калории: уложиться в лимит дня" },
-                    { id: "prot", txt: "Белок: 220–250 г" },
-                    { id: "fat", txt: "Жиры: строго 40-50 г" },
-                    { id: "cardio", txt: "Активность: 40 мин LISS + шаги" }
-                ]
-            },
-            3: {
-                desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г.",
-                tasks: [
-                    { id: "cal", txt: "Калории: уложиться в лимит дня" },
-                    { id: "prot", txt: "Белок: держать максимум" },
-                    { id: "fat", txt: "Жиры: жестко 40 г" },
-                    { id: "cardio", txt: "Активность: 40 мин LISS + шаги" }
-                ]
-            },
-            4: {
-                desc: "Неделя 4 — Выход. Постепенное завершение цикла сушки.",
-                tasks: [
-                    { id: "cal", txt: "Калории: уложиться в лимит дня" },
-                    { id: "prot", txt: "Белок: 220 г" },
-                    { id: "fat", txt: "Жиры: 40-50 г" },
-                    { id: "cardio", txt: "Активность: 30 мин LISS + шаги" }
-                ]
-            }
+            1: { desc: "Неделя 1 — Мягкий старт. Вход в дефицит. Лимит жиров 40-50г.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "carb", txt: "Углеводы: 60-80 г (вокруг тренировки)" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] },
+            2: { desc: "Неделя 2 — Углубление дефицита. Контроль нагрузок и электролитов.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220–250 г" }, { id: "fat", txt: "Жиры: строго 40-50 г" }, { id: "cardio", txt: "Активность: 40 мин LISS + шаги" } ] },
+            3: { desc: "Неделя 3 — Хардкор спринт. Пик сушки. Лимит жиров 40 г.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: держать максимум" }, { id: "fat", txt: "Жиры: жестко 40 г" }, { id: "cardio", txt: "Активность: 40 мин LISS + шаги" } ] },
+            4: { desc: "Неделя 4 — Выход. Постепенное завершение цикла сушки.", tasks: [ { id: "cal", txt: "Калории: уложиться в лимит дня" }, { id: "prot", txt: "Белок: 220 г" }, { id: "fat", txt: "Жиры: 40-50 г" }, { id: "cardio", txt: "Активность: 30 мин LISS + шаги" } ] }
         };
 
         const historicalWorkouts = [
@@ -219,7 +200,7 @@
             { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступенькой", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15 кг" } ] },
             { date: "09.07.2026", exercises: [ { name: "Пресс скручивание с поднятием ноги", sets: "2", reps: "12; 11", weight: "—" }, { name: "Вращение блина", sets: "2", reps: "60 сек", weight: "10 кг" }, { name: "Подтягивания с резинкой", sets: "3", reps: "5", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "10; 12", weight: "36 кг" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Сгибание голени", sets: "3", reps: "15; 12", weight: "61; 70 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Трицепс в кроссовере е", sets: "3", reps: "12", weight: "14.7; 16.4 кг" }, { name: "Вращение блина", sets: "3", reps: "1 минута", weight: "15 кг" } ] },
             { date: "06.07.2026", exercises: [ { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" }, { name: "Приведение в кроссовере стоя на грудь", sets: "3", reps: "12, 10, 9", weight: "8; 6.8 кг" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5; 65; 62.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50; 57 кг" }, { name: "Французский жим", sets: "3", reps: "10", weight: "20; 15 кг" }, { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6 кг" } ] },
-            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15  кг" } ] },
+            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15 кг" } ] },
             { date: "01.07.2026", exercises: [ { name: "Пресс вращение блина", sets: "3", reps: "60сек", weight: "10кг" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Приведение плеча", sets: "3", reps: "12", weight: "5,7" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "52" }, { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10,2; 9.1; 8; 6,8" } ] },
             { date: "24.06.2026", exercises: [ { name: "Пресс", sets: "3", reps: "20,10, 10", weight: "—" }, { name: "Тяга штанги в приседа", sets: "3", reps: "10", weight: "40, 45" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "45" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "12", weight: "8; 6,8; 5,7" } ] },
             { date: "22.06.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "6", weight: "5.7" }, { name: "Жим лежа", sets: "3", reps: "10, 7, 7", weight: "50" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "52" }, { name: "Вертикальная тяга", sets: "3", reps: "1", weight: "—" }, { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2" }, { name: "Разгибание предплечья с канатом", sets: "—", reps: "—", weight: "—" } ] },
@@ -235,7 +216,7 @@
         ];
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
-        let db = JSON.parse(localStorage.getItem('sushka_db_v9')) || {};
+        let db = JSON.parse(localStorage.getItem('sushka_db_v10')) || {};
 
         const calendarGrid = document.getElementById('calendar-grid');
         const currentWeekLabel = document.getElementById('current-week-label');
@@ -250,14 +231,13 @@
 
         buildCalendar();
         loadDay(selectedDay);
-        generateArchiveDOM();
 
         function buildCalendar() {
             calendarGrid.innerHTML = '';
             for (let i = 1; i <= 28; i++) {
                 const btn = document.createElement('button');
                 btn.id = `btn-day-${i}`;
-                btn.className = `day-btn p-2 rounded-xl text-[11px] font-medium text-slate-200 focus:outline-none flex flex-col items-center justify-center gap-0.5`;
+                btn.className = `day-btn p-2 rounded-xl text-[11px] font-medium focus:outline-none flex flex-col items-center justify-center gap-0.5`;
                 btn.innerHTML = `<span class="opacity-50 text-[9px]">Дн ${i}</span><span class="font-bold text-white">${getDateStringForDay(i)}</span>`;
                 if (isDayFullyCompleted(i)) btn.classList.add('completed');
                 btn.onclick = () => {
@@ -286,14 +266,18 @@
         function updateHeaderData() {
             const dayKey = `day${selectedDay}`;
             const h = db[dayKey]?.health || {};
-            if (h.weight) { headerWeight.innerText = h.weight; } else {
-                let lastWeight = 100;
-                for (let i = selectedDay; i >= 1; i--) {
+            
+            if (h.weight) { 
+                headerWeight.innerText = h.weight; 
+            } else {
+                let lastWeight = '—';
+                for (let i = selectedDay - 1; i >= 1; i--) {
                     if (db[`day${i}`]?.health?.weight) { lastWeight = db[`day${i}`].health.weight; break; }
                 }
                 headerWeight.innerText = lastWeight;
             }
-            const target = h.caloriesTarget || '1660';
+
+            const target = h.caloriesTarget || '1800';
             const fact = h.caloriesFact || '0';
             headerCalories.innerText = `${target} / ${fact}`;
         }
@@ -312,14 +296,14 @@
             healthTitle.innerText = `🩺 Маркеры и Активность (${getDateStringForDay(day)} — День ${day})`;
 
             if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
-            if (!db[dayKey].health) db[dayKey].health = { weight: '', caloriesTarget: '1660', caloriesFact: '', steps: '', pulse: '', gastro: '', notes: '', workoutState: '', dietNotes: '' };
+            if (!db[dayKey].health) db[dayKey].health = { weight: '', caloriesTarget: '1800', caloriesFact: '', steps: '', pulse: '', gastro: '', notes: '', workoutState: '', dietNotes: '' };
             if (!db[dayKey].customTasks) db[dayKey].customTasks = [];
             if (!db[dayKey].exercises) db[dayKey].exercises = [];
 
             const h = db[dayKey].health;
 
             document.getElementById('input-weight').value = h.weight || '';
-            document.getElementById('input-calories-target').value = h.caloriesTarget || '1660';
+            document.getElementById('input-calories-target').value = h.caloriesTarget || '1800';
             document.getElementById('input-calories-fact').value = h.caloriesFact || '';
             document.getElementById('input-steps').value = h.steps || '';
             document.getElementById('input-pulse').value = h.pulse || '';
@@ -340,11 +324,11 @@
             baseTasks.forEach(task => {
                 const isChecked = checkedBase[task.id] ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-2.5 bg-slate-800 rounded-xl border border-slate-700/50";
+                div.className = "flex items-start p-2.5 bg-slate-900/40 rounded-xl border border-slate-800/60";
                 div.innerHTML = `
                     <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}', false)" 
-                        class="w-5 h-5 rounded text-amber-500 bg-slate-900 border-slate-700 mt-0.5 accent-amber-500">
-                    <label for="${task.id}" class="ml-3 text-sm text-slate-200 select-none cursor-pointer leading-tight">${task.txt}</label>
+                        class="w-5 h-5 rounded bg-slate-900 border-slate-700 mt-0.5 accent-amber-500" style="accent-color: #D59D80;">
+                    <label for="${task.id}" class="ml-3 text-sm select-none cursor-pointer leading-tight" style="color: #C6C6D0;">${task.txt}</label>
                 `;
                 checklistContainer.appendChild(div);
             });
@@ -352,25 +336,25 @@
             customTasks.forEach((task, index) => {
                 const isChecked = task.checked ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-2.5 bg-slate-800 rounded-xl border border-amber-500/20";
+                div.className = "flex items-start p-2.5 bg-slate-900/40 rounded-xl border";
+                div.style.borderColor = "#D59D8030";
                 div.innerHTML = `
                     <input type="checkbox" id="custom-${index}" ${isChecked} onchange="toggleTask(${index}, true)" 
-                        class="w-5 h-5 rounded text-amber-500 bg-slate-900 border-slate-700 mt-0.5 accent-amber-500">
-                    <label for="custom-${index}" class="ml-3 text-sm text-amber-100/90 select-none cursor-pointer leading-tight flex-1">${task.txt}</label>
+                        class="w-5 h-5 rounded bg-slate-900 border-slate-700 mt-0.5 accent-amber-500" style="accent-color: #D59D80;">
+                    <label for="custom-${index}" class="ml-3 text-sm select-none cursor-pointer leading-tight flex-1" style="color: #C6C6D0;">${task.txt}</label>
                     <button onclick="deleteCustomTask(${index})" class="text-xs text-red-400 hover:text-red-300 ml-2 px-1">✕</button>
                 `;
                 checklistContainer.appendChild(div);
             });
         }
 
-        // АВТОСОХРАНЕНИЕ — ГЛАВНАЯ ФУНКЦИЯ
         window.autoSaveDayData = function() {
             const dayKey = `day${selectedDay}`;
             if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
 
             db[dayKey].health = {
                 weight: document.getElementById('input-weight').value,
-                caloriesTarget: document.getElementById('input-calories-target').value || '1660',
+                caloriesTarget: document.getElementById('input-calories-target').value || '1800',
                 caloriesFact: document.getElementById('input-calories-fact').value || '0',
                 steps: document.getElementById('input-steps').value,
                 pulse: document.getElementById('input-pulse').value,
@@ -410,7 +394,7 @@
 
             if (pulse > 75) alerts.push("⚠️ <b>Высокий пульс (" + pulse + " уд/мин):</b> Ограничь снюс/кофеин.");
             if (gastro.includes('горечь') || gastro.includes('тяжест') || gastro.includes('болит')) {
-                alerts.push("⚠️ <b>Сигнал ЖКТ:</b> Застой желчи при низком жире! Прими таурин/артишок.");
+                alerts.push("⚠️ <b>Сигнал ЖКТ:</b> Нарушение оттока желчи. Прими таурин/артишок.");
             }
 
             if (alerts.length > 0) {
@@ -476,15 +460,15 @@
             const div = document.createElement('div');
             div.className = "grid grid-cols-12 gap-1 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 ex-name bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs">
-                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 ex-sets bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
-                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 ex-reps bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
-                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 ex-weight bg-slate-800 border border-slate-700 rounded-lg p-1.5 text-white text-xs text-center">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 ex-name bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 ex-sets bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 ex-reps bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 ex-weight bg-slate-900/60 border border-slate-700 rounded-lg p-1.5 text-xs text-center" style="color: #C6C6D0; border-color: #2d3a3f;">
             `;
             workoutContainer.appendChild(div);
         }
 
-        window.addExerciseField = function() {
+        function addExerciseField() {
             const currentRows = workoutContainer.getElementsByClassName('exercise-row').length;
             if (currentRows >= 30) return alert("Максимум 30 упражнений!");
             createExerciseRow(currentRows, { name: '', sets: '', reps: '', weight: '' });
@@ -496,40 +480,125 @@
             exerciseCountLabel.innerText = `${currentRows}/30`;
         }
 
-        function saveDB() { localStorage.setItem('sushka_db_v9', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('sushka_db_v10', JSON.stringify(db)); }
 
         window.resetChecklist = function() {
             if(confirm("Полностью стереть данные за этот день?")) {
                 const dayKey = `day${selectedDay}`;
-                db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
+                db[dayKey] = { tasks: {}, customTasks: [], health: { caloriesTarget: '1800' }, exercises: [] };
                 saveDB();
                 buildCalendar();
                 loadDay(selectedDay);
             }
         }
 
-        window.openArchiveModal = function() { document.getElementById('archive-modal').classList.remove('hidden'); }
+        window.openArchiveModal = function() { 
+            document.getElementById('archive-modal').classList.remove('hidden'); 
+            buildExerciseSelector(); 
+            generateArchiveDOM();
+        }
         window.closeArchiveModal = function() { document.getElementById('archive-modal').classList.add('hidden'); }
+
+        function buildExerciseSelector() {
+            const selector = document.getElementById('exercise-weight-selector');
+            selector.innerHTML = '<option value="">-- Выберите из списка --</option>';
+            let allNames = new Set();
+            historicalWorkouts.forEach(w => w.exercises.forEach(e => allNames.add(e.name.trim())));
+            for (let i = 1; i <= 28; i++) {
+                const dayExs = db[`day${i}`]?.exercises || [];
+                dayExs.forEach(e => { if(e.name.trim()) allNames.add(e.name.trim()); });
+            }
+            const sortedNames = Array.from(allNames).sort((a, b) => a.localeCompare(b));
+            sortedNames.forEach(name => {
+                const opt = document.createElement('option');
+                opt.value = name;
+                opt.innerText = name;
+                selector.appendChild(opt);
+            });
+        }
+
+        window.displayLastWorkingWeight = function() {
+            const targetName = document.getElementById('exercise-weight-selector').value;
+            const display = document.getElementById('last-weight-display');
+
+            if (!targetName) {
+                display.innerHTML = '<span style="color: #C6C6D0; opacity: 0.5;">Выберите упражнение для просмотра веса</span>';
+                return;
+            }
+
+            let foundRecord = null;
+            for (let i = 28; i >= 1; i--) {
+                const dayExs = db[`day${i}`]?.exercises || [];
+                const match = dayExs.find(e => e.name.trim() === targetName);
+                if (match && match.weight) {
+                    foundRecord = { date: getDateStringForDay(i) + '.2026', weight: match.weight, reps: match.reps, sets: match.sets };
+                    break;
+                }
+            }
+
+            if (!foundRecord) {
+                for (let w of historicalWorkouts) {
+                    const match = w.exercises.find(e => e.name.trim() === targetName);
+                    if (match && match.weight && match.weight !== '—') {
+                        foundRecord = { date: w.date, weight: match.weight, reps: match.reps, sets: match.sets };
+                        break;
+                    }
+                }
+            }
+
+            if (foundRecord) {
+                display.innerHTML = `
+                    <div style="color: #C6C6D0;">
+                        Крайний вес: <span style="color: #D59D80;" class="font-bold text-sm">${foundRecord.weight}</span> 
+                        <span style="opacity: 0.6;" class="text-[11px]">(${foundRecord.sets || '—'}х${foundRecord.reps || '—'})</span> 
+                        — <span style="color: #D59D80;" class="text-[11px] font-semibold">${foundRecord.date}</span>
+                    </div>
+                `;
+            } else {
+                display.innerHTML = '<span class="text-red-400">Рабочий вес не найден или не указан</span>';
+            }
+        }
 
         function generateArchiveDOM() {
             const container = document.getElementById('archive-content');
             container.innerHTML = '';
+            for (let i = 28; i >= 1; i--) {
+                const dayKey = `day${i}`;
+                const dayExs = db[dayKey]?.exercises || [];
+                if (dayExs.length > 0) {
+                    const section = document.createElement('div');
+                    section.className = "p-3 rounded-xl border";
+                    section.style.backgroundColor = "#1e2528";
+                    section.style.borderColor = "#104C6450";
+                    let exLines = '';
+                    dayExs.forEach((ex, idx) => {
+                        exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1">
+                            <span style="color: #D59D80;" class="font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets || '—'}х(${ex.reps || '—'}) <span style="color: #C6C6D0; opacity: 0.8;">${ex.weight || '—'}</span>
+                        </div>`;
+                    });
+                    section.innerHTML = `<div class="font-bold text-sm mb-2 pb-1 border-b flex justify-between" style="color: #D59D80; border-color: #2d3a3f;"><span>📅 Дата: ${getDateStringForDay(i)}.2026</span><span class="text-[10px] px-1.5 rounded uppercase" style="background-color: #0D1D25; color: #C6C6D0;">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
+                    container.appendChild(section);
+                }
+            }
+
             historicalWorkouts.forEach(workout => {
                 const section = document.createElement('div');
-                section.className = "p-3 bg-slate-800 rounded-xl border border-slate-700/60";
+                section.className = "p-3 rounded-xl border";
+                section.style.backgroundColor = "#1e2528";
+                section.style.borderColor = "#2d3a3f";
                 let exLines = '';
                 workout.exercises.forEach((ex, idx) => {
                     exLines += `<div class="py-1 border-b border-slate-700/40 last:border-0 pl-1">
-                        <span class="text-amber-400 font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets}х(${ex.reps}) <span class="text-sky-400">${ex.weight}</span>
+                        <span style="color: #D59D80;" class="font-semibold">${idx + 1}. ${ex.name}</span> — ${ex.sets}х(${ex.reps}) <span style="color: #C6C6D0; opacity: 0.8;">${ex.weight}</span>
                     </div>`;
                 });
-                section.innerHTML = `<div class="font-bold text-white text-sm mb-2 pb-1 border-b border-sky-500/30">📅 Дата: ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
+                section.innerHTML = `<div class="font-bold text-white text-sm mb-2 pb-1 border-b" style="color: #C6C6D0; border-color: #2d3a3f;">📅 Дата: ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
                 container.appendChild(section);
             });
         }
 
         window.exportTextReport = function() {
-            let txt = `=========================================\n  ОТЧЕТ ПО ПРОТОКОЛУ СУШКИ (28 ДНЕЙ) \n=========================================\n\n`;
+            let txt = `=========================================\n  ОТЧЕТ ПО ПРОТОКОЛУ ПОХУДЕНИЯ (28 ДНЕЙ) \n=========================================\n\n`;
             for (let i = 1; i <= 28; i++) {
                 const dayKey = `day${i}`;
                 if (db[dayKey]) {
@@ -538,7 +607,7 @@
                     const customs = db[dayKey].customTasks || [];
                     if (h.weight || h.steps || h.pulse || h.notes || h.caloriesFact || exs.length > 0 || customs.length > 0) {
                         txt += `ДЕНЬ ${i} (${getDateStringForDay(i)}) [Неделя ${getWeekFromDay(i)}]\n-----------------------------------------\n`;
-                        txt += `• Калории (План/Факт): ${h.caloriesTarget || '1660'} / ${h.caloriesFact || '0'} ккал\n`;
+                        txt += `• Калории (План/Факт): ${h.caloriesTarget || '1800'} / ${h.caloriesFact || '0'} ккал\n`;
                         txt += `• Вес тела: ${h.weight || '—'} кг\n• Шаги: ${h.steps || '—'}\n• Пульс в покое: ${h.pulse || '—'} уд/мин\n• Состояние ЖКТ: ${h.gastro || 'Не указано'}\n`;
                         if(h.notes) txt += `• Заметки по состоянию: ${h.notes}\n`;
                         if(h.dietNotes) txt += `• Инфо по Диете: ${h.dietNotes}\n`;
@@ -564,7 +633,7 @@
             const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
-            link.download = "Sushka_Progress_Autosave.txt";
+            link.download = "Sushka_Progress_Report.txt";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -574,7 +643,7 @@
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
             const downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `sushka_db_v9_backup.json`);
+            downloadAnchor.setAttribute("download", `sushka_db_v10_backup.json`);
             downloadAnchor.click();
         }
 
