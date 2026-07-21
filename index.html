@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Трекер похудения</title>
     <link rel="icon" href="https://fav.farm/🏋️‍♂️" />
     <!-- Tailwind CSS -->
@@ -11,48 +11,49 @@
         :root {
             --neon: #9EFF00;
             --bg-dark: #070B0D;
-            --glass-bg: rgba(17, 23, 27, 0.6);
+            --glass-bg: rgba(17, 23, 27, 0.7);
             --glass-border: rgba(255, 255, 255, 0.06);
         }
         
         body { 
             background-color: var(--bg-dark); 
             color: #E2E8F0; 
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             position: relative;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* Ambient Background Orbs */
         body::before, body::after {
             content: '';
             position: absolute;
-            width: 300px;
-            height: 300px;
+            width: 250px;
+            height: 250px;
             border-radius: 50%;
-            filter: blur(120px);
+            filter: blur(100px);
             z-index: -1;
             pointer-events: none;
         }
         body::before {
-            top: -100px;
-            left: -100px;
-            background: rgba(158, 255, 0, 0.15);
+            top: -80px;
+            left: -80px;
+            background: rgba(158, 255, 0, 0.12);
         }
         body::after {
             bottom: 20%;
-            right: -100px;
-            background: rgba(56, 189, 248, 0.1);
+            right: -80px;
+            background: rgba(56, 189, 248, 0.08);
         }
 
-        /* Стеклянная карточка */
+        /* Стеклянная карточка под iPhone 12 */
         .glass-card { 
             background-color: var(--glass-bg); 
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
         }
 
         /* Кнопки дней */
@@ -60,43 +61,41 @@
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.05);
             color: #94A3B8; 
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
         }
-        .day-btn:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.1);
-            color: #FFF;
+        .day-btn:active {
+            transform: scale(0.95);
         }
         .day-btn.active { 
             background: var(--neon);
             color: var(--bg-dark); 
             font-weight: 800; 
             border-color: var(--neon);
-            box-shadow: 0 0 20px rgba(158, 255, 0, 0.3);
+            box-shadow: 0 0 15px rgba(158, 255, 0, 0.3);
         }
         .day-btn.completed { 
             border: 1px solid #38BDF8;
             background: rgba(56, 189, 248, 0.05);
         }
 
-        /* Инпуты премиум-класса */
+        /* Инпуты */
         .tech-input {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.35);
             color: #FFF;
             border: 1px solid rgba(255, 255, 255, 0.08);
             outline: none;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         .tech-input:focus {
             border-color: var(--neon);
-            background: rgba(0, 0, 0, 0.5);
-            box-shadow: inset 0 0 0 1px var(--neon), 0 0 12px rgba(158, 255, 0, 0.15);
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 0 0 1px var(--neon), 0 0 10px rgba(158, 255, 0, 0.15);
         }
         .tech-input::placeholder {
             color: #475569;
         }
 
-        /* Скрываем стрелочки у инпутов */
+        /* Убираем стрелочки у инпутов */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { 
             -webkit-appearance: none; margin: 0; 
@@ -105,8 +104,9 @@
         /* Чекбоксы */
         .cyber-checkbox {
             appearance: none;
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 6px;
             background: rgba(0, 0, 0, 0.3);
@@ -117,13 +117,13 @@
         }
         .cyber-checkbox::before {
             content: "";
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border-radius: 3px;
             transform: scale(0);
             transition: 0.2s transform ease-in-out;
             background: var(--neon);
-            box-shadow: 0 0 10px var(--neon);
+            box-shadow: 0 0 8px var(--neon);
         }
         .cyber-checkbox:checked {
             border-color: var(--neon);
@@ -132,185 +132,183 @@
             transform: scale(1);
         }
 
-        /* Кастомный скроллбар */
-        ::-webkit-scrollbar { width: 6px; }
+        /* Скроллбар */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
     </style>
 </head>
-<body class="p-4 max-w-md mx-auto pb-24 selection:bg-[#9EFF00] selection:text-black">
+<body class="p-3 max-w-[390px] mx-auto pb-20 selection:bg-[#9EFF00] selection:text-black">
 
-    <!-- HEADER -->
-    <header class="mb-8 text-center pt-4">
-        <div class="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-widest bg-[#9EFF00]/10 text-[#9EFF00] px-3 py-1 rounded-full font-bold mb-4 border border-[#9EFF00]/20 backdrop-blur-sm shadow-[0_0_10px_rgba(158,255,0,0.1)]">
+    <!-- HEADER (Адаптирован под iPhone 12) -->
+    <header class="mb-5 text-center pt-2">
+        <div class="inline-flex items-center gap-1.5 text-[9px] uppercase tracking-widest bg-[#9EFF00]/10 text-[#9EFF00] px-2.5 py-0.5 rounded-full font-bold mb-3 border border-[#9EFF00]/20 backdrop-blur-sm">
             <div class="w-1.5 h-1.5 rounded-full bg-[#9EFF00] animate-pulse"></div>
-            System Active
+            iPhone 12 Optimized
         </div>
-        <h1 class="text-3xl font-black tracking-tight uppercase mb-2">
+        <h1 class="text-2xl font-black tracking-tight uppercase mb-2">
             <span class="bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Протокол</span>
-            <span style="color: var(--neon); text-shadow: 0 0 20px rgba(158,255,0,0.3);">похудения</span>
+            <span style="color: var(--neon); text-shadow: 0 0 15px rgba(158,255,0,0.3);">похудения</span>
         </h1>
-        <div class="inline-block glass-card px-4 py-2 mt-2">
+        <div class="inline-block glass-card px-3 py-1.5 mt-1">
             <p class="text-[11px] text-slate-400 font-medium tracking-wide">
-                Вес: <span id="header-weight" class="text-white font-bold text-sm">—</span> <span class="text-slate-500 mr-2">кг</span>
-                Ккал: <span class="font-bold text-sm" style="color: var(--neon);">1800</span> <span class="text-slate-600 mx-1">/</span> <span id="header-calories" class="text-white font-bold text-sm">0</span>
+                Вес: <span id="header-weight" class="text-white font-bold text-xs">—</span> <span class="text-slate-500 mr-1.5">кг</span>
+                Ккал: <span class="font-bold text-xs" style="color: var(--neon);">1800</span> <span class="text-slate-600 mx-0.5">/</span> <span id="header-calories" class="text-white font-bold text-xs">0</span>
             </p>
         </div>
     </header>
 
     <!-- КНОПКА ОТКРЫТИЯ АРХИВА -->
-    <button onclick="openArchiveModal()" class="w-full glass-card hover:bg-white/5 text-white font-bold py-3.5 px-4 text-xs uppercase tracking-widest flex items-center justify-center gap-2 mb-6 transition-all duration-300 cursor-pointer active:scale-[0.98] group">
-        <span class="group-hover:text-[#9EFF00] transition-colors">📂 Открыть архив и базу весов</span>
+    <button onclick="openArchiveModal()" class="w-full glass-card hover:bg-white/5 text-white font-bold py-3 px-4 text-xs uppercase tracking-widest flex items-center justify-center gap-2 mb-4 transition-all cursor-pointer active:scale-[0.98] group">
+        <span class="group-hover:text-[#9EFF00] transition-colors">📂 Архив и база весов</span>
     </button>
 
-    <!-- ИНТЕРАКТИВНЫЙ КАЛЕНДАРЬ -->
-    <div class="glass-card p-5 mb-6">
-        <div class="flex justify-between items-center mb-4 border-b border-white/5 pb-3">
+    <!-- КАЛЕНДАРЬ -->
+    <div class="glass-card p-4 mb-4">
+        <div class="flex justify-between items-center mb-3 border-b border-white/5 pb-2.5">
             <h3 class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Календарная сетка</h3>
-            <span id="current-week-label" class="text-[10px] font-black uppercase tracking-widest px-2 py-1 rounded bg-[#9EFF00]/10 text-[#9EFF00]">Неделя 1</span>
+            <span id="current-week-label" class="text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded bg-[#9EFF00]/10 text-[#9EFF00]">Неделя 1</span>
         </div>
         <div id="calendar-grid" class="grid grid-cols-4 gap-2 text-center text-xs"></div>
-        <div class="mt-4 p-3.5 rounded-xl tech-input bg-black/20 border-white/5 flex gap-3 items-start">
-            <span class="text-lg leading-none opacity-50">💡</span>
-            <p id="week-desc" class="text-xs italic text-slate-400 leading-relaxed"></p>
+        <div class="mt-3 p-3 rounded-xl tech-input bg-black/20 border-white/5 flex gap-2.5 items-start">
+            <span class="text-sm leading-none opacity-50">💡</span>
+            <p id="week-desc" class="text-[11px] italic text-slate-400 leading-snug"></p>
         </div>
     </div>
 
-    <!-- ТРЕКЕР АКТИВНОСТИ И МАРКЕРОВ ЗДОРОВЬЯ -->
-    <div class="glass-card p-5 mb-6">
-        <div class="flex justify-between items-center mb-5">
-            <h3 id="health-title" class="text-sm font-bold uppercase tracking-widest text-white">🩺 Параметры</h3>
-            <span class="text-[8px] bg-sky-500/10 text-sky-400 border border-sky-500/20 px-2 py-1 rounded font-black tracking-widest uppercase">Live Sync</span>
+    <!-- ТРЕКЕР АКТИВНОСТИ И ПАРАМЕТРОВ -->
+    <div class="glass-card p-4 mb-4">
+        <div class="flex justify-between items-center mb-4">
+            <h3 id="health-title" class="text-xs font-bold uppercase tracking-widest text-white">🩺 Параметры</h3>
+            <span class="text-[8px] bg-sky-500/10 text-sky-400 border border-sky-500/20 px-2 py-0.5 rounded font-black tracking-widest uppercase">Live Sync</span>
         </div>
         
-        <div class="grid grid-cols-3 gap-3 mb-4">
+        <div class="grid grid-cols-3 gap-2 mb-3">
             <div>
-                <label class="block text-[9px] mb-1.5 text-center text-slate-400 uppercase font-semibold tracking-widest">Вес (кг)</label>
-                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full tech-input rounded-xl p-3 text-sm text-center font-bold">
+                <label class="block text-[8px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Вес (кг)</label>
+                <input type="number" step="0.1" id="input-weight" oninput="autoSaveDayData()" placeholder="—" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-bold">
             </div>
             <div>
-                <label class="block text-[9px] mb-1.5 text-center text-slate-400 uppercase font-semibold tracking-widest">Ккал План</label>
-                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full tech-input rounded-xl p-3 text-sm text-center font-semibold text-slate-300">
+                <label class="block text-[8px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">План Ккал</label>
+                <input type="number" id="input-calories-target" oninput="autoSaveDayData()" placeholder="1800" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-semibold text-slate-300">
             </div>
             <div>
-                <label class="block text-[9px] mb-1.5 text-center text-slate-400 uppercase font-semibold tracking-widest">Ккал Факт</label>
-                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full tech-input rounded-xl p-3 text-sm text-center font-black" style="color: var(--neon); background: rgba(158, 255, 0, 0.02);">
+                <label class="block text-[8px] mb-1 text-center text-slate-400 uppercase font-semibold tracking-wider">Факт Ккал</label>
+                <input type="number" id="input-calories-fact" oninput="autoSaveDayData()" placeholder="0" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-black" style="color: var(--neon); background: rgba(158, 255, 0, 0.02);">
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 mb-4">
+        <div class="grid grid-cols-2 gap-2 mb-3">
             <div>
-                <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Шаги за сутки</label>
-                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15 000" class="w-full tech-input rounded-xl p-3 text-sm text-center font-bold text-sky-300">
+                <label class="block text-[8px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Шаги</label>
+                <input type="number" id="input-steps" oninput="autoSaveDayData()" placeholder="15 000" class="w-full tech-input rounded-xl p-2.5 text-xs text-center font-bold text-sky-300">
             </div>
             <div>
-                <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Пульс покоя</label>
-                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full tech-input rounded-xl p-3 text-sm text-center">
+                <label class="block text-[8px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Пульс покоя</label>
+                <input type="number" id="input-pulse" oninput="autoSaveDayData()" placeholder="уд/мин" class="w-full tech-input rounded-xl p-2.5 text-xs text-center">
             </div>
         </div>
 
-        <div class="mb-4">
-            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Состояние ЖКТ</label>
-            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Опишите состояние..." class="w-full tech-input rounded-xl p-3 text-xs">
+        <div class="mb-3">
+            <label class="block text-[8px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Состояние ЖКТ</label>
+            <input type="text" id="input-gastro" oninput="autoSaveDayData()" placeholder="Вздутие, тяжесть или всё ок..." class="w-full tech-input rounded-xl p-2.5 text-xs">
         </div>
         
-        <div class="mb-1">
-            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Менталка & Тонус</label>
-            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Как сон, общая энергия?..." class="w-full tech-input rounded-xl p-3 text-xs resize-none"></textarea>
+        <div>
+            <label class="block text-[8px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Менталка & Тонус</label>
+            <textarea id="input-notes" oninput="autoSaveDayData()" rows="2" placeholder="Сон, общая энергия..." class="w-full tech-input rounded-xl p-2.5 text-xs resize-none"></textarea>
         </div>
     </div>
 
     <!-- БЛОК ПРЕДУПРЕЖДЕНИЙ ПО ЗДОРОВЬЮ -->
-    <div id="health-alert" class="hidden p-4 rounded-xl text-xs bg-red-950/40 border border-red-500/30 text-red-300 mb-6 glass-card tracking-wide leading-relaxed shadow-[0_0_15px_rgba(220,38,38,0.15)]"></div>
+    <div id="health-alert" class="hidden p-3.5 rounded-xl text-xs bg-red-950/40 border border-red-500/30 text-red-300 mb-4 glass-card tracking-wide leading-relaxed"></div>
 
-    <!-- БЛОК ЗАПИСИ ТРЕНИРОВКИ -->
-    <div class="glass-card p-5 mb-6">
-        <div class="flex justify-between items-center mb-5 border-b border-white/5 pb-3">
-            <h3 class="text-sm font-bold uppercase tracking-widest text-white">🏋️‍♂️ Тренировка</h3>
-            <span id="exercise-count" class="text-[10px] font-mono font-bold text-slate-500 bg-white/5 px-2 py-1 rounded">0/30</span>
+    <!-- ТРЕНИРОВКА -->
+    <div class="glass-card p-4 mb-4">
+        <div class="flex justify-between items-center mb-3 border-b border-white/5 pb-2.5">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-white">🏋️‍♂️ Тренировка</h3>
+            <span id="exercise-count" class="text-[9px] font-mono font-bold text-slate-500 bg-white/5 px-2 py-0.5 rounded">0/30</span>
         </div>
 
-        <div class="mb-5">
-            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Оценка сил на сессии</label>
-            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Отличный памп, слабость..." class="w-full tech-input rounded-xl p-3 text-xs italic text-slate-300">
+        <div class="mb-3">
+            <label class="block text-[8px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Самочувствие на тренировке</label>
+            <input type="text" id="input-workout-state" oninput="autoSaveDayData()" placeholder="Слабость, отличный памп..." class="w-full tech-input rounded-xl p-2.5 text-xs italic text-slate-300">
         </div>
         
-        <div class="grid grid-cols-12 gap-1.5 mb-2 px-1 text-[8px] uppercase font-bold text-center text-slate-500 tracking-widest">
+        <div class="grid grid-cols-12 gap-1 mb-1.5 px-0.5 text-[8px] uppercase font-bold text-center text-slate-500 tracking-wider">
             <div class="col-span-5 text-left">Упражнение</div>
             <div class="col-span-2">Подх</div>
-            <div class="col-span-3">Повт/Вр</div>
+            <div class="col-span-3">Повт</div>
             <div class="col-span-2">Вес</div>
         </div>
 
-        <div id="workout-container" class="space-y-3 mb-5"></div>
+        <div id="workout-container" class="space-y-2 mb-3"></div>
 
-        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-white/5 hover:bg-white/10 border border-dashed border-white/10 hover:border-[#9EFF00]/50 text-slate-400 hover:text-white py-3.5 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer active:scale-[0.98]">
+        <button onclick="addExerciseField()" id="btn-add-exercise" class="w-full bg-white/5 hover:bg-white/10 border border-dashed border-white/10 text-slate-400 hover:text-white py-3 rounded-xl text-xs font-bold transition cursor-pointer active:scale-[0.98]">
             + Добавить упражнение
         </button>
     </div>
 
-    <!-- ЧЕК-ЛИСТ НА ВЫБРАННЫЙ ДЕНЬ -->
-    <div class="glass-card p-5 mb-6">
-        <div class="flex justify-between items-center mb-5 border-b border-white/5 pb-3">
-            <h3 id="checklist-title" class="text-sm font-bold uppercase tracking-widest text-white">📋 Режим & Диета</h3>
-            <span id="day-progress" class="text-xs font-black tracking-widest px-2.5 py-1 rounded bg-[#9EFF00]/10 text-[#9EFF00] border border-[#9EFF00]/20 shadow-[0_0_10px_rgba(158,255,0,0.1)]">0%</span>
+    <!-- ЧЕК-ЛИСТ -->
+    <div class="glass-card p-4 mb-4">
+        <div class="flex justify-between items-center mb-3 border-b border-white/5 pb-2.5">
+            <h3 id="checklist-title" class="text-xs font-bold uppercase tracking-widest text-white">📋 Режим & Диета</h3>
+            <span id="day-progress" class="text-xs font-black tracking-widest px-2 py-0.5 rounded bg-[#9EFF00]/10 text-[#9EFF00] border border-[#9EFF00]/20">0%</span>
         </div>
         
-        <div id="checklist-container" class="space-y-3 mb-5"></div>
+        <div id="checklist-container" class="space-y-2.5 mb-3"></div>
 
-        <div class="flex gap-2 mb-5 pt-4 border-t border-white/5">
-            <input type="text" id="new-task-text" placeholder="Добавить свою задачу..." class="flex-1 tech-input rounded-xl p-3 text-xs">
-            <button onclick="addNewCustomTask()" class="bg-[#9EFF00] text-black font-black px-5 rounded-xl text-lg transition-all duration-300 cursor-pointer active:scale-95 hover:shadow-[0_0_15px_rgba(158,255,0,0.4)]">+</button>
+        <div class="flex gap-2 mb-3 pt-3 border-t border-white/5">
+            <input type="text" id="new-task-text" placeholder="Свой пункт в чек-лист..." class="flex-1 tech-input rounded-xl p-2.5 text-xs">
+            <button onclick="addNewCustomTask()" class="bg-[#9EFF00] text-black font-black px-4 rounded-xl text-base transition cursor-pointer active:scale-95">+</button>
         </div>
 
         <div>
-            <label class="block text-[9px] mb-1.5 text-slate-400 uppercase font-semibold tracking-widest">Заметки по диете</label>
-            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Тайминги, читмилы, косяки..." class="w-full tech-input rounded-xl p-3 text-xs resize-none"></textarea>
+            <label class="block text-[8px] mb-1 text-slate-400 uppercase font-semibold tracking-wider">Заметки по диете</label>
+            <textarea id="input-diet-notes" oninput="autoSaveDayData()" rows="2" placeholder="Тайминги, погрешности..." class="w-full tech-input rounded-xl p-2.5 text-xs resize-none"></textarea>
         </div>
     </div>
 
-    <!-- БЛОК УПРАВЛЕНИЯ БАЗОЙ И ОТЧЕТАМИ -->
-    <div class="glass-card p-5">
-        <h3 class="text-[10px] font-bold tracking-widest mb-4 uppercase text-slate-500 text-center">Система управления</h3>
-        <div class="space-y-3">
-            <button onclick="exportTextReport()" class="w-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/20 text-white font-bold py-3 px-4 rounded-xl text-xs transition-all cursor-pointer text-center">
-                📋 Выгрузить красивый текстовый отчет
+    <!-- УПРАВЛЕНИЕ И БЭКАП -->
+    <div class="glass-card p-4">
+        <h3 class="text-[9px] font-bold tracking-widest mb-3 uppercase text-slate-500 text-center">Система управления</h3>
+        <div class="space-y-2.5">
+            <button onclick="exportTextReport()" class="w-full bg-white/5 hover:bg-white/10 border border-white/5 text-white font-bold py-2.5 px-3 rounded-xl text-xs transition cursor-pointer text-center">
+                📋 Выгрузить текстовый отчет (.txt)
             </button>
-            <div class="flex gap-3">
-                <button onclick="exportData()" class="flex-1 bg-black/30 hover:bg-black/50 border border-white/5 text-slate-400 hover:text-white text-[10px] uppercase tracking-wider py-2.5 px-2 rounded-xl font-bold transition-all cursor-pointer">📥 Бэкап</button>
-                <button onclick="importData()" class="flex-1 bg-black/30 hover:bg-black/50 border border-white/5 text-slate-400 hover:text-white text-[10px] uppercase tracking-wider py-2.5 px-2 rounded-xl font-bold transition-all cursor-pointer">📤 Импорт</button>
+            <div class="flex gap-2">
+                <button onclick="exportData()" class="flex-1 bg-black/30 border border-white/5 text-slate-400 hover:text-white text-[10px] uppercase py-2 px-1 rounded-xl font-bold transition cursor-pointer">📥 Бэкап</button>
+                <button onclick="importData()" class="flex-1 bg-black/30 border border-white/5 text-slate-400 hover:text-white text-[10px] uppercase py-2 px-1 rounded-xl font-bold transition cursor-pointer">📤 Импорт</button>
             </div>
-            <button onclick="resetChecklist()" class="w-full text-red-400/80 hover:text-red-300 text-[10px] uppercase tracking-widest py-3 px-3 rounded-xl transition-all mt-2 bg-red-900/10 hover:bg-red-900/20 active:scale-98">
+            <button onclick="resetChecklist()" class="w-full text-red-400/80 hover:text-red-300 text-[10px] uppercase tracking-wider py-2.5 px-3 rounded-xl transition bg-red-900/10 active:scale-98">
                 ⚠️ Сбросить текущий день
             </button>
         </div>
     </div>
 
     <!-- МОДАЛЬНОЕ ОКНО АРХИВА -->
-    <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-        <!-- Blur Backdrop -->
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeArchiveModal()"></div>
+    <div id="archive-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-md" onclick="closeArchiveModal()"></div>
         
-        <div class="glass-card w-full max-w-md max-h-[85vh] flex flex-col p-6 relative z-10 shadow-2xl border-white/10">
-            <div class="flex justify-between items-center pb-4 border-b border-white/5">
-                <h2 class="text-sm font-black uppercase text-white tracking-widest">База данных & Архив</h2>
-                <button onclick="closeArchiveModal()" class="text-slate-500 hover:text-white font-bold text-xl p-1 leading-none cursor-pointer transition-colors">✕</button>
+        <div class="glass-card w-full max-w-[390px] max-h-[85vh] flex flex-col p-4 relative z-10 shadow-2xl border-white/10">
+            <div class="flex justify-between items-center pb-3 border-b border-white/5">
+                <h2 class="text-xs font-black uppercase text-white tracking-widest">Архив & База весов</h2>
+                <button onclick="closeArchiveModal()" class="text-slate-500 hover:text-white font-bold text-lg p-1 cursor-pointer">✕</button>
             </div>
             
-            <div class="p-4 rounded-2xl mt-5 bg-black/30 border border-white/5">
-                <h3 class="text-[10px] font-bold uppercase mb-3 tracking-widest" style="color: var(--neon);">🏋️‍♂️ Поиск рабочих весов</h3>
+            <div class="p-3 rounded-xl mt-3 bg-black/30 border border-white/5">
+                <h3 class="text-[9px] font-bold uppercase mb-2 tracking-widest" style="color: var(--neon);">🏋️‍♂️ Поиск рабочих весов</h3>
                 <div class="flex flex-col gap-2">
-                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full tech-input rounded-xl p-3 text-xs focus:outline-none appearance-none cursor-pointer">
+                    <select id="exercise-weight-selector" onchange="displayLastWorkingWeight()" class="w-full tech-input rounded-xl p-2.5 text-xs focus:outline-none appearance-none cursor-pointer">
                     </select>
                 </div>
-                <div id="last-weight-display" class="mt-3 p-4 bg-black/40 rounded-xl text-center text-xs min-h-[50px] flex items-center justify-center font-semibold border border-white/5">
-                    <span class="text-slate-600">Ожидание запроса...</span>
+                <div id="last-weight-display" class="mt-2.5 p-3 bg-black/40 rounded-xl text-center text-xs min-h-[45px] flex items-center justify-center font-semibold border border-white/5">
+                    <span class="text-slate-600 text-[11px]">Ожидание запроса...</span>
                 </div>
             </div>
 
-            <h3 class="text-[10px] font-bold uppercase mt-6 mb-3 tracking-widest text-slate-500">📋 Исторический лог</h3>
-            <div id="archive-content" class="overflow-y-auto flex-1 space-y-4 pr-2 text-xs text-slate-300"></div>
+            <h3 class="text-[9px] font-bold uppercase mt-4 mb-2 tracking-widest text-slate-500">📋 Исторический лог</h3>
+            <div id="archive-content" class="overflow-y-auto flex-1 space-y-3 pr-1 text-xs text-slate-300"></div>
         </div>
     </div>
 
@@ -334,24 +332,24 @@
         };
 
         const historicalWorkouts = [
-            { date: "18.07.2026", exercises: [ { name: "Пресс скручивания", sets: "3", reps: "1 мин", weight: "10 кг" }, { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг (без скамьи)" }, { name: "Выпады со ступеньки", sets: "3", reps: "24", weight: "—" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57; 66 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "62.5 кг" } ] },
-            { date: "15.07.2026", exercises: [ { name: "Пресс скручивания лежа с поднятием одной ноги", sets: "3", reps: "20; 15; 12", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "43 кг" }, { name: "Подтягивания с зеленой резинкой", sets: "3", reps: "5; 4; 3", weight: "—" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Бицепс в кроссовере прямая рукоять", sets: "3", reps: "10", weight: "19.8; 18.1 кг" }, { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "15 кг" } ] },
-            { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступенькой", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55; 52.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20; 17.5; 15 кг" } ] },
-            { date: "09.07.2026", exercises: [ { name: "Пресс скручивание с поднятием ноги", sets: "2", reps: "12; 11", weight: "—" }, { name: "Вращение блина", sets: "2", reps: "60 сек", weight: "10 кг" }, { name: "Подтягивания с резинкой", sets: "3", reps: "5", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "10; 12", weight: "36 кг" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Сгибание голени", sets: "3", reps: "15; 12", weight: "61; 70 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Трицепс в кроссовере е", sets: "3", reps: "12", weight: "14.7; 16.4 кг" }, { name: "Вращение блина", sets: "3", reps: "1 минута", weight: "15 кг" } ] },
-            { date: "06.07.2026", exercises: [ { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "10 кг" }, { name: "Приведение в кроссовере стоя на грудь", sets: "3", reps: "12, 10, 9", weight: "8; 6.8 кг" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5; 65; 62.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50; 57 кг" }, { name: "Французский жим", sets: "3", reps: "10", weight: "20; 15 кг" }, { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6 кг" } ] },
-            { date: "04.07.2026", exercises: [ { name: "Вращение туловища с блином", sets: "3", reps: "30 сек", weight: "10 кг" }, { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7; 16.1; 18.1 кг" }, { name: "Поднятие блина к груди", sets: "3", reps: "12", weight: "15 кг" } ] },
-            { date: "01.07.2026", exercises: [ { name: "Пресс вращение блина", sets: "3", reps: "60сек", weight: "10кг" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Приведение плеча", sets: "3", reps: "12", weight: "5,7" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "52" }, { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10,2; 9.1; 8; 6,8" } ] },
-            { date: "24.06.2026", exercises: [ { name: "Пресс", sets: "3", reps: "20,10, 10", weight: "—" }, { name: "Тяга штанги в приседа", sets: "3", reps: "10", weight: "40, 45" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "45" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "12", weight: "8; 6,8; 5,7" } ] },
-            { date: "22.06.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча в кроссовере", sets: "3", reps: "6", weight: "5.7" }, { name: "Жим лежа", sets: "3", reps: "10, 7, 7", weight: "50" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "52" }, { name: "Вертикальная тяга", sets: "3", reps: "1", weight: "—" }, { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2" }, { name: "Разгибание предплечья с канатом", sets: "—", reps: "—", weight: "—" } ] },
-            { date: "10.06.2026", exercises: [ { name: "Сгибание голени", sets: "3", reps: "15", weight: "45,52" }, { name: "Гиберэкстензия", sets: "3", reps: "12", weight: "—" }, { name: "Приседания под трек", sets: "—", reps: "—", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "50;55;57,5;60" }, { name: "Фронтальная тяга", sets: "4", reps: "12", weight: "50" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
-            { date: "08.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50" }, { name: "Подтягивания", sets: "3", reps: "5;4;3", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36" } ] },
-            { date: "02.06.2026", exercises: [ { name: "Пресс вращение туловища", sets: "3", reps: "1 минута", weight: "10 кг" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8" }, { name: "Жим лежа", sets: "3", reps: "10;6", weight: "45;50" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "45кг" }, { name: "Разгибание голени", sets: "3", reps: "6;10", weight: "39, 35" }, { name: "Разведение плеча в дапе", sets: "3", reps: "10 на руку", weight: "2,6 кг" }, { name: "Борцовские вращения", sets: "—", reps: "1 мин", weight: "5кг 10 кг" } ] },
-            { date: "29.05.2026", exercises: [ { name: "Пресс на брусьях", sets: "3", reps: "15", weight: "соб вес" }, { name: "Фронтальная тяга стоя", sets: "3", reps: "15", weight: "с резинками" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "10", weight: "блин 15 / резинки" }, { name: "Выпады", sets: "3", reps: "10", weight: "15кг" }, { name: "Отжимания", sets: "2", reps: "9, 5", weight: "—" } ] },
-            { date: "28.05.2026", exercises: [ { name: "Пресс вращение туловищем", sets: "—", reps: "—", weight: "10 кг" }, { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" }, { name: "Вертикальная тагя", sets: "3", reps: "10", weight: "36" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "32,39,45" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "42,5" }, { name: "Комплекс бицепс и трицепс", sets: "3", reps: "15", weight: "блин 10кг / 14,7" } ] },
-            { date: "26.05.2026", exercises: [ { name: "Боковая планка + Поворот корпуса", sets: "3", reps: "30 с / 30", weight: "10кг" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "39" }, { name: "Выпады", sets: "3", reps: "20", weight: "5кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "43" }, { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "36" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14,7" } ] },
-            { date: "22.05.2026", exercises: [ { name: "Пресс боковая планка", sets: "3", reps: "30 сек", weight: "—" }, { name: "Приведение плеча стоя", sets: "2", reps: "10", weight: "8, 5,7, 4,5" }, { name: "Жим лежа", sets: "4", reps: "10,9,8,8", weight: "40, 35" }, { name: "Подтягивания", sets: "3", reps: "4;3", weight: "с резинкой" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "10", weight: "30" }, { name: "Приседания с блином", sets: "3", reps: "10", weight: "10кг" }, { name: "Борцовские вращения", sets: "—", reps: "40 с раб", weight: "10кг, 20кг" } ] },
-            { date: "18.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Разгибание голени", sets: "3", reps: "12", weight: "32;39;39" }, { name: "Выпады", sets: "2", reps: "20", weight: "5; соб. Вес" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "40" }, { name: "Вертикальная тяга", sets: "3", reps: "15;10;12", weight: "30" }, { name: "Трицепс с прямой рукоятью", sets: "3", reps: "12;10;10", weight: "13, 14, 13" }, { name: "Борцовское вращение", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] },
-            { date: "16.05.2026", exercises: [ { name: "Пресс", sets: "—", reps: "—", weight: "—" }, { name: "Приведение плеча стоя", sets: "3", reps: "10", weight: "8; 6.8, 5.7" }, { name: "Жим лежа", sets: "3", reps: "10;8;7", weight: "40;" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "32; 25; 32" }, { name: "Фронтальная тяга с упором", sets: "3", reps: "15", weight: "30" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "30, 23" }, { name: "Борцовское вращение блина", sets: "5 серий", reps: "30 с раб", weight: "10 кг" } ] }
+            { date: "18.07.2026", exercises: [ { name: "Пресс скручивания", sets: "3", reps: "1 мин", weight: "10 кг" }, { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступеньки", sets: "3", reps: "24", weight: "—" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57; 66 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "62.5 кг" } ] },
+            { date: "15.07.2026", exercises: [ { name: "Пресс скручивания лежа", sets: "3", reps: "20; 15; 12", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "43 кг" }, { name: "Подтягивания с резинкой", sets: "3", reps: "5; 4; 3", weight: "—" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Бицепс в кроссовере", sets: "3", reps: "10", weight: "19.8 кг" }, { name: "Вращение блина", sets: "3", reps: "60 сек", weight: "15 кг" } ] },
+            { date: "11.07.2026", exercises: [ { name: "Присед", sets: "3", reps: "7", weight: "52.5 кг" }, { name: "Выпады со ступеньки", sets: "3", reps: "20", weight: "—" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс штангой", sets: "3", reps: "12", weight: "20 кг" } ] },
+            { date: "09.07.2026", exercises: [ { name: "Пресс скручивание", sets: "2", reps: "12; 11", weight: "—" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36 кг" }, { name: "Тяга штанги стоя", sets: "3", reps: "10", weight: "40 кг" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "61 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "55 кг" }, { name: "Трицепс в кроссовере", sets: "3", reps: "12", weight: "14.7 кг" } ] },
+            { date: "06.07.2026", exercises: [ { name: "Жим лежа", sets: "3", reps: "5", weight: "62.5 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50 кг" }, { name: "Французский жим", sets: "3", reps: "10", weight: "20 кг" }, { name: "Бицепс с гантелями", sets: "3", reps: "12", weight: "2х6 кг" } ] },
+            { date: "04.07.2026", exercises: [ { name: "Приседания на скамью", sets: "3", reps: "7", weight: "30 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "61 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "57 кг" }, { name: "Бицепс", sets: "3", reps: "12", weight: "14.7 кг" } ] },
+            { date: "01.07.2026", exercises: [ { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50 кг" }, { name: "Сгибание голени", sets: "3", reps: "12", weight: "52 кг" }, { name: "Бицепс в кроссовере", sets: "3", reps: "12", weight: "10.2 кг" } ] },
+            { date: "24.06.2026", exercises: [ { name: "Тяга штанги", sets: "3", reps: "10", weight: "40 кг" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "12", weight: "36 кг" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "45 кг" } ] },
+            { date: "22.06.2026", exercises: [ { name: "Жим лежа", sets: "3", reps: "10", weight: "50 кг" }, { name: "Сгибание голени", sets: "3", reps: "15", weight: "52 кг" }, { name: "Бицепс с канатом", sets: "3", reps: "15", weight: "10.2 кг" } ] },
+            { date: "10.06.2026", exercises: [ { name: "Сгибание голени", sets: "3", reps: "15", weight: "45 кг" }, { name: "Жим лежа", sets: "3", reps: "5", weight: "60 кг" }, { name: "Фронтальная тяга", sets: "4", reps: "12", weight: "50 кг" }, { name: "Трицепс", sets: "3", reps: "12", weight: "14.7 кг" } ] },
+            { date: "08.06.2026", exercises: [ { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "50 кг" }, { name: "Подтягивания", sets: "3", reps: "5", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36 кг" } ] },
+            { date: "02.06.2026", exercises: [ { name: "Жим лежа", sets: "3", reps: "10", weight: "45 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "12", weight: "45 кг" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "39 кг" } ] },
+            { date: "29.05.2026", exercises: [ { name: "Пресс на брусьях", sets: "3", reps: "15", weight: "соб. вес" }, { name: "Выпады", sets: "3", reps: "10", weight: "15 кг" }, { name: "Отжимания", sets: "2", reps: "9", weight: "—" } ] },
+            { date: "28.05.2026", exercises: [ { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" }, { name: "Вертикальная тяга", sets: "3", reps: "10", weight: "36 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "42.5 кг" } ] },
+            { date: "26.05.2026", exercises: [ { name: "Разгибание голени", sets: "3", reps: "12", weight: "39 кг" }, { name: "Выпады", sets: "3", reps: "20", weight: "5 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "43 кг" }, { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "36 кг" } ] },
+            { date: "22.05.2026", exercises: [ { name: "Жим лежа", sets: "4", reps: "10", weight: "40 кг" }, { name: "Подтягивания", sets: "3", reps: "4", weight: "с резинкой" }, { name: "Фронтальная тяга", sets: "3", reps: "10", weight: "30 кг" } ] },
+            { date: "18.05.2026", exercises: [ { name: "Разгибание голени", sets: "3", reps: "12", weight: "32 кг" }, { name: "Жим лежа", sets: "3", reps: "10", weight: "40 кг" }, { name: "Вертикальная тяга", sets: "3", reps: "15", weight: "30 кг" } ] },
+            { date: "16.05.2026", exercises: [ { name: "Жим лежа", sets: "3", reps: "10", weight: "40 кг" }, { name: "Разгибание голени", sets: "3", reps: "10", weight: "32 кг" }, { name: "Фронтальная тяга", sets: "3", reps: "15", weight: "30 кг" } ] }
         ];
 
         let selectedDay = localStorage.getItem('sushka_selected_day') ? parseInt(localStorage.getItem('sushka_selected_day')) : 1;
@@ -376,8 +374,8 @@
             for (let i = 1; i <= 28; i++) {
                 const btn = document.createElement('button');
                 btn.id = `btn-day-${i}`;
-                btn.className = `day-btn p-3 rounded-2xl flex flex-col items-center justify-center gap-1 cursor-pointer font-medium`;
-                btn.innerHTML = `<span class="opacity-50 text-[9px] uppercase font-mono tracking-wider">Day ${i}</span><span class="font-bold text-sm leading-none">${getDateStringForDay(i)}</span>`;
+                btn.className = `day-btn p-2 rounded-xl flex flex-col items-center justify-center gap-0.5 cursor-pointer font-medium`;
+                btn.innerHTML = `<span class="opacity-40 text-[8px] uppercase font-mono">D${i}</span><span class="font-bold text-xs leading-none">${getDateStringForDay(i)}</span>`;
                 if (isDayFullyCompleted(i)) btn.classList.add('completed');
                 btn.onclick = () => {
                     selectedDay = i;
@@ -429,7 +427,7 @@
             if (activeBtn) activeBtn.classList.add('active');
 
             currentWeekLabel.innerText = `Неделя ${week}`;
-            weekDesc.innerHTML = `<span class="text-white font-medium mr-1">Фокус недели:</span> ${proto.desc}`;
+            weekDesc.innerHTML = `<span class="text-white font-medium mr-1">Фокус:</span> ${proto.desc}`;
             healthTitle.innerText = `🩺 Параметры (${getDateStringForDay(day)})`;
 
             if (!db[dayKey]) db[dayKey] = { tasks: {}, customTasks: [], health: {}, exercises: [] };
@@ -461,10 +459,10 @@
             baseTasks.forEach(task => {
                 const isChecked = checkedBase[task.id] ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-3.5 bg-black/20 rounded-xl border border-white/5 transition-colors hover:bg-black/30";
+                div.className = "flex items-start p-3 bg-black/20 rounded-xl border border-white/5";
                 div.innerHTML = `
                     <input type="checkbox" id="${task.id}" ${isChecked} onchange="toggleTask('${task.id}', false)" class="cyber-checkbox mt-0.5">
-                    <label for="${task.id}" class="ml-4 text-sm select-none cursor-pointer leading-tight text-slate-300 font-medium pt-0.5">${task.txt}</label>
+                    <label for="${task.id}" class="ml-3 text-xs select-none cursor-pointer leading-tight text-slate-300 font-medium pt-0.5">${task.txt}</label>
                 `;
                 checklistContainer.appendChild(div);
             });
@@ -472,11 +470,11 @@
             customTasks.forEach((task, index) => {
                 const isChecked = task.checked ? 'checked' : '';
                 const div = document.createElement('div');
-                div.className = "flex items-start p-3.5 bg-black/20 rounded-xl border border-dashed border-white/10 hover:border-white/20 transition-colors";
+                div.className = "flex items-start p-3 bg-black/20 rounded-xl border border-dashed border-white/10";
                 div.innerHTML = `
                     <input type="checkbox" id="custom-${index}" ${isChecked} onchange="toggleTask(${index}, true)" class="cyber-checkbox mt-0.5">
-                    <label for="custom-${index}" class="ml-4 text-sm select-none cursor-pointer leading-tight flex-1 text-slate-300 font-medium pt-0.5">${task.txt}</label>
-                    <button onclick="deleteCustomTask(${index})" class="text-xs text-slate-500 hover:text-red-400 ml-2 px-2 py-1 rounded bg-white/5 hover:bg-red-500/10 transition-colors cursor-pointer">✕</button>
+                    <label for="custom-${index}" class="ml-3 text-xs select-none cursor-pointer leading-tight flex-1 text-slate-300 font-medium pt-0.5">${task.txt}</label>
+                    <button onclick="deleteCustomTask(${index})" class="text-xs text-slate-500 hover:text-red-400 ml-2 px-1.5 py-0.5 rounded bg-white/5 cursor-pointer">✕</button>
                 `;
                 checklistContainer.appendChild(div);
             });
@@ -526,13 +524,13 @@
             const pulse = parseInt(document.getElementById('input-pulse').value);
             const gastro = document.getElementById('input-gastro').value.toLowerCase();
 
-            if (pulse > 75) alerts.push("⚠️ <strong class='text-red-400'>Пульс покоя завышен:</strong> Возможна перегрузка ЦНС. Снизьте количество кофеина.");
+            if (pulse > 75) alerts.push("⚠️ <strong class='text-red-400'>Пульс покоя завышен:</strong> Возможна перегрузка ЦНС.");
             if (gastro.includes('горечь') || gastro.includes('тяжест') || gastro.includes('болит')) {
-                alerts.push("⚠️ <strong class='text-red-400'>Дисфункция ЖКТ:</strong> Застой желчи. Рекомендован прием артишока или таурина.");
+                alerts.push("⚠️ <strong class='text-red-400'>Дисфункция ЖКТ:</strong> Застой желчи. Нужен артишок/таурин.");
             }
 
             if (alerts.length > 0) {
-                alertDiv.innerHTML = alerts.join('<br class="my-3">');
+                alertDiv.innerHTML = alerts.join('<br class="my-2">');
                 alertDiv.classList.remove('hidden');
             } else {
                 alertDiv.classList.add('hidden');
@@ -591,15 +589,14 @@
 
         function createExerciseRow(index, ex) {
             const div = document.createElement('div');
-            div.className = "grid grid-cols-12 gap-2 items-center exercise-row";
+            div.className = "grid grid-cols-12 gap-1.5 items-center exercise-row";
             div.innerHTML = `
-                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 tech-input rounded-xl p-3 text-xs anonymity-ex-name">
-                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-3 text-xs text-center ex-sets">
-                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-3 text-xs text-center ex-reps">
-                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-3 text-xs text-center text-[#9EFF00] font-bold ex-weight bg-black/40">
+                <input type="text" placeholder="Упражнение" value="${ex.name}" oninput="autoSaveDayData()" class="col-span-5 tech-input rounded-xl p-2.5 text-xs anonymity-ex-name">
+                <input type="number" placeholder="4" value="${ex.sets}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center ex-sets">
+                <input type="text" placeholder="12" value="${ex.reps}" oninput="autoSaveDayData()" class="col-span-3 tech-input rounded-xl p-2.5 text-xs text-center ex-reps">
+                <input type="text" placeholder="80" value="${ex.weight}" oninput="autoSaveDayData()" class="col-span-2 tech-input rounded-xl p-2.5 text-xs text-center text-[#9EFF00] font-bold ex-weight bg-black/40">
             `;
-            // Подключение правильного класса для сохранения данных
-            div.querySelector('.anonymity-ex-name').className = "col-span-5 tech-input rounded-xl p-3 text-xs ex-name";
+            div.querySelector('.anonymity-ex-name').className = "col-span-5 tech-input rounded-xl p-2.5 text-xs ex-name";
             workoutContainer.appendChild(div);
         }
 
@@ -618,7 +615,7 @@
         function saveDB() { localStorage.setItem(DB_KEY, JSON.stringify(db)); }
 
         window.resetChecklist = function() {
-            if(confirm("Вы уверены, что хотите полностью стереть данные за этот день?")) {
+            if(confirm("Стереть данные за этот день?")) {
                 const dayKey = `day${selectedDay}`;
                 db[dayKey] = { tasks: {}, customTasks: [], health: { caloriesTarget: '1800' }, exercises: [] };
                 saveDB();
@@ -657,7 +654,7 @@
             const display = document.getElementById('last-weight-display');
 
             if (!targetName) {
-                display.innerHTML = '<span class="text-slate-500">Система ждет выбора упражнения...</span>';
+                display.innerHTML = '<span class="text-slate-500 text-[11px]">Ожидание запроса...</span>';
                 return;
             }
 
@@ -684,13 +681,13 @@
             if (foundRecord) {
                 display.innerHTML = `
                     <div class="text-slate-300">
-                        Рабочий вес: <span style="color: var(--neon); text-shadow: 0 0 10px rgba(158,255,0,0.3);" class="font-black text-lg ml-1 mr-2">${foundRecord.weight}</span> 
-                        <span class="text-slate-500 text-xs font-medium">(${foundRecord.sets || '—'}х${foundRecord.reps || '—'})</span> 
-                        <div class="text-sky-400 text-[10px] font-semibold tracking-widest mt-1">ЗАПИСАНО: ${foundRecord.date}</div>
+                        Вес: <span style="color: var(--neon);" class="font-black text-sm ml-1 mr-1">${foundRecord.weight}</span> 
+                        <span class="text-slate-500 text-[10px]">(${foundRecord.sets || '—'}х${foundRecord.reps || '—'})</span> 
+                        <div class="text-sky-400 text-[9px] font-semibold mt-0.5">${foundRecord.date}</div>
                     </div>
                 `;
             } else {
-                display.innerHTML = '<span class="text-red-400 font-mono text-xs tracking-widest bg-red-900/20 px-3 py-1 rounded">NULL: ВЕС НЕ НАЙДЕН</span>';
+                display.innerHTML = '<span class="text-red-400 font-mono text-[10px]">NULL: ВЕС НЕ НАЙДЕН</span>';
             }
         }
 
@@ -702,30 +699,30 @@
                 const dayExs = db[dayKey]?.exercises || [];
                 if (dayExs.length > 0) {
                     const section = document.createElement('div');
-                    section.className = "p-4 rounded-xl bg-black/30 border border-white/5";
+                    section.className = "p-3 rounded-xl bg-black/30 border border-white/5";
                     let exLines = '';
                     dayExs.forEach((ex, idx) => {
-                        exLines += `<div class="py-1.5 border-b border-white/5 last:border-0 pl-1 text-slate-300 flex justify-between">
-                            <span><span style="color: var(--neon);" class="font-bold mr-1">${idx + 1}.</span> ${ex.name} <span class="text-slate-500 text-[10px] ml-1">${ex.sets || '—'}х${ex.reps || '—'}</span></span>
+                        exLines += `<div class="py-1 border-b border-white/5 last:border-0 pl-1 text-slate-300 flex justify-between text-[11px]">
+                            <span><span style="color: var(--neon);" class="font-bold mr-1">${idx + 1}.</span> ${ex.name}</span>
                             <span class="font-bold text-white">${ex.weight || '—'}</span>
                         </div>`;
                     });
-                    section.innerHTML = `<div class="font-bold text-xs mb-3 pb-2 border-b flex justify-between border-white/10 tracking-widest"><span style="color: var(--neon);">📅 ${getDateStringForDay(i)}.2026</span><span class="text-[9px] px-2 py-0.5 rounded uppercase bg-sky-500/10 text-sky-400">Текущая сушка</span></div><div class="space-y-1">${exLines}</div>`;
+                    section.innerHTML = `<div class="font-bold text-[11px] mb-2 pb-1.5 border-b flex justify-between border-white/10"><span style="color: var(--neon);">📅 ${getDateStringForDay(i)}.2026</span><span class="text-[8px] px-1.5 py-0.2 rounded uppercase bg-sky-500/10 text-sky-400">Сушка</span></div><div class="space-y-1">${exLines}</div>`;
                     container.appendChild(section);
                 }
             }
 
             historicalWorkouts.forEach(workout => {
                 const section = document.createElement('div');
-                section.className = "p-4 rounded-xl bg-black/20 border border-white/5";
+                section.className = "p-3 rounded-xl bg-black/20 border border-white/5";
                 let exLines = '';
                 workout.exercises.forEach((ex, idx) => {
-                    exLines += `<div class="py-1.5 border-b border-white/5 last:border-0 pl-1 text-slate-400 flex justify-between">
-                        <span><span class="text-slate-500 font-bold mr-1">${idx + 1}.</span> ${ex.name} <span class="text-slate-600 text-[10px] ml-1">${ex.sets}х${ex.reps}</span></span>
+                    exLines += `<div class="py-1 border-b border-white/5 last:border-0 pl-1 text-slate-400 flex justify-between text-[11px]">
+                        <span><span class="text-slate-500 font-bold mr-1">${idx + 1}.</span> ${ex.name}</span>
                         <span class="font-semibold text-slate-300">${ex.weight}</span>
                     </div>`;
                 });
-                section.innerHTML = `<div class="font-bold text-slate-500 text-[11px] tracking-widest mb-3 pb-2 border-b border-white/5">📅 ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
+                section.innerHTML = `<div class="font-bold text-slate-500 text-[10px] mb-2 pb-1.5 border-b border-white/5">📅 ${workout.date}</div><div class="space-y-1">${exLines}</div>`;
                 container.appendChild(section);
             });
         }
@@ -757,12 +754,6 @@
                     }
                 }
             }
-            txt += `=========================================\n        АРХИВ ПРОШЛЫХ ТРЕНИРОВОК         \n=========================================\n\n`;
-            historicalWorkouts.forEach(w => {
-                txt += `Дата: ${w.date}\n`;
-                w.exercises.forEach((ex, idx) => { txt += `  ${idx + 1}. ${ex.name} — ${ex.sets}х(${ex.reps}) вес: ${ex.weight}\n`; });
-                txt += `\n`;
-            });
             const blob = new Blob([txt], { type: "text/plain;charset=utf-8" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
@@ -785,7 +776,7 @@
             if (!jsonStr) return;
             try {
                 const parsed = JSON.parse(jsonStr);
-                if (typeof parsed === 'object') { db = parsed; saveDB(); buildCalendar(); loadDay(selectedDay); alert("Бэкап успешно загружен!"); }
+                if (typeof parsed === 'object') { db = parsed; saveDB(); buildCalendar(); loadDay(selectedDay); alert("Успешно импортировано!"); }
             } catch (e) { alert("Ошибка чтения файла."); }
         }
     </script>
